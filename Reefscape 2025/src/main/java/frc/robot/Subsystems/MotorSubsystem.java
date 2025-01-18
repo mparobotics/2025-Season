@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorSubsystem extends SubsystemBase {
   /** Creates a new MotorSubsystem. */
-  public MotorSubsystem() {}
+  public MotorSubsystem() {
+    
+  }
 
   @Override
   public void periodic() {
