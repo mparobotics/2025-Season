@@ -12,8 +12,6 @@ public class MotorSubsystem extends SubsystemBase {
     
   }
 
-<<<<<<< Updated upstream
-=======
 
   public Command RunMotors()
   {
@@ -51,7 +49,6 @@ return runOnce(
 );}
 
 
->>>>>>> Stashed changes
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
