@@ -23,7 +23,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     controller.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_MotorSubsystem.RunMotors().repeatedly());
-    controller.axisLessThan(Axis.kRightY.value, 0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());
+    controller.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());
     m_MotorSubsystem.setDefaultCommand(((m_MotorSubsystem.StopMotors())));
   }
   //to run the move motor commands in MotorSubsystems
