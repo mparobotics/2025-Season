@@ -10,12 +10,13 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorSubsystem extends SubsystemBase {
   /** Creates a new MotorSubsystem. */
-  private final SparkMax motor = new SparkMax(0, MotorType.kBrushless);
-  public RelativeEncoder motorEncoder = motor.getEncoder();
+  private final SparkMax motor1 = new SparkMax(0, MotorType.kBrushless);
+  public RelativeEncoder motorEncoder = motor1.getEncoder();
 
   public MotorSubsystem() {
 
