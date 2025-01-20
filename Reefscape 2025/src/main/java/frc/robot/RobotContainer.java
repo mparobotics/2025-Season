@@ -12,7 +12,18 @@ public class RobotContainer {
     configureBindings();
   }
 
+<<<<<<< Updated upstream
   private void configureBindings() {}
+=======
+  private void configureBindings() {
+
+    /*controller.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_MotorSubsystem.RunMotors().repeatedly());
+    controller.axisLessThan(Axis.kRightY.value, 0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());
+    m_MotorSubsystem.setDefaultCommand(((m_MotorSubsystem.StopMotors())));*/
+    m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.SetMotor(controller.getLeftY()));
+  }
+  //to run the move motor commands in MotorSubsystems
+>>>>>>> Stashed changes
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");

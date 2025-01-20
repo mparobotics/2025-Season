@@ -12,6 +12,46 @@ public class MotorSubsystem extends SubsystemBase {
     
   }
 
+<<<<<<< Updated upstream
+=======
+
+  public Command RunMotors()
+  {
+return runOnce(
+  () -> {
+    motor1.set(1);
+  }
+
+);}
+
+public Command StopMotors()
+  {
+return runOnce(
+  () -> {
+    motor1.set(0);
+  }
+
+);}
+
+public Command InverseMotors()
+  {
+return runOnce(
+  () -> {
+    motor1.set(-1);
+  }
+
+);}
+
+public Command SetMotor(double speed)
+  {
+return runOnce(
+  () -> {
+    motor1.set(speed);
+  }
+);}
+
+
+>>>>>>> Stashed changes
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
