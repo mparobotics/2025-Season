@@ -4,12 +4,21 @@
 
 package frc.robot.Subsystems;
 
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkMax;
+
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MotorSubsystem extends SubsystemBase {
   /** Creates a new MotorSubsystem. */
+  private final SparkMax motor = new SparkMax(0, MotorType.kBrushless);
+  public RelativeEncoder motorEncoder = motor.getEncoder();
+
   public MotorSubsystem() {
-    
+
   }
 
 
@@ -52,5 +61,6 @@ return runOnce(
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("motor speed", motorEncoder.getVelocity());
   }
 }
