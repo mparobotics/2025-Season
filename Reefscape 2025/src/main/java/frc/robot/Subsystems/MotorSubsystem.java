@@ -12,8 +12,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.RelativeEncoder;
 
+import frc.robot.Constants;
 //import frc.robot.Constants; -commented out bc unused-
 import frc.robot.Constants.ShooterConstants;
 
@@ -24,7 +28,8 @@ public class MotorSubsystem extends SubsystemBase {
   private final SparkMax motor1 = new SparkMax(ShooterConstants.MOTOR_1_ID,MotorType.kBrushless);
   /** Creates a new MotorSubsystem. */
 public RelativeEncoder encoder = motor1.getEncoder();
-
+public Command Run1(DoubleSupplier speed){
+return runOnce(() -> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultiplier)); } 
   public MotorSubsystem() {
     //motor1.setInverted(false); -commented out bc unused
   }
