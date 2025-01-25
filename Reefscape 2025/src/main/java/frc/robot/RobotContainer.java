@@ -25,7 +25,7 @@ public class RobotContainer {
 
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.Run1(() -> controller.getRightY()));
     
-    controller.axisGreaterThan(Axis.kRightY.value,0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());
+    controller.axisGreaterThan(Axis.kRightY.value,0.25).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());
 
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.StopMotors());
   }
