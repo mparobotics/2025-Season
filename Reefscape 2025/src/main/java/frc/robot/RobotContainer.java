@@ -24,11 +24,16 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.Run1(() -> controller.getRightY()));
+    
+    controller.axisGreaterThan(Axis.kRightY.value,0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());
+
+    m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.StopMotors());
+  }
 /* 
     controller.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_MotorSubsystem.RunMotors().repeatedly());
     controller.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());*/
    // m_MotorSubsystem.setDefaultCommand(((m_MotorSubsystem.StopMotors())));
-  } 
+  
   //to run the move motor commands in MotorSubsystems
 
   public Command getAutonomousCommand() {

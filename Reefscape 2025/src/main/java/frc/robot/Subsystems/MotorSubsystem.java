@@ -5,41 +5,43 @@
 package frc.robot.Subsystems;
 
 
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import java.util.function.DoubleSupplier;
-
-import com.revrobotics.RelativeEncoder;
-
-import frc.robot.Constants;
-//import frc.robot.Constants; -commented out bc unused-
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
-
+import frc.robot.Constants;
+import java.util.function.DoubleSupplier;
 
 
 
 public class MotorSubsystem extends SubsystemBase {
   private final SparkMax motor1 = new SparkMax(ShooterConstants.MOTOR_1_ID,MotorType.kBrushless);
+  private final SparkMax motor2 = new SparkMax (ShooterConstants.MOTOR_2_ID,MotorType.kBrushless);
   /** Creates a new MotorSubsystem. */
 public RelativeEncoder encoder = motor1.getEncoder();
+public RelativeEncoder encoder2 = motor2. getEncoder();
 public Command Run1(DoubleSupplier speed){
-return runOnce(() -> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultiplier)); } 
-  public MotorSubsystem() {
-    //motor1.setInverted(false); -commented out bc unused
-  }
+return runOnce(()-> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultiplier));
+} 
 
+public MotorSubsystem(){
+  motor1.setInverted(false);
+  motor2.setInverted(true);
+ } 
 
   public Command RunMotors()
   {
 return runOnce(
   () -> {
-    motor1.set(1);
+    motor1.set(Axis.kRightY.value);
+    motor2.set(Axis.kLeftY.value);
+    
   }
 
 );}
@@ -49,15 +51,18 @@ public Command StopMotors()
 return runOnce(
   () -> {
     motor1.set(0);
+    motor2.set(0);
   }
 
-);}
+);
+}
 
 public Command InverseMotors()
   {
 return runOnce(
   () -> {
-    motor1.set(-1);
+    motor1.set(Axis.kRightY.value);
+    motor2.set(Axis.kLeftY.value);
   }
 
 );}
