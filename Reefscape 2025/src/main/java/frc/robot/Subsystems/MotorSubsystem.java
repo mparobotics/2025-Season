@@ -40,7 +40,7 @@ public MotorSubsystem(){
 return runOnce(
   () -> {
     motor1.set(Axis.kRightY.value);
-    motor2.set(Axis.kLeftY.value);
+    //motor2.set(Axis.kLeftY.value);
     
   }
 
@@ -51,7 +51,7 @@ public Command StopMotors()
 return runOnce(
   () -> {
     motor1.set(0);
-    motor2.set(0);
+   // motor2.set(0);
   }
 
 );
@@ -62,7 +62,7 @@ public Command InverseMotors()
 return runOnce(
   () -> {
     motor1.set(Axis.kRightY.value);
-    motor2.set(Axis.kLeftY.value);
+   // motor2.set(Axis.kLeftY.value);
   }
 
 );}
