@@ -31,8 +31,8 @@ return runOnce(()-> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultipl
 } 
 
 public MotorSubsystem(){
-  motor1.setInverted(false);
-  motor2.setInverted(true);
+  //motor1.setInverted(false);
+ // motor2.setInverted(true);
  } 
 
   public Command RunMotors()
