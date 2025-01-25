@@ -22,10 +22,10 @@ import java.util.function.DoubleSupplier;
 
 public class MotorSubsystem extends SubsystemBase {
   private final SparkMax motor1 = new SparkMax(ShooterConstants.MOTOR_1_ID,MotorType.kBrushless);
-  private final SparkMax motor2 = new SparkMax (ShooterConstants.MOTOR_2_ID,MotorType.kBrushless);
+ // private final SparkMax motor2 = new SparkMax (ShooterConstants.MOTOR_2_ID,MotorType.kBrushless);
   /** Creates a new MotorSubsystem. */
 public RelativeEncoder encoder = motor1.getEncoder();
-public RelativeEncoder encoder2 = motor2. getEncoder();
+//public RelativeEncoder encoder2 = motor2. getEncoder();
 public Command Run1(DoubleSupplier speed){
 return runOnce(()-> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultiplier));
 } 
@@ -61,7 +61,7 @@ public Command InverseMotors()
   {
 return runOnce(
   () -> {
-    motor1.set(Axis.kRightY.value);
+    motor1.set(Axis.kRightY.value * -1);
    // motor2.set(Axis.kLeftY.value);
   }
 
