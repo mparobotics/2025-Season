@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -35,11 +36,13 @@ public MotorSubsystem(){
  // motor2.setInverted(true);
  } 
 
-  public Command RunMotors(DoubleSupplier speed)
-  {
-return runOnce(
-  () -> {
-    motor1.set(speed.getAsDouble());
+ public void RunMotors(double speed){
+  motor1.set(speed);
+ }
+
+  public Command MotorConroll(DoubleSupplier speed){
+return runOnce(() -> {
+  RunMotors(MathUtil.applyDeadband(speed.getAsDouble(), 0.2));
     //motor2.set(Axis.kLeftY.value);
     
   }
