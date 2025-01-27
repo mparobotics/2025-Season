@@ -7,5 +7,5 @@ public class Constants {
       // public static final int MOTOR_2_ID = 15; //placeholder for real id
     }
     
-    public static final double motorSpeedMultiplier = 1;
+    //public static final double motorSpeedMultiplier = 1;
 }
