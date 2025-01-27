@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.MotorSubsystem;
 
 public class RobotContainer {
-  
+
   private final MotorSubsystem m_MotorSubsystem = new MotorSubsystem();
   private final CommandXboxController controller = new CommandXboxController(0);
   //basic classes and private finals
@@ -26,8 +26,8 @@ public class RobotContainer {
 
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.Run1(() -> controller.getRightY()));
     
-    controller.axisGreaterThan(Axis.kRightY.value,0.2).whileTrue(m_MotorSubsystem.MotorControl(() -> Axis.kRightY.value).repeatedly());
-    controller.axisLessThan(Axis.kRightY.value, -0.2).whileTrue(m_MotorSubsystem.MotorControl(() -> Axis.kRightY.value).repeatedly());
+    controller.axisGreaterThan(Axis.kRightY.value,0.25).whileTrue(m_MotorSubsystem.MotorControl(() -> Axis.kRightY.value).repeatedly());
+    controller.axisLessThan(Axis.kRightY.value, -0.25).whileTrue(m_MotorSubsystem.MotorControl(() -> Axis.kRightY.value).repeatedly());
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.StopMotors());
   }
   /* 
@@ -38,7 +38,11 @@ public class RobotContainer {
   //to run the move motor commands in MotorSubsystems
 
   public Command getAutonomousCommand() {
-    SmartDashboard.putNumber("Controller Axis Value", controller.getRightY());
     return Commands.print("No autonomous command configured"); 
+
+  }
+
+  public void periodic() {
+    SmartDashboard.putNumber("Controller Axis Value", controller.getRightY());
   }
 }
