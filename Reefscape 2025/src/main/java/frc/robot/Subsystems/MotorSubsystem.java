@@ -35,11 +35,11 @@ public MotorSubsystem(){
  // motor2.setInverted(true);
  } 
 
-  public Command RunMotors()
+  public Command RunMotors(DoubleSupplier speed)
   {
 return runOnce(
   () -> {
-    motor1.set(Axis.kRightY.value);
+    motor1.set(speed.getAsDouble());
     //motor2.set(Axis.kLeftY.value);
     
   }
@@ -57,15 +57,15 @@ return runOnce(
 );
 }
 
-public Command InverseMotors()
-  {
-return runOnce(
-  () -> {
-    motor1.set(Axis.kRightY.value * -1);
-   // motor2.set(Axis.kLeftY.value);
-  }
+// public Command InverseMotors()
+//   {
+// return runOnce(
+//   () -> {
+//     motor1.set(Axis.kRightY.value * -1);
+//    // motor2.set(Axis.kLeftY.value);
+//   }
 
-);}
+// );}
 
 
   @Override
