@@ -28,8 +28,8 @@ public class MotorSubsystem extends SubsystemBase {
 public RelativeEncoder encoder = motor1.getEncoder();
 //public RelativeEncoder encoder2 = motor2. getEncoder();
 public Command Run1(DoubleSupplier speed){
-return runOnce(()-> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultiplier));
-SmartDashboard.putNumber("Speed Double", speed);
+  SmartDashboard.putNumber("Speed Double", speed.getAsDouble());
+  return runOnce(()-> motor1.set(speed.getAsDouble() * Constants.motorSpeedMultiplier));
 } 
 
 public MotorSubsystem(){
