@@ -38,14 +38,7 @@ public class RobotContainer {
   //to run the move motor commands in MotorSubsystems
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured"); 
-
-  }
-
-  public void periodic() {
-
     SmartDashboard.putNumber("Controller Axis Value", controller.getRightY());
-
-
+    return Commands.print("No autonomous command configured"); 
   }
 }
