@@ -40,7 +40,7 @@ public MotorSubsystem(){
   motor1.set(speed);
  }
 
-  public Command MotorConroll(DoubleSupplier speed){
+  public Command MotorControl(DoubleSupplier speed){
 return runOnce(() -> {
   RunMotors(MathUtil.applyDeadband(speed.getAsDouble(), 0.2));
     //motor2.set(Axis.kLeftY.value);
