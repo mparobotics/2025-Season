@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Subsystems.MotorSubsystem;
 
@@ -25,11 +26,11 @@ public class RobotContainer {
 
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.Run1(() -> controller.getRightY()));
     
-    controller.axisGreaterThan(Axis.kRightY.value,0.1).whileTrue(m_MotorSubsystem.RunMotors(() -> Axis.kRightY.value).repeatedly());
-    controller.axisLessThan(Axis.kRightY.value, -0.1).whileTrue(m_MotorSubsystem.RunMotors(() -> Axis.kRightY.value).repeatedly());
+    controller.axisGreaterThan(Axis.kRightY.value,0.2).whileTrue(m_MotorSubsystem.RunMotors(() -> Axis.kRightY.value).repeatedly());
+    controller.axisLessThan(Axis.kRightY.value, -0.2).whileTrue(m_MotorSubsystem.RunMotors(() -> Axis.kRightY.value).repeatedly());
     m_MotorSubsystem.setDefaultCommand(m_MotorSubsystem.StopMotors());
   }
-/* 
+  /* 
     controller.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_MotorSubsystem.RunMotors().repeatedly());
     controller.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_MotorSubsystem.InverseMotors().repeatedly());*/
    // m_MotorSubsystem.setDefaultCommand(((m_MotorSubsystem.StopMotors())));
@@ -39,5 +40,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured"); 
 
+  }
+
+  public void periodic() {
+
+    SmartDashboard.putNumber("Controller Axis Value", controller.getRightY());
   }
 }
