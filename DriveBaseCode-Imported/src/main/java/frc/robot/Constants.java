@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -28,7 +30,7 @@ public final class Constants {
 
     public static final double driveGearRatio = (8.14 / 1.0); // 8.14:1 ( SDS Mk4 L1 Module )
     //L1 is 8.14:1, L2 is 6.75:1, L3 is 6.12:1, L4 is 5.14:1
-    public static final double angleGearRatio = (12.4 / 1.0); // 12.8:1 ( SDS Mk4 L1 Module ) 
+    public static final double angleGearRatio = (21.4 / 1.0); // 12.8:1 ( SDS Mk4 L1 Module ) 
     //SDS Mk4 is 12.8:1,  Mk4i is 21.4:1
     
 
