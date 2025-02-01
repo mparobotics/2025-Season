@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+import com.revrobotics.spark.config.EncoderConfig;
+import com.revrobotics.spark.config.EncoderConfigAccessor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -19,7 +21,7 @@ public final class Constants {
     public static final double inputDeadband = .1;
     public static final int PIGEON_ID = 17; //tochange
     public static final boolean invertPigeon = false;
-    
+
     /* Drivetrain Constants */
     public static final double trackWidth = Units.inchesToMeters(17.5);//to find
     public static final double wheelBase = Units.inchesToMeters(20.5);//to find
@@ -117,7 +119,7 @@ public final class Constants {
       public static final double angleKD = 0.0; //to tune
       public static final double angleKFF = 0.0; //to tune
         
-      public static final SwerveModuleConstants constants =
+      public static final SwerveModuleConstants<EncoderConfig> constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
           //creates a constant with all info from swerve module
     }

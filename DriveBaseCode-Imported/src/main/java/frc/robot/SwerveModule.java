@@ -8,12 +8,15 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkRelativeEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -142,7 +145,7 @@ public class SwerveModule {
             driveController.setReference(
                 desiredState.speedMetersPerSecond,
                 ControlType.kVelocity,
-                0,
+                ClosedLoopSlot.kSlot0,//unsure if correct
                 feedforward.calculate(desiredState.speedMetersPerSecond));
         }
     }
@@ -178,26 +181,24 @@ public class SwerveModule {
     }
 
     private void configAngleMotor(){
-        SparkMaxConfig config = new SparkMaxConfig();
+        SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
         //resets angle motor
         //limits can bus usage
-        CANSparkUtil.setSparkBusUsage(config, Usage.kPositionOnly);
+        CANSparkUtil.setSparkBusUsage(sparkMaxConfig, Usage.kPositionOnly);
         //sets current limit
-        config.smartCurrentLimit(SwerveConstants.angleContinuousCurrentLimit);
+        sparkMaxConfig.smartCurrentLimit(SwerveConstants.angleContinuousCurrentLimit);
         //sets inversion
-        config.inverted(SwerveConstants.angleInvert);
+        sparkMaxConfig.inverted(SwerveConstants.angleInvert);
         //sets brake mode or not
-        config.idleMode(SwerveConstants.angleNeutralMode);
+        sparkMaxConfig.idleMode(SwerveConstants.angleNeutralMode);
         //sets a conversion factor for the encoder so it output correlates with the rotation of the module
-        SparkRelativeEncoder.setPositionConversionFactor(SwerveConstants.angleConversionFactor);
-        //oops pid loop time sets the pid
-        angleController.setP(m_angleKP);
-        angleController.setI(m_angleKI);
-        angleController.setD(m_angleKD);
-        angleController.setFF(m_angleKFF);
-        angleMotor.enableVoltageCompensation(SwerveConstants.voltageComp);
-        //burns spark max
-        angleMotor.burnFlash();
+        sparkMaxConfig.encoder.positionConversionFactor(SwerveConstants.angleConversionFactor);
+        //configuring pid, did not include feed forward
+        sparkMaxConfig.closedLoop.p(m_angleKP).i(m_angleKI).d(m_angleKD);
+        //TODO ADD FEED FORWARD
+       // angleController.setFF(m_angleKFF);
+        sparkMaxConfig.voltageCompensation(SwerveConstants.voltageComp);
+        angleMotor.configure(sparkMaxConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
 
         Timer.delay(1.0);
         //resets to the cancoder
@@ -205,28 +206,28 @@ public class SwerveModule {
     }
 
     private void configDriveMotor(){    
+        SparkFlexConfig sparkFlexConfig = new SparkFlexConfig();
         //factory resets the spark max    
-        driveMotor.restoreFactoryDefaults();
         //full utilisation on the can loop hell yea
-        CANSparkUtil.setCANSparkBusUsage(driveMotor, Usage.kAll);
+        CANSparkUtil.setSparkBusUsage(sparkFlexConfig, Usage.kAll);
         //sets current limit
-        driveMotor.setSmartCurrentLimit(SwerveConstants.driveContinuousCurrentLimit);
+        sparkFlexConfig.smartCurrentLimit(SwerveConstants.driveContinuousCurrentLimit);
         //sets inverted or not
-        driveMotor.setInverted(SwerveConstants.driveInvert);
+        sparkFlexConfig.inverted(SwerveConstants.driveInvert);
         //sets brake mode or not
-        driveMotor.setIdleMode(SwerveConstants.driveNeutralMode);
+        sparkFlexConfig.idleMode(SwerveConstants.driveNeutralMode);
         //sets encoder to read velocities as meters per second
-        driveEncoder.setVelocityConversionFactor(SwerveConstants.driveConversionVelocityFactor);
+        sparkFlexConfig.encoder.velocityConversionFactor(SwerveConstants.driveConversionVelocityFactor);
         //sets encoder to read positions as meters traveled
-        driveEncoder.setPositionConversionFactor(SwerveConstants.driveConversionPositionFactor);
+        sparkFlexConfig.encoder.positionConversionFactor(SwerveConstants.driveConversionPositionFactor);
         //pid setting fun
-        driveController.setP(SwerveConstants.driveKP);
-        driveController.setI(SwerveConstants.driveKI);
-        driveController.setD(SwerveConstants.driveKD);
-        driveController.setFF(SwerveConstants.driveKFF);
-        driveMotor.enableVoltageCompensation(SwerveConstants.voltageComp);
+        //configuring pid, did not include feed forward
+        sparkFlexConfig.closedLoop.p(m_angleKP).i(m_angleKI).d(m_angleKD);
+        //TODO ADD FEED FORWARD
+        //driveController.setFF(SwerveConstants.driveKFF);
+        sparkFlexConfig.voltageCompensation(SwerveConstants.voltageComp);
         //burns to spark max
-        driveMotor.burnFlash();
+        driveMotor.configure(sparkFlexConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
         //resets encoder position to 0
         driveEncoder.setPosition(0.0);
     }
