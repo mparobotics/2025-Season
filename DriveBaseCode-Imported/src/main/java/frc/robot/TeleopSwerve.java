@@ -8,69 +8,65 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.SwerveConstants;
 
 public class TeleopSwerve extends Command {
   private SwerveSubsystem m_SwerveSubsystem;
-  private DoubleSupplier m_xSupplier, m_ySupplier, m_rotationSupplier;
+  private DoubleSupplier m_translationSupplier;
+  private DoubleSupplier m_strafeSupplier;
+  private DoubleSupplier m_rotationSupplier;
+  private BooleanSupplier m_robotCentricSupplier;
 
-
-
-
-  private SlewRateLimiter xLimiter = new SlewRateLimiter(3.0);  // lower to two if robot unstable  
-  private SlewRateLimiter yLimiter = new SlewRateLimiter(3.0);
+  private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0); //can only change by 3 m/s in the span of 1 s
+  private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
   private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
   /** Creates a new TeleopSwerve. */
   public TeleopSwerve(SwerveSubsystem SwerveSubsystem,
-  DoubleSupplier xSupplier,
-  DoubleSupplier ySupplier,
-  DoubleSupplier rotationSupplier) {
+      DoubleSupplier translationSupplier,
+      DoubleSupplier strafeSupplier,
+      DoubleSupplier rotationSupplier,
+      BooleanSupplier robotCentricSupplier) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_SwerveSubsystem = SwerveSubsystem;
     addRequirements(m_SwerveSubsystem);
-    this.m_xSupplier = xSupplier;
-    this.m_ySupplier = ySupplier;
+    this.m_translationSupplier = translationSupplier;
+    this.m_strafeSupplier = strafeSupplier;
     this.m_rotationSupplier = rotationSupplier;
-  }
-  @Override
-  public void execute() {
-    //if we're on red alliance, translation values are inverted since the drivers face the opposite direction
-    int invert = FieldConstants.isRedAlliance()? -1: 1;
-    
-    double xVal = invert * 
-        xLimiter.calculate(
-            MathUtil.applyDeadband(m_xSupplier.getAsDouble(), SwerveConstants.inputDeadband));
-    double yVal = invert * 
-        yLimiter.calculate(
-            MathUtil.applyDeadband(m_ySupplier.getAsDouble(), SwerveConstants.inputDeadband));
-    double rotationVal =
-        rotationLimiter.calculate(
-            MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), SwerveConstants.inputDeadband));
-    
-    boolean isFieldOriented = !m_robotCentricSupplier.getAsBoolean();
-
-
-    double currentDirection = m_SwerveSubsystem.getPose().getRotation().getDegrees();
-
-   
-      //If we're not auto aiming, just drive normally
-      /* Drive */
-      m_SwerveSubsystem.drive(
-      //the joystick values (-1 to 1) multiplied by the max speed of the drivetrain
-      xVal * SwerveConstants.maxSpeed, 
-      yVal * SwerveConstants.maxSpeed, 
-      rotationVal * SwerveConstants.maxAngularVelocity, 
-      isFieldOriented);
+    this.m_robotCentricSupplier = robotCentricSupplier;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+        /* Get Values, applies Deadband, (doesnt do anything if stick is less than a value)*/
+    double translationVal =
+        translationLimiter.calculate(
+            MathUtil.applyDeadband(m_translationSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
+    double strafeVal =
+        strafeLimiter.calculate(
+            MathUtil.applyDeadband(m_strafeSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
+    double rotationVal =
+        rotationLimiter.calculate(
+            MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
 
+    /* Drive */
+    m_SwerveSubsystem.drive(
+        //the joystick values (-1 to 1) multiplied by the max speed of the drivetrain
+        new Translation2d(translationVal, strafeVal).times(Constants.SwerveConstants.maxSpeed),
+        //rotation value times max spin speed
+        rotationVal * Constants.SwerveConstants.maxAngularVelocity,
+        //whether or not in field centric mode
+        !m_robotCentricSupplier.getAsBoolean(),
+        //open loop control
+        true);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -82,4 +78,3 @@ public class TeleopSwerve extends Command {
     return false;
   }
 }
-  

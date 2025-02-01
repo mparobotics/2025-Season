@@ -6,21 +6,30 @@ package frc.robot;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkRelativeEncoder;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.CANSparkUtil;
+import frc.lib.SwerveModuleConstants;
+import frc.lib.CANSparkUtil.Usage;
 import frc.robot.Constants.SwerveConstants;
+
 /** A Single Swerve Module */
 public class SwerveModule {
     public int moduleNumber;
@@ -41,7 +50,7 @@ public class SwerveModule {
     private CANcoder angleEncoder;
 
     private final SparkClosedLoopController driveController;
-    private final SparkCLosedLoopController angleController;
+    private final SparkClosedLoopController angleController;
 
     private final SimpleMotorFeedforward feedforward =
     new SimpleMotorFeedforward(
@@ -51,10 +60,10 @@ public class SwerveModule {
  
     public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
         this.moduleNumber = moduleNumber;
-        this.m_angleKP = SwerveConstants.angleKP;
-        this.m_angleKI = SwerveConstants.angleKI;
-        this.m_angleKD = SwerveConstants.angleKD;
-        this.m_angleKFF = SwerveConstants.angleKFF;
+        this.m_angleKP = moduleConstants.angleKP;
+        this.m_angleKI = moduleConstants.angleKI;
+        this.m_angleKD = moduleConstants.angleKD;
+        this.m_angleKFF = moduleConstants.angleKFF;
         angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
@@ -66,13 +75,13 @@ public class SwerveModule {
         /* Angle Motor Config */
         angleMotor = new SparkMax(moduleConstants.angleMotorID, MotorType.kBrushless);
         integratedAngleEncoder = angleMotor.getEncoder();
-        angleController = angleMotor.getPIDController();
+        angleController = angleMotor.getClosedLoopController();
         configAngleMotor();
 
         /* Drive Motor Config */
         driveMotor = new SparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
-        driveController = driveMotor.getPIDController();
+        driveController = driveMotor.getClosedLoopController();
         configDriveMotor();
 
         lastAngle = getState().angle;
@@ -94,16 +103,33 @@ public class SwerveModule {
     public boolean isEncoderDataValid(){
         return driveMotor.getLastError() == REVLibError.kOk && angleMotor.getLastError() == REVLibError.kOk;
     }
+    private SwerveModuleState optimize(SwerveModuleState desiredState, Rotation2d currentAngle){
+        double difference = desiredState.angle.minus(currentAngle).getDegrees();
+        double turnAmount = Math.IEEEremainder(difference,360);
 
-    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+        double speed = desiredState.speedMetersPerSecond;
 
+        if (turnAmount > 90){
+            turnAmount -= 180;
+            speed *= -1;
+        }
+        if (turnAmount < -90){
+            turnAmount += 180;
+            speed *= -1;
+        }
+        return new SwerveModuleState (speed, currentAngle.plus(Rotation2d.fromDegrees(turnAmount)));
+
+
+    }
+    /*public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+ 
         //might use more ...optimized... version if it works (needs testing)
         desiredState = 
         OnboardModuleState.optimize(desiredState, getState().angle);
         
         setAngle(desiredState);
         setSpeed(desiredState, isOpenLoop);
-    }
+    } */
 
     private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
         if(isOpenLoop){
@@ -148,22 +174,22 @@ public class SwerveModule {
       }
     
     public Rotation2d getCanCoder(){
-        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue());
+        return Rotation2d.fromRotations(angleEncoder.getAbsolutePosition().getValue().in(Units.Rotations));
     }
 
     private void configAngleMotor(){
+        SparkMaxConfig config = new SparkMaxConfig();
         //resets angle motor
-        angleMotor.restoreFactoryDefaults();
         //limits can bus usage
-        CANSparkUtil.setCANSparkBusUsage(angleMotor, Usage.kPositionOnly);
+        CANSparkUtil.setSparkBusUsage(config, Usage.kPositionOnly);
         //sets current limit
-        angleMotor.setSmartCurrentLimit(SwerveConstants.angleContinuousCurrentLimit);
+        config.smartCurrentLimit(SwerveConstants.angleContinuousCurrentLimit);
         //sets inversion
-        angleMotor.setInverted(SwerveConstants.angleInvert);
+        config.inverted(SwerveConstants.angleInvert);
         //sets brake mode or not
-        angleMotor.setIdleMode(SwerveConstants.angleNeutralMode);
+        config.idleMode(SwerveConstants.angleNeutralMode);
         //sets a conversion factor for the encoder so it output correlates with the rotation of the module
-        integratedAngleEncoder.setPositionConversionFactor(SwerveConstants.angleConversionFactor);
+        SparkRelativeEncoder.setPositionConversionFactor(SwerveConstants.angleConversionFactor);
         //oops pid loop time sets the pid
         angleController.setP(m_angleKP);
         angleController.setI(m_angleKI);

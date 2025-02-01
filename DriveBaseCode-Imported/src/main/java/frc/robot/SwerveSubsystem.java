@@ -32,8 +32,8 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new SwerveSubsystem. */
   public SwerveSubsystem() {
     //instantiates new pigeon gyro, wipes it, and zeros it
-    pigeon = new Pigeon2(Constants.SwerveConstants.PIGEON_ID);
-    pigeon.configFactoryDefault();
+    pigeon = new Pigeon2(SwerveConstants.PIGEON_ID);
+    pigeon.getConfigurator().apply(new Pigeon2Configuration()); 
     zeroGyro();
 
     //Creates all four swerve modules into a swerve drive

@@ -1,8 +1,6 @@
 package frc.lib;
 
-
-import com.revrobotics.CANSparkBase;
-import com.revrobotics.CANSparkLowLevel;
+import com.revrobotics.spark.config.SparkBaseConfig;
 
 /** Sets motor usage for a Spark Max motor controller */
 public class CANSparkUtil {
@@ -26,34 +24,35 @@ public class CANSparkUtil {
    *     constructed.
    * @param enableFollowing Whether to enable motor following.
    */
-  public static void setCANSparkBusUsage(
-      CANSparkBase motor, Usage usage, boolean enableFollowing) {
+  public static void setSparkBusUsage(
+       SparkBaseConfig config, Usage usage, boolean enableFollowing) {
     if (enableFollowing) {
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
+      config.signals.appliedOutputPeriodMs(10);
     } else {
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 500);
+      config.signals.appliedOutputPeriodMs(500);
     }
 
     if (usage == Usage.kAll) {
       //sets ussage to send all the frames of data yay
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 20);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
+      config.signals.analogVelocityPeriodMs(20);
+      config.signals.analogPositionPeriodMs(20);
+      config.signals.analogVoltagePeriodMs(500);
     } else if (usage == Usage.kPositionOnly) {
       //only sends the position frames every 20 ms, saves on velocity and other status
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 1000);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 20);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 1000);
+       config.signals.analogVelocityPeriodMs(1000);
+      config.signals.analogPositionPeriodMs(20);
+      config.signals.analogVoltagePeriodMs(1000);
     } else if (usage == Usage.kVelocityOnly) {
       //only sends the velocity every 20 ms
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 1000);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 1000);
+       config.signals.analogVelocityPeriodMs(20);
+      config.signals.analogPositionPeriodMs(1000);
+      config.signals.analogVoltagePeriodMs(1000);
     } else if (usage == Usage.kMinimal) {
-      //sends as little data as possible to save canbus ussage
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 500);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 500);
-      motor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus3, 500);
+      //sends as little data as possible to save canbus usage
+       config.signals.analogVelocityPeriodMs(500);
+      config.signals.analogPositionPeriodMs(500);
+      config.signals.analogVoltagePeriodMs(500);
+ 
     }
   }
 
@@ -69,7 +68,7 @@ public class CANSparkUtil {
    * @param usage The status frame feedack to enable. kAll is the default when a CANSparkMax is
    *     constructed.
    */
-  public static void setCANSparkBusUsage(CANSparkBase motor, Usage usage) {
-    setCANSparkBusUsage(motor, usage, false);
+  public static void setSparkBusUsage( SparkBaseConfig config, Usage usage) {
+    setSparkBusUsage( config, usage, false);
   }
 }
