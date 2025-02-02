@@ -134,7 +134,9 @@ public class SwerveModule {
         setSpeed(desiredState, isOpenLoop);
     } */
 
-    private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
+        private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
+       }
+        public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
         if(isOpenLoop){
             //control the motor through direct open loop control
             double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
