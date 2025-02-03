@@ -169,7 +169,7 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveOdometry.update(getYaw(), getPositions());
     field.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Pigeon Roll",  pigeon.getPitch());
+    SmartDashboard.putNumber("Pigeon Roll",  pigeon.getPitch().getValueAsDouble());
 
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(

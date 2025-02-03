@@ -120,7 +120,7 @@ public final class Constants {
       public static final double angleKD = 0.0; //to tune
       public static final double angleKFF = 0.0; //to tune
         
-      public static final SwerveModuleConstants<EncoderConfig> constants =
+      public static final SwerveModuleConstants constants =
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
           //creates a constant with all info from swerve module
     }
