@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.SwerveConstants.Mod0;
 
 public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 pigeon;
@@ -52,9 +53,17 @@ public class SwerveSubsystem extends SubsystemBase {
     field = new Field2d();
     SmartDashboard.putData("Field", field);
   }
+  public double[] getEncoderRotations() {
+    double[] rotations = new double[4];  
+    for (int i = 0; i < mSwerveMods.length; i++) {
+        rotations[i] = mSwerveMods[i].getangleEncoder().getPosition();
+    }
+    return rotations;  
+}
 
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
+
   {
     SwerveModuleState[] swerveModuleStates =
       Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(

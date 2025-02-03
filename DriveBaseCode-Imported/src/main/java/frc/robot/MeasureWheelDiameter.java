@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.SwerveConstants;
@@ -38,7 +39,7 @@ public class MeasureWheelDiameter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drive.drive(0, 0, 0.25, false);
+    m_drive.drive(new Translation2d(0,0),0.25,false,false);
     double[] modules = m_drive.getEncoderRotations();
     for(var i = 0; i < modules.length; i++){
       distances[i] = modules[i] - startPositions[i];
@@ -58,7 +59,7 @@ public class MeasureWheelDiameter extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drive.drive(0, 0, 0, false);
+    m_drive.drive(new Translation2d(0,0),0.0,false,false);
   }
 
   // Returns true when the command should end.
