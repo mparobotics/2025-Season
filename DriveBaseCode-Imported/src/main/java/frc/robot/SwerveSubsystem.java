@@ -129,12 +129,12 @@ public class SwerveSubsystem extends SubsystemBase {
   public Rotation2d getYaw() {
     //fancy if else loop again
     return (Constants.SwerveConstants.invertPigeon)
-        ? Rotation2d.fromDegrees(360 - pigeon.getYaw())
-        : Rotation2d.fromDegrees(pigeon.getYaw());
+        ? Rotation2d.fromDegrees(360 - pigeon.getYaw().getValueAsDouble())
+        : Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
   }
 
   public boolean AutoBalance(){
-    double roll_error = pigeon.getPitch();//the angle of the robot
+    double roll_error = pigeon.getPitch().getValueAsDouble();//the angle of the robot
     double balance_kp = -.005;//Variable muliplied by roll_error
     double position_adjust = 0.0;
     double min_command = 0.0;//adds a minimum input to the motors to overcome friction if the position adjust isn't enough
