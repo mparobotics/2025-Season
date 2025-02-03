@@ -18,6 +18,8 @@ public class RobotContainer {
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
 
+  private final Trigger robotCentric = new Trigger(driveController.leftBumper());
+
   private final SwerveSubsystem m_drive = new SwerveSubsystem();
 
   public RobotContainer() {
@@ -27,7 +29,7 @@ public class RobotContainer {
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
         () -> -driveController.getRawAxis(rotationAxis),
-        () -> false
+        () -> robotCentric.getAsBoolean()
         ));
 
     
