@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.swerve.SwerveRequest.RobotCentric;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,7 +26,8 @@ public class RobotContainer {
         m_drive,
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
-        () -> -driveController.getRawAxis(rotationAxis)
+        () -> -driveController.getRawAxis(rotationAxis),
+        () -> false
         ));
 
     
