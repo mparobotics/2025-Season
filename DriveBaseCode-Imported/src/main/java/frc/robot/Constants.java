@@ -28,6 +28,7 @@ public final class Constants {
     public static final double wheelBase = Units.inchesToMeters(20.5);//to find
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumference = wheelDiameter * Math.PI;
+    public static final double driveBaseRadius = Math.hypot(trackWidth/2, wheelBase/2);
 
     public static final double openLoopRamp = 0.25;
     public static final double closedLoopRamp = 0.0;
