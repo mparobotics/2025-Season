@@ -53,14 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
     field = new Field2d();
     SmartDashboard.putData("Field", field);
   }
-  public double[] getEncoderRotations() {
-    double[] rotations = new double[4];  
-    for (int i = 0; i < mSwerveMods.length; i++) {
-        rotations[i] = mSwerveMods[i].getangleEncoder().getPosition();
-    }
-    return rotations;  
-}
-
+  
   public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
   //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
 
