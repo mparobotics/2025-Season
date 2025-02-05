@@ -121,12 +121,8 @@ public class SwerveModule {
             speed *= -1;
         }
         return new SwerveModuleState (speed, currentAngle.plus(Rotation2d.fromDegrees(turnAmount)));
-
-
     }
- 
         //might use more ...optimized... version if it works (needs testing)
-    
 
          private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
          if (isOpenLoop) {
@@ -153,7 +149,6 @@ public class SwerveModule {
                 feedforward.calculate(desiredState.speedMetersPerSecond));
         }
     }
-
 
     private void setAngle(SwerveModuleState desiredState){
         //If we are moving at a very low speed, then there is no point in rotating the modules.
