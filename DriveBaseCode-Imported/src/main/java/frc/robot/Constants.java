@@ -84,11 +84,10 @@ public final class Constants {
     public static final IdleMode driveNeutralMode = IdleMode.kBrake;
 
     /* Motor Inverts */
+    public static final boolean canCoderInvert = false;
     public static final boolean driveInvert = false;
     public static final boolean angleInvert = false;
-
     /* Angle Encoder Invert */
-    public static final boolean canCoderInvert = false;
     
 
         /* Module Specific Constants */
@@ -130,7 +129,7 @@ public final class Constants {
     public static final class Mod2 {
       public static final int driveMotorID = 7;
       public static final int angleMotorID = 6;
-      public static final int canCoderID = 11;
+      public static final int canCoderID = 11;                     
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(43.6);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -159,14 +158,10 @@ public final class Constants {
           new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
           //creates a constant with all info from swerve module
     }
-  
 
     public static final boolean angleMotorInvert = false;
     public static final boolean driveMotorInvert = false;
-
-    
-
-
+  
 
   }
 
@@ -185,7 +180,5 @@ public final class Constants {
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
-
-
-
+  
 }

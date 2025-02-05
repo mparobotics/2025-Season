@@ -31,12 +31,13 @@ public class RobotContainer {
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
         () -> -driveController.getRawAxis(rotationAxis),
         () -> robotCentric.getAsBoolean()
-        ));
+        //() -> driveController.getHID().getRawButton(button.kX.value)
+        
+  ));
 
-    
-    
   }
- 
+
+
   private double getSpeedMultiplier(){
     return driveController.getHID().getRawButton(Button.kLeftStick.value)? 0.7: 1;
   }

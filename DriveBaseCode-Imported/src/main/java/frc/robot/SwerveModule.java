@@ -124,22 +124,22 @@ public class SwerveModule {
 
 
     }
-    /*public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
  
         //might use more ...optimized... version if it works (needs testing)
-        desiredState = 
-        OnboardModuleState.optimize(desiredState, getState().angle);
-        
-        setAngle(desiredState);
-        setSpeed(desiredState, isOpenLoop);
-    } */
+    
 
         private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
+            setAngle(desiredState);
+            setSpeed(desiredState, isOpenLoop);
        }
+
         public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
         if(isOpenLoop){
             //control the motor through direct open loop control
             double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
+            optimize(desiredState, lastAngle);
+            setAngle(desiredState);
+            setSpeed(desiredState, isOpenLoop);
             driveMotor.set(percentOutput);
         }
         else {
