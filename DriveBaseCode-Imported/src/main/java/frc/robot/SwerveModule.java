@@ -182,6 +182,7 @@ public class SwerveModule {
     private void configAngleMotor(){
         SparkMaxConfig sparkMaxConfig = new SparkMaxConfig();
         //resets angle motor
+        angleMotor.restoreFactoryDefaults();
         //limits can bus usage
         CANSparkUtil.setSparkBusUsage(sparkMaxConfig, Usage.kPositionOnly);
         //sets current limit
