@@ -128,10 +128,12 @@ public class SwerveModule {
         //might use more ...optimized... version if it works (needs testing)
     
 
-        private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
-            setAngle(desiredState);
-            setSpeed(desiredState, isOpenLoop);
-       }
+         private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
+         if (isOpenLoop) {
+            double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
+            driveMotor.set(percentOutput);
+         }
+       } 
 
         public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
         if(isOpenLoop){
