@@ -15,15 +15,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
   private final CommandXboxController driveController = new CommandXboxController(0); 
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final CommandXboxController intakeController = new CommandXboxController(0);
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
-
+  
   private final Trigger robotCentric = new Trigger(driveController.leftBumper());
 
   private final SwerveSubsystem m_drive = new SwerveSubsystem();
 
   public RobotContainer() {
+    configureBindings();}
+  private void configureBindings() {
+
+    m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> intakeController.getRightY()));
+
   m_drive.setDefaultCommand(
     new TeleopSwerve(
         m_drive,

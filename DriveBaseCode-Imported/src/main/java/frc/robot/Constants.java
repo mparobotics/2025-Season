@@ -18,6 +18,14 @@ import frc.lib.SwerveModuleConstants;
 
 /** Add your docs here. */
 public final class Constants {
+  public final class IntakeConstants{
+
+  public static final int intakeMotorID = 1;//Placeholder for actual motor ID
+   
+}
+public static final double motorSpeedMultiplier = 1;
+
+
   public static final class SwerveConstants{
     public static final double inputDeadband = .1;
     public static final int PIGEON_ID = 17; //tochange
