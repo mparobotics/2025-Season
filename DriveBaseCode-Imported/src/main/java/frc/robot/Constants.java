@@ -20,7 +20,7 @@ import frc.lib.SwerveModuleConstants;
 public final class Constants {
   public final class IntakeConstants{
 
-  public static final int intakeMotorID = 12;//Placeholder for actual motor ID
+  public static final int intakeMotorID = 12;//Placeholder for actual motor ID used for test bot
    
 }
 public static final double motorSpeedMultiplier = 1;
