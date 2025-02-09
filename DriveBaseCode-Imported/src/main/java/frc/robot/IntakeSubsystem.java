@@ -23,31 +23,6 @@ return runOnce(() -> intakeMotor.set(speed.getAsDouble() * Constants.motorSpeedM
   public IntakeSubsystem() {
   }
 
-  public Command RunMotors() {
-return runOnce(
-  () -> {
-    intakeMotor.set(1);
-  }
-
-);}
-
-public Command StopMotors()
-  {
-return runOnce(
-  () -> {
-    intakeMotor.set(0);
-  }
-
-);}
-
-public Command InverseMotors()
-  {
-return runOnce(
-  () -> {
-    intakeMotor.set(-1);
-  }
-
-);}
 
   @Override
   public void periodic() {
