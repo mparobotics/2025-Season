@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private final CommandXboxController driveController = new CommandXboxController(0); 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  private final CommandXboxController intakeController = new CommandXboxController(0);
+  private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(); 
+  private final CommandXboxController helmsController = new CommandXboxController(1);
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -28,8 +29,9 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();}
   private void configureBindings() {
+    m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getLeftY()));
 
-    m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> intakeController.getRightY()));
+    m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> helmsController.getRightY()));
 
   m_drive.setDefaultCommand(
     new TeleopSwerve(
