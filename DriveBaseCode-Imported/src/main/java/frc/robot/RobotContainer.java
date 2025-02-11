@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveRequest.RobotCentric;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -29,8 +30,10 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();}
   private void configureBindings() {
-    m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getLeftY()));
-
+    //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getLeftY()));
+    helmsController.axisGreaterThan(Axis.kLeftY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
+    helmsController.axisLessThan(Axis.kLeftY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
+    m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
     m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> helmsController.getRightY()));
 
   m_drive.setDefaultCommand(

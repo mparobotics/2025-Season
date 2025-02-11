@@ -27,6 +27,7 @@ public final class Constants {
   
 }
 public static final double motorSpeedMultiplier = 1;
+public static final double slowMotorSpeedMultiplier = 0.5; 
 
 
   public static final class SwerveConstants{

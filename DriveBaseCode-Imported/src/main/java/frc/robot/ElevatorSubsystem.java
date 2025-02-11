@@ -19,12 +19,43 @@ import frc.robot.Constants.IntakeConstants;
 public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor = new SparkMax(ElevatorConstants.elevatorMotorID,MotorType.kBrushless);
   public RelativeEncoder encoder = elevatorMotor.getEncoder();
-  public Command Run1(DoubleSupplier speed){
-    return runOnce(()-> elevatorMotor.set(speed.getAsDouble()* Constants.motorSpeedMultiplier/2));
+  /*public Command Run1(DoubleSupplier speed){
+    return runOnce(()-> elevatorMotor.set(speed.getAsDouble()* Constants.slowMotorSpeedMultiplier));
     
-  }
+  }*/ 
+
   /** Creates a new ElevatorSubsystem. */
-  public ElevatorSubsystem() {}
+    public ElevatorSubsystem() {
+    //motor1.setInverted(false); -commented out bc unused
+  }
+
+
+  public Command RunMotors()
+  {
+return runOnce(
+  () -> {
+    elevatorMotor.set(0.5);
+  }
+
+);}
+
+public Command StopMotors()
+  {
+return runOnce(
+  () -> {
+    elevatorMotor.set(0);
+  }
+
+);}
+
+public Command InverseMotors()
+  {
+return runOnce(
+  () -> {
+    elevatorMotor.set(-0.5);
+  }
+
+);}
 
   @Override
   public void periodic() {
