@@ -19,6 +19,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(); 
   private final CommandXboxController helmsController = new CommandXboxController(1);
+  private final WristSubsystem m_WristSubsystem = new WristSubsystem();
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -33,6 +34,8 @@ public class RobotContainer {
     //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getLeftY()));
     helmsController.axisGreaterThan(Axis.kLeftY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
     helmsController.axisLessThan(Axis.kLeftY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
+    helmsController.povDown().whileTrue(m_WristSubsystem.InverseMotors().repeatedly()); 
+    helmsController.povUp().whileTrue(m_WristSubsystem.RunMotors().repeatedly());
     m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
     m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> helmsController.getRightY()));
 
