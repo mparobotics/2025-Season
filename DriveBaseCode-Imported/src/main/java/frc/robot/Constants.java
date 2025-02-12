@@ -18,6 +18,12 @@ import frc.lib.SwerveModuleConstants;
 
 /** Add your docs here. */
 public final class Constants {
+
+  public final class ClimberConstants{
+    public static final int climbMotorID = 0; //placeholder
+  }
+
+
   public static final class SwerveConstants{
     public static final double inputDeadband = .1;
     public static final int PIGEON_ID = 17; //tochange
