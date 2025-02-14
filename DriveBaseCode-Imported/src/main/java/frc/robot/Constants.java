@@ -19,7 +19,7 @@ import frc.lib.SwerveModuleConstants;
 /** Add your docs here. */
 public final class Constants {
   public final class ElevatorConstants{
-    public static final int elevatorMotorID = 15; //Placeholder, for test bot 
+    public static final int elevatorMotorID = 1; //Placeholder, for test bot 
   }
   public final class WristConstants{
     public static final int wristMotorID = 15; //Placehoder for actual motor ID
