@@ -22,7 +22,7 @@ public final class Constants {
     public static final int elevatorMotorID = 15; //Placeholder, for test bot 
   }
   public final class WristConstants{
-    public static final int wristMotorID = 4; //Placehoder for actual motor ID
+    public static final int wristMotorID = 15; //Placehoder for actual motor ID
   }
   public final class IntakeConstants{
 

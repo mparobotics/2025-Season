@@ -21,7 +21,7 @@ public class WristSubsystem extends SubsystemBase {
   {
 return runOnce(
   () -> {
-    wristMotor.set(0.5);
+    wristMotor.set(0.25);
   }
 
 );}
@@ -39,7 +39,7 @@ return runOnce(
   {
   return runOnce(
   () -> {
-    wristMotor.set(-0.5);
+    wristMotor.set(-0.25);
   }
 
   );}
