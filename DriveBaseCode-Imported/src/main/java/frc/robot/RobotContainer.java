@@ -38,6 +38,7 @@ public class RobotContainer {
     helmsController.povUp().whileTrue(m_WristSubsystem.RunMotors().repeatedly());
     m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
     m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> helmsController.getRightY()));
+    m_WristSubsystem.setDefaultCommand(((m_WristSubsystem.StopMotors())));
 
   m_drive.setDefaultCommand(
     new TeleopSwerve(
