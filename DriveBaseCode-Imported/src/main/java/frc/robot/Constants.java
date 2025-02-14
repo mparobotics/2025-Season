@@ -20,7 +20,7 @@ import frc.lib.SwerveModuleConstants;
 public final class Constants {
 
   public final class ClimberConstants{
-    public static final int climbMotorID = 0; //placeholder
+    public static final int climbMotorID = 12; //placeholder
   }
 
 
