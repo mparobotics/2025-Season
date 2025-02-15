@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -20,8 +20,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.SwerveModule;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveConstants.Mod0;
+import frc.robot.Constants.SwerveConstants.Mod1;
+import frc.robot.Constants.SwerveConstants.Mod2;
+import frc.robot.Constants.SwerveConstants.Mod3;
 
 public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 pigeon;
