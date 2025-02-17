@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.WristConstants;
@@ -47,5 +48,8 @@ return runOnce(
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // RIP KIWI (Alex Huie)
+    //periodic: forever loop
+    SmartDashboard.putNumber("wrist encoder",encoder.getPosition());
   }
 }
