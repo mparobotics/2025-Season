@@ -19,13 +19,13 @@ import frc.lib.SwerveModuleConstants;
 /** Add your docs here. */
 public final class Constants {
   public final class ElevatorConstants{
-    public static final int elevatorMotorID = 15; //Placeholder, for test bot 
+    public static final int elevatorMotorID = 14; //Placeholder, for test bot 
   }
   public final class ClimberConstants{
-    public static final int climbMotorID = 12; //placeholder
+    public static final int climbMotorID = 13; //placeholder
   }
   public final class WristConstants{
-    public static final int wristMotorID = 15; //Placehoder for actual motor ID
+    public static final int wristMotorID = 10; //Placehoder for actual motor ID
   }
   public final class IntakeConstants{
 
@@ -192,6 +192,11 @@ public static final double slowMotorSpeedMultiplier = 0.5;
     public static final double kPXController = 1;
     public static final double kPYController = 1;
     public static final double kPThetaController = 1;
+
+    public static final double k_elevatorP = 0;
+    public static final double k_elevatorI = 0;
+    public static final double k_elevatorD = 0;
+    public static final double k_elevatorSetpoint = 0.5;
 
     // Constraint for the motion profilied robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
