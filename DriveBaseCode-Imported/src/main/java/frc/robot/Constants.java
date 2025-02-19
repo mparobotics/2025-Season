@@ -28,6 +28,7 @@ public final class Constants {
     public static final int wristMotorID = 10; //Placehoder for actual motor ID
   }
   public final class IntakeConstants{
+    
 
   public static final int intakeMotorID = 12;//Placeholder for actual motor ID used for test bot
   

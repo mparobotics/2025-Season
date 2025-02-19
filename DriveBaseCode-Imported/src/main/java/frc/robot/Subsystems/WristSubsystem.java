@@ -48,7 +48,6 @@ return runOnce(
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // RIP KIWI (Alex Huie)
     //periodic: forever loop
     SmartDashboard.putNumber("wrist encoder",encoder.getPosition());
   }
