@@ -44,6 +44,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   {
 return runOnce(
   () -> {
+    elevatorMotor.set(0.5); 
     /*Pose2d currentPose = new Pose2d (0.0, encoder.getPosition(), new Rotation2d(0.0)); //might not work
     Pose2d targetPose = m_goalPoseSupplier.get();
       
