@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems;
 
+import static edu.wpi.first.units.Units.Rotation;
+
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
@@ -19,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
@@ -112,7 +115,6 @@ public class SwerveSubsystem extends SubsystemBase {
     });
   }
 
-
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (SwerveModule mod : mSwerveMods) {
@@ -146,6 +148,18 @@ public class SwerveSubsystem extends SubsystemBase {
     return (Constants.SwerveConstants.invertPigeon)
         ? Rotation2d.fromDegrees(360 - pigeon.getYaw().getValueAsDouble())
         : Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+  }
+
+
+  public Command driveForewardCommand() { //this command is for autonomous
+    return runOnce(() -> {
+      Pose2d currentPose;
+      Pose2d targetPose;
+      
+      currentPose = new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(0)); //test for red and blue alliance
+      targetPose = new Pose2d(2, currentPose.getY(), Rotation2d.fromDegrees(0)); //x:0 is a placeholder
+      
+    });
   }
 
 
