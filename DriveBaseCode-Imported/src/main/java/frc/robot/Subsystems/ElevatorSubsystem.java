@@ -27,7 +27,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor = new SparkMax(ElevatorConstants.elevatorMotorID,MotorType.kBrushless);
   public RelativeEncoder encoder = elevatorMotor.getEncoder();
   PIDController pid = new PIDController(AutoConstants.k_elevatorP, AutoConstants.k_elevatorI, AutoConstants.k_elevatorD);
-  //private ProfiledPIDController yController = new ProfiledPIDController(AutoConstants.translation_kP, AutoConstants.translation_kI, AutoConstants.translation_kD, AutoConstants.autoAlignYConstraints);
+  //https://github.com/mparobotics/2024-Season/blob/main/2024%20Full%20Robot%20Code/src/main/java/frc/robot/subsystems/ArmSubsystem.java good example of PID
 
   public Command Run1(DoubleSupplier speed){
     return runOnce(()-> elevatorMotor.set(speed.getAsDouble()* Constants.slowMotorSpeedMultiplier));
