@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -28,10 +29,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   PIDController pid = new PIDController(AutoConstants.k_elevatorP, AutoConstants.k_elevatorI, AutoConstants.k_elevatorD);
   //private ProfiledPIDController yController = new ProfiledPIDController(AutoConstants.translation_kP, AutoConstants.translation_kI, AutoConstants.translation_kD, AutoConstants.autoAlignYConstraints);
 
-  /*public Command Run1(DoubleSupplier speed){
+  public Command Run1(DoubleSupplier speed){
     return runOnce(()-> elevatorMotor.set(speed.getAsDouble()* Constants.slowMotorSpeedMultiplier));
     
-  }*/ 
+  }
 
 
   /** Creates a new ElevatorSubsystem. */
@@ -44,7 +45,8 @@ public class ElevatorSubsystem extends SubsystemBase {
   {
 return runOnce(
   () -> {
-    /*Pose2d currentPose = new Pose2d (0.0, encoder.getPosition(), new Rotation2d(0.0)); //might not work
+    elevatorMotor.set(0.5);
+        /*Pose2d currentPose = new Pose2d (0.0, encoder.getPosition(), new Rotation2d(0.0)); //might not work
     Pose2d targetPose = m_goalPoseSupplier.get();
       
       
@@ -52,8 +54,7 @@ return runOnce(
 
     double ySpeed = yController.calculate(currentPose.getY(),targetPose.getY()); */
 //motor.set(pid.calculate(encoder.getDistance(), setpoint));
-      
-    elevatorMotor.set(pid.calculate(encoder.getPosition(), AutoConstants.k_elevatorSetpoint));
+    //elevatorMotor.set(pid.calculate(encoder.getPosition(), AutoConstants.k_elevatorSetpoint));
   }
 
 );}
