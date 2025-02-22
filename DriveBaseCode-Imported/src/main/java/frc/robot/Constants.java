@@ -19,18 +19,18 @@ import frc.lib.SwerveModuleConstants;
 /** Add your docs here. */
 public final class Constants {
   public final class ElevatorConstants{
-    public static final int elevatorMotorID = 10; //Placeholder, for test bot 
+    public static final int elevatorMotorID = 16; //Placeholder, for test bot 
   }
   public final class ClimberConstants{
-    public static final int climbMotorID = 13; //placeholder
+    public static final int climbMotorID = 24; //placeholder
   }
   public final class WristConstants{
-    public static final int wristMotorID = 15; //Placehoder for actual motor ID
+    public static final int wristMotorID = 14;
   }
   public final class IntakeConstants{
 
 
-  public static final int intakeMotorID = 12;//Placeholder for actual motor ID used for test bot
+  public static final int intakeMotorID = 15;
   
 }
 public static final double motorSpeedMultiplier = 1;
@@ -112,9 +112,9 @@ public static final double slowMotorSpeedMultiplier = 0.5;
         /* Module Specific Constants */
     /* Front Left Module - Module 0 */
     public static final class Mod0 {
-      public static final int driveMotorID = 3; 
+      public static final int driveMotorID = 4; 
       public static final int angleMotorID = 2; 
-      public static final int canCoderID = 11;
+      public static final int canCoderID = 3;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(340.9);
     /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -129,9 +129,9 @@ public static final double slowMotorSpeedMultiplier = 0.5;
 
     /* Front Right Module - Module 1 */
     public static final class Mod1 {
-      public static final int driveMotorID = 9;
-      public static final int angleMotorID = 8;
-      public static final int canCoderID = 14;
+      public static final int driveMotorID = 7;
+      public static final int angleMotorID = 5;
+      public static final int canCoderID = 6;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(42);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -146,9 +146,9 @@ public static final double slowMotorSpeedMultiplier = 0.5;
 
     /* Back Left Module - Module 2 */
     public static final class Mod2 {
-      public static final int driveMotorID = 7;
-      public static final int angleMotorID = 6;
-      public static final int canCoderID = 13;                     
+      public static final int driveMotorID = 10;
+      public static final int angleMotorID = 8;
+      public static final int canCoderID = 9;                     
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(320.9);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -163,8 +163,8 @@ public static final double slowMotorSpeedMultiplier = 0.5;
 
     /* Back Right Module - Module 3 */
     public static final class Mod3 {
-      public static final int driveMotorID = 5;
-      public static final int angleMotorID = 4;
+      public static final int driveMotorID = 13;
+      public static final int angleMotorID = 11; //spark max
       public static final int canCoderID = 12;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(297.7);
         /* Angle Motor PID Values */
