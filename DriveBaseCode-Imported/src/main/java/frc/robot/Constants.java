@@ -114,7 +114,7 @@ public static final double slowMotorSpeedMultiplier = 0.5;
     public static final class Mod0 {
       public static final int driveMotorID = 3; 
       public static final int angleMotorID = 2; 
-      public static final int canCoderID = 2;
+      public static final int canCoderID = 11;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(340.9);
     /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -131,7 +131,7 @@ public static final double slowMotorSpeedMultiplier = 0.5;
     public static final class Mod1 {
       public static final int driveMotorID = 9;
       public static final int angleMotorID = 8;
-      public static final int canCoderID = 8;
+      public static final int canCoderID = 14;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(42);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -146,9 +146,9 @@ public static final double slowMotorSpeedMultiplier = 0.5;
 
     /* Back Left Module - Module 2 */
     public static final class Mod2 {
-      public static final int driveMotorID = 5;
-      public static final int angleMotorID = 4;
-      public static final int canCoderID = 4;                     
+      public static final int driveMotorID = 7;
+      public static final int angleMotorID = 6;
+      public static final int canCoderID = 13;                     
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(320.9);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
@@ -163,9 +163,9 @@ public static final double slowMotorSpeedMultiplier = 0.5;
 
     /* Back Right Module - Module 3 */
     public static final class Mod3 {
-      public static final int driveMotorID = 7;
-      public static final int angleMotorID = 6;
-      public static final int canCoderID = 6;
+      public static final int driveMotorID = 5;
+      public static final int angleMotorID = 4;
+      public static final int canCoderID = 12;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(297.7);
         /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
