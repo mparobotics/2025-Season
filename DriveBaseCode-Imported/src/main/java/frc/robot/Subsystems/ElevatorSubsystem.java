@@ -26,11 +26,18 @@ import frc.robot.Constants.IntakeConstants;
 public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor = new SparkMax(ElevatorConstants.elevatorMotorID,MotorType.kBrushless);
   public RelativeEncoder encoder = elevatorMotor.getEncoder();
-  PIDController pid = new PIDController(AutoConstants.k_elevatorP, AutoConstants.k_elevatorI, AutoConstants.k_elevatorD);
+  //PIDController pid = new PIDController(AutoConstants.k_elevatorP, AutoConstants.k_elevatorI, AutoConstants.k_elevatorD);
   //https://github.com/mparobotics/2024-Season/blob/main/2024%20Full%20Robot%20Code/src/main/java/frc/robot/subsystems/ArmSubsystem.java good example of PID
 
   public Command Run1(DoubleSupplier speed){
-    return runOnce(()-> elevatorMotor.set(speed.getAsDouble()* Constants.slowMotorSpeedMultiplier));
+    if (speed.getAsDouble() > 1) {
+      //TODO if greater than 1, make it 1
+      throw new ArithmeticException("value greater than 1");
+    } else if (speed.getAsDouble() < -1) {
+      //TODO if less than -1, make it -1
+      throw new ArithmeticException("value less than 1");
+    }
+    return runOnce(()-> elevatorMotor.set(speed.getAsDouble() + Constants.ElevatorConstants.elevatorFeedForward));
     
   }
 
@@ -40,12 +47,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     //motor1.setInverted(false); -commented out bc unused
   }
 
-
+/* 
   public Command RunMotors()
   {
 return runOnce(
   () -> {
-    elevatorMotor.set(0.25);
+    elevatorMotor.set(0.25); */
         /*Pose2d currentPose = new Pose2d (0.0, encoder.getPosition(), new Rotation2d(0.0)); //might not work
     Pose2d targetPose = m_goalPoseSupplier.get();
       
@@ -55,10 +62,10 @@ return runOnce(
     double ySpeed = yController.calculate(currentPose.getY(),targetPose.getY()); */
 //motor.set(pid.calculate(encoder.getDistance(), setpoint));
     //elevatorMotor.set(pid.calculate(encoder.getPosition(), AutoConstants.k_elevatorSetpoint));
-  }
+  //}
 
-);}
-
+//);} 
+/* 
 public Command StopMotors()
   {
 return runOnce(
@@ -75,7 +82,7 @@ return runOnce(
     elevatorMotor.set(-0.25);
   }
 
-);}
+);} */
 
   @Override
   public void periodic() {

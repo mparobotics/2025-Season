@@ -20,9 +20,11 @@ import frc.lib.SwerveModuleConstants;
 public final class Constants {
   public final class ElevatorConstants{
     public static final int elevatorMotorID = 16; //Placeholder, for test bot 
+    public static final double slowMotorSpeedMultiplier = 0.5; 
+    public static final double elevatorFeedForward = 0.01; 
   }
   public final class ClimberConstants{
-    public static final int climbMotorID = 24; //placeholder
+    public static final int climbMotorID = 28; //placeholder
   }
   public final class WristConstants{
     public static final int wristMotorID = 14;
@@ -33,9 +35,8 @@ public final class Constants {
   public static final int intakeMotorID = 15;
   
 }
-public static final double motorSpeedMultiplier = 1;
-public static final double slowMotorSpeedMultiplier = 0.5; 
 
+public static final double motorSpeedMultiplier = 1;
 
   public static final class SwerveConstants{
     public static final double inputDeadband = .1;

@@ -37,14 +37,14 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();}
   private void configureBindings() {
-    //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getLeftY()));
-    helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
-    helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
+    m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getRightY()));
+    //helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
+    //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
     helmsController.button(Button.kLeftBumper.value).whileTrue(m_ClimberSubsystem.InverseMotors().repeatedly());
     helmsController.button(Button.kRightBumper.value).whileTrue(m_ClimberSubsystem.RunMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseMotors().repeatedly()); 
     helmsController.povUp().whileTrue(m_WristSubsystem.RunMotors().repeatedly());
-    m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
+    //m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
     m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.Run1(() -> helmsController.getLeftY()));
     m_WristSubsystem.setDefaultCommand(((m_WristSubsystem.StopMotors())));
     m_ClimberSubsystem.setDefaultCommand(((m_ClimberSubsystem.StopMotors())));
