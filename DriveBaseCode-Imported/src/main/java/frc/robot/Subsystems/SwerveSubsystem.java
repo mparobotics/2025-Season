@@ -31,7 +31,7 @@ import frc.robot.Constants.SwerveConstants.Mod3;
 public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 pigeon;
 
-  private SwerveDriveOdometry swerveOdometry;
+  private SwerveDrivePoseEstimator odometry;
   private SwerveModule[] mSwerveMods;
 
   private Field2d field;
@@ -53,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase {
     };
 
     //creates new swerve odometry (odometry is where the robot is on the field)
-    swerveOdometry = new SwerveDriveOdometry(Constants.SwerveConstants.swerveKinematics, getYaw(), getPositions());
+    odometry = new SwerveDrivePoseEstimator(Constants.SwerveConstants.swerveKinematics, getYaw(), getPositions(),new Pose2d(0,0,Rotation2d.fromDegrees(0)));
 
     //puts out the field
     field = new Field2d();
@@ -92,11 +92,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
   public Pose2d getPose() {
-    return swerveOdometry.getPoseMeters();
+    return odometry.getEstimatedPosition();
   }
 
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
+    odometry.resetPosition(getYaw(), getPositions(), pose);
   }
 
   public void setWheelsToX() {
@@ -149,7 +149,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
 
-  public boolean AutoBalance(){
+  /*public boolean AutoBalance(){
     double roll_error = pigeon.getPitch().getValueAsDouble();//the angle of the robot
     double balance_kp = -.005;//Variable muliplied by roll_error
     double position_adjust = 0.0;
@@ -176,13 +176,13 @@ public class SwerveSubsystem extends SubsystemBase {
       drive(new Translation2d(0, 0), 0.0, true, false);
       return true;}
     
-  }
+  }*/
 
 
 
   @Override
   public void periodic() {
-        swerveOdometry.update(getYaw(), getPositions());
+        odometry.update(getYaw(), getPositions());
     field.setRobotPose(getPose());
 
     SmartDashboard.putNumber("Pigeon Roll",  pigeon.getPitch().getValueAsDouble());
