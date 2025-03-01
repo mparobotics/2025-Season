@@ -31,8 +31,8 @@ import frc.robot.Constants.SwerveConstants.Mod3;
 public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 pigeon;
 
-  private SwerveDriveOdometry swerveOdometry;
-  private SwerveModule[] mSwerveMods;
+  private SwerveDrivePoseEstimator odometry;
+  private SwerveModule[] swerveMods;
 
   private Field2d field;
 
@@ -44,7 +44,7 @@ public class SwerveSubsystem extends SubsystemBase {
     zeroGyro();
 
     //Creates all four swerve modules into a swerve drive
-    mSwerveMods =
+    swerveMods =
     new SwerveModule[] {
       new SwerveModule(0, Constants.SwerveConstants.Mod0.constants),
       new SwerveModule(1, Constants.SwerveConstants.Mod1.constants),
@@ -53,31 +53,39 @@ public class SwerveSubsystem extends SubsystemBase {
     };
 
     //creates new swerve odometry (odometry is where the robot is on the field)
-    swerveOdometry = new SwerveDriveOdometry(Constants.SwerveConstants.swerveKinematics, getYaw(), getPositions());
+    odometry = new SwerveDrivePoseEstimator(Constants.SwerveConstants.swerveKinematics, getYaw(), getPositions(),new Pose2d(0,0,Rotation2d.fromDegrees(0)));
 
     //puts out the field
     field = new Field2d();
     SmartDashboard.putData("Field", field);
   }
-  
-  public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
-  //takes the coordinate on field wants to go to, the rotation of it, whether or not in field relative mode, and if in open loop control
+  //translation: how fast robot moves in x and y directions; rotation: how fast robot spins
+  //field relative: if controls are field or robot oriented
+  public void drive(double x, double y,double rotation, boolean isFieldRelative)
 
   {
-    SwerveModuleState[] swerveModuleStates =
-      Constants.SwerveConstants.swerveKinematics.toSwerveModuleStates(
-          //fancy way to do an if else statement 
-          //if field relative == true, use field relative stuff, otherwise use robot centric
-          fieldRelative
-              ? ChassisSpeeds.fromFieldRelativeSpeeds(
-                  translation.getX(), translation.getY(), rotation, getYaw())
-              : new ChassisSpeeds(translation.getX(), translation.getY(), rotation));
-  //sets to top speed if above top speed
-  SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.SwerveConstants.maxSpeed);
+    //converts inputs to ChassisSpeeds
+    driveFromChassisSpeeds(
+          isFieldRelative //if field oriented conver desired speeds to robot oriented
+          ? ChassisSpeeds.fromFieldRelativeSpeeds(x, y, rotation, getYaw()) //if robot oriented generate ChassisSpeeds
+          :new ChassisSpeeds(x, y, rotation) 
+          , true); 
+  
+  }
+
 
   //set states for all 4 modules
-  for (SwerveModule mod : mSwerveMods) {
-    mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
+  public void closedLoopDrive(ChassisSpeeds speeds){
+    driveFromChassisSpeeds(speeds, false);
+  }
+  public void driveFromCHassisSpeeds(ChassisSpeeds speeds, boolean isOpenLoop){
+    //get the target speed and direction for each module
+    SwerveModuleState[] swerveModuleStates = SwerveConstants.swerveKinematics.toSwerveModuleStates(speeds);
+    //if any module is asked to drive at more than 100% speed, then scale ALL 4 speeds until the max speed of any module is 100%
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.maxSpeed);
+        //set desired speed and direction for all 4 modules
+        for (SwerveModule module : swerveMods) {
+          module.setDesiredState(swerveModuleStates[module.moduleNumber], isOpenLoop);
   }
 }
 
@@ -85,37 +93,32 @@ public class SwerveSubsystem extends SubsystemBase {
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.maxSpeed);
 
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : swerveMods) {
       mod.setDesiredState(desiredStates[mod.moduleNumber], false);
     }
   }
 
 
-  public Pose2d getPose() {
-    return swerveOdometry.getPoseMeters();
-  }
-
   public void resetOdometry(Pose2d pose) {
-    swerveOdometry.resetPosition(getYaw(), getPositions(), pose);
+   odometry.resetPosition(getYaw(), getPositions(), pose);
   }
-
-  public void setWheelsToX() {
-    setModuleStates(new SwerveModuleState[] {
-      // front left
-      new SwerveModuleState(0.0, Rotation2d.fromDegrees(-45.0)),
-      // front right
-      new SwerveModuleState(0.0, Rotation2d.fromDegrees(45.0)),
-      // back left
-      new SwerveModuleState(0.0, Rotation2d.fromDegrees(-135.0)),
-      // back right
-      new SwerveModuleState(0.0, Rotation2d.fromDegrees(135.0))
-    });
+//set current heading to be zero degrees
+  public void zeroGyro() {
+      if(FieldConstants.isRedAlliance()){
+        pigeon.setYaw(180);
+      }
+      else{
+        pigeon.setYaw(0); 
+      }
+    }
+  public Pose2d getpose() {
+    return odometry.getEstimatedPosition();
   }
 
 
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : swerveMods) {
       states[mod.moduleNumber] = mod.getState();
     }
     return states;
@@ -123,7 +126,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveModulePosition[] getPositions(){
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
-    for (SwerveModule mod : mSwerveMods){
+    for (SwerveModule mod : swerveMods){
         positions[mod.moduleNumber] = mod.getPosition();
     }
     return positions;
@@ -131,63 +134,45 @@ public class SwerveSubsystem extends SubsystemBase {
   
   public double[] getEncoderRotations() {
     double[] distances = new double[4];
-    for (SwerveModule mod : mSwerveMods){
+    for (SwerveModule mod : swerveMods){
       distances[mod.moduleNumber] = mod.getRawDriveEncoder() / SwerveConstants.wheelCircumference;
     }
     return distances;
   }
 
-  public void zeroGyro() {
-    pigeon.setYaw(0);
+  public double getYawAsDouble(){
+    double yaw = pigeon.getAngle();
+    return (SwerveConstants.invertPigeon)
+    ? 360 - yaw 
+    : yaw; 
   }
 
   public Rotation2d getYaw() {
     //fancy if else loop again
-    return (Constants.SwerveConstants.invertPigeon)
-        ? Rotation2d.fromDegrees(360 - pigeon.getYaw().getValueAsDouble())
-        : Rotation2d.fromDegrees(pigeon.getYaw().getValueAsDouble());
+    return Rotation2d.fromDegrees(getYawAsDouble());
   }
-
-
-  public boolean AutoBalance(){
-    double roll_error = pigeon.getPitch().getValueAsDouble();//the angle of the robot
-    double balance_kp = -.005;//Variable muliplied by roll_error
-    double position_adjust = 0.0;
-    double min_command = 0.0;//adds a minimum input to the motors to overcome friction if the position adjust isn't enough
-    if (roll_error > 6.0)
-    {
-      position_adjust = balance_kp * roll_error + min_command;//equation that figures out how fast it should go to adjust
-      //position_adjust = Math.max(Math.min(position_adjust,.15), -.15);  this gets the same thing done in one line
-      if (position_adjust > .1){position_adjust = .1;}
-      if (position_adjust < -.1){position_adjust = -.1;}
-      drive(new Translation2d(position_adjust, 0), 0.0, true, false);
-      
-      return false;
-    }
-    else if (roll_error < -6.0)
-    {
-      position_adjust = balance_kp * roll_error - min_command;
-      drive(new Translation2d(position_adjust, 0), 0.0, true, false);
-      if (position_adjust > .3){position_adjust = .3;}
-      if (position_adjust < -.3){position_adjust = -.3;}
-      return false;
-    }
-    else{
-      drive(new Translation2d(0, 0), 0.0, true, false);
-      return true;}
+  public Translation2d getRelativeReefLocation(){
+    Translation2d targetLocation = FieldConstants.isRedAlliance()? FieldConstants.RED_SPEAKER_LOCATION: FieldConstants.BLUE_SPEAKER_LOCATION;
+    return targetLocation.minus(getpose().getTranslation());
+  }
+  public Translation2d getVirtualTarget(){
+    Translation2d reefLocation = getRelativeReefLocation();
+    ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(getRobotRelativeSpeed(), getYaw());
+    Translation2d velocity = new Translation2d(chassisSpeeds.vxMetersPerSecond, chassisSpeeds.vyMetersPerSecond);
     
   }
 
+  
 
 
   @Override
   public void periodic() {
-        swerveOdometry.update(getYaw(), getPositions());
-    field.setRobotPose(getPose());
+        odometry.update(getYaw(), getPositions());
+    field.setRobotPose(getpose());
 
     SmartDashboard.putNumber("Pigeon Roll",  pigeon.getPitch().getValueAsDouble());
 
-    for (SwerveModule mod : mSwerveMods) {
+    for (SwerveModule mod : swerveMods) {
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
       SmartDashboard.putNumber(

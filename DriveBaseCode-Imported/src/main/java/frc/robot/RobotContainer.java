@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix6.swerve.SwerveRequest.RobotCentric;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -35,7 +36,9 @@ public class RobotContainer {
   private final SwerveSubsystem m_drive = new SwerveSubsystem();
 
   public RobotContainer() {
-    configureBindings();}
+    configureBindings();
+    m_drive.resetOdometry(new Pose2d());
+  }
   private void configureBindings() {
     //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getLeftY()));
     helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
