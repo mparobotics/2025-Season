@@ -124,40 +124,29 @@ public class SwerveModule {
     }
         //might use more ...optimized... version if it works (needs testing)
 
-         private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
+         private void setSpeed(double speedMetersPerSecond, boolean isOpenLoop){
          if (isOpenLoop) {
-            double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
+            double percentOutput = speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
             driveMotor.set(percentOutput);
+         }
+         else{
+            double feedforwardOutput = feedforward.calculate(speedMetersPerSecond);
+            driveController.setReference(speedMetersPerSecond, ControlType.kVelocity, ClosedLoopSlot.kSlot0, feedforwardOutput);
          }
        } 
 
         public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-        if(isOpenLoop){
-            //control the motor through direct open loop control
-            double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
-            optimize(desiredState, lastAngle);
-            setAngle(desiredState);
-            setSpeed(desiredState, isOpenLoop);
-            driveMotor.set(percentOutput);
+        SwerveModuleState optimizedState = optimize(desiredState, getAngle());
+        if (optimizedState.speedMetersPerSecond > 0.01 * SwerveConstants.maxSpeed){
+            setAngle(optimizedState.angle);
+            
         }
-        else {
-            //control the motor through PID velocity controller with feedforward
-            driveController.setReference(
-                desiredState.speedMetersPerSecond,
-                ControlType.kVelocity,
-                ClosedLoopSlot.kSlot0,//unsure if correct
-                feedforward.calculate(desiredState.speedMetersPerSecond));
-        }
+        setSpeed(optimizedState.speedMetersPerSecond, isOpenLoop);
     }
+ 
+    private void setAngle(Rotation2d angle){
+     angleController.setReference(angle.getDegrees(), ControlType.kPosition);
 
-    private void setAngle(SwerveModuleState desiredState){
-        //If we are moving at a very low speed, then there is no point in rotating the modules.
-        // with zero speed, the target angle will be calculated as zero and the modules would point at zero every time you stop moving
-        //if the speed is less than 1%, don't bother updating the angle
-        Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.SwerveConstants.maxSpeed * 0.01)) ? lastAngle : desiredState.angle; 
-        
-        angleController.setReference(angle.getDegrees(), ControlType.kPosition);
-        lastAngle = angle;
     }
     private Rotation2d getAngle(){
         return Rotation2d.fromDegrees(integratedAngleEncoder.getPosition());
@@ -205,7 +194,7 @@ public class SwerveModule {
         resetToAbsolute();
     }
 
-    private void configDriveMotor(){    
+    private void configDriveMotor(){    ;
         SparkFlexConfig sparkFlexConfig = new SparkFlexConfig();
         //factory resets the spark max    
         //full utilisation on the can loop hell yea
