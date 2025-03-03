@@ -112,12 +112,12 @@ public class SwerveModule {
 
         double speed = desiredState.speedMetersPerSecond;
 
-        if (turnAmount > 90){
-            turnAmount -= 180;
+        if (turnAmount > 180){
+            turnAmount -= 360;
             speed *= -1;
         }
-        if (turnAmount < -90){
-            turnAmount += 180;
+        if (turnAmount < -180){  //was -90
+            turnAmount += 360; //was 180
             speed *= -1;
         }
         return new SwerveModuleState (speed, currentAngle.plus(Rotation2d.fromDegrees(turnAmount)));
