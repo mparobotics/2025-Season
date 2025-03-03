@@ -84,7 +84,7 @@ public class SwerveModule {
         /* Drive Motor Config */
         driveMotor = new SparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
-        driveController = driveMotor.getClosedLoopController();
+        //driveController = driveMotor.getClosedLoopController();
         configDriveMotor();
 
         lastAngle = getState().angle;
@@ -106,46 +106,67 @@ public class SwerveModule {
     public boolean isEncoderDataValid(){
         return driveMotor.getLastError() == REVLibError.kOk && angleMotor.getLastError() == REVLibError.kOk;
     }
+    /* 
     private SwerveModuleState optimize(SwerveModuleState desiredState, Rotation2d currentAngle){
         double difference = desiredState.angle.minus(currentAngle).getDegrees();
         double turnAmount = Math.IEEEremainder(difference,360);
 
         double speed = desiredState.speedMetersPerSecond;
 
-        if (turnAmount > 180){
-            turnAmount -= 360;
+        if (turnAmount > 90){
+            turnAmount -= 180;
             speed *= -1;
         }
-        if (turnAmount < -180){  //was -90
-            turnAmount += 360; //was 180
+        if (turnAmount < -90){  //was -90
+            turnAmount += 180; //was 180
             speed *= -1;
-        }
-        return new SwerveModuleState (speed, currentAngle.plus(Rotation2d.fromDegrees(turnAmount)));
-    }
+        } */
+        //return new SwerveModuleState (speed, currentAngle.plus(Rotation2d.fromDegrees(turnAmount)));
+//}
         //might use more ...optimized... version if it works (needs testing)
 
-         private void setSpeed(double speedMetersPerSecond, boolean isOpenLoop){
+
+
+         private void setSpeed(SwerveModuleConstants desiredState, boolean isOpenLoop){
          if (isOpenLoop) {
-            double percentOutput = speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
+            //controls motor through openlooop control directly
+            double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
             driveMotor.set(percentOutput);
          }
          else{
-            double feedforwardOutput = feedforward.calculate(speedMetersPerSecond);
-            driveController.setReference(speedMetersPerSecond, ControlType.kVelocity, ClosedLoopSlot.kSlot0, feedforwardOutput);
+         
+            driveController.setReference(
+                desiredState.speedMetersPerSecond, 
+                ControlType.kVelocity,
+                0,
+                feedforward.calculate(desiredState.speedMetersPerSecond));
+        
+               
          }
-       } 
-
+        }
         public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-        SwerveModuleState optimizedState = optimize(desiredState, getAngle());
-        if (Math.abs(optimizedState.speedMetersPerSecond) > 0.01 * SwerveConstants.maxSpeed){
-            setAngle(optimizedState.angle);
+       // SwerveModuleState optimizedState = optimize(desiredState, getAngle());
+        //if (Math.abs(optimizedState.speedMetersPerSecond) > 0.01 * SwerveConstants.maxSpeed){
+            desiredState = 
+            OnboardModuleState.optimize(desiredState, getState().angle);
+            setAngle(desiredState);
+            setSpeed(desiredState, isOpenLoop);
+            
+           // setAngle(optimizedState.angle);
+           // setSpeed(optimizedState.speedMetersPerSecond, isOpenLoop);
             
         }
-        setSpeed(optimizedState.speedMetersPerSecond, isOpenLoop);
-    }
+         
+
+
+        
+    
  
-    private void setAngle(Rotation2d angle){
+    private void setAngle(SwerveModuleState desiredState){
+     Rotation2d angle = (Math.abs(desiredState.speedMetersPerSecond) <= (Constants.SwerveConstants.maxSpeed * 0.01))
+        ? lastAngle : desiredState.angle;
      angleController.setReference(angle.getDegrees(), ControlType.kPosition);
+     lastAngle = angle; 
 
     }
     private Rotation2d getAngle(){
@@ -209,7 +230,14 @@ public class SwerveModule {
         sparkFlexConfig.encoder.velocityConversionFactor(SwerveConstants.driveConversionVelocityFactor);
         //sets encoder to read positions as meters traveled
         sparkFlexConfig.encoder.positionConversionFactor(SwerveConstants.driveConversionPositionFactor);
-        //pid setting fun
+        //pid setting fun 
+        
+        driveController.setP(SwerveConstants.driveKP);
+        driveController.setI(SwerveConstants.driveKI);
+        driveController.setD(SwerveConstants.driveKD);
+        driveController.setKFF(SwerveConstants.driveKFF);
+        driveMotor.enableVoltageCompensation(SwerveConstants.voltageComp);
+
         //configuring pid, did not include feed forward
         sparkFlexConfig.closedLoop.p(m_angleKP).i(m_angleKI).d(m_angleKD);
         //TODO ADD FEED FORWARD
@@ -221,3 +249,7 @@ public class SwerveModule {
         driveEncoder.setPosition(0.0);
     }
 }
+
+//i need to write something to push so yeah aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
