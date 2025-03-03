@@ -137,7 +137,7 @@ public class SwerveModule {
 
         public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
         SwerveModuleState optimizedState = optimize(desiredState, getAngle());
-        if (optimizedState.speedMetersPerSecond > 0.01 * SwerveConstants.maxSpeed){
+        if (Math.abs(optimizedState.speedMetersPerSecond) > 0.01 * SwerveConstants.maxSpeed){
             setAngle(optimizedState.angle);
             
         }
