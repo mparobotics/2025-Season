@@ -231,13 +231,13 @@ public class SwerveModule {
         //sets encoder to read positions as meters traveled
         sparkFlexConfig.encoder.positionConversionFactor(SwerveConstants.driveConversionPositionFactor);
         //pid setting fun 
-        
+        /* 
         driveController.setP(SwerveConstants.driveKP);
         driveController.setI(SwerveConstants.driveKI);
         driveController.setD(SwerveConstants.driveKD);
         driveController.setKFF(SwerveConstants.driveKFF);
         driveMotor.enableVoltageCompensation(SwerveConstants.voltageComp);
-
+*/
         //configuring pid, did not include feed forward
         sparkFlexConfig.closedLoop.p(m_angleKP).i(m_angleKI).d(m_angleKD);
         //TODO ADD FEED FORWARD
