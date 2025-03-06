@@ -33,6 +33,7 @@ import frc.lib.SwerveModuleConstants;
 import frc.lib.CANSparkUtil.Usage;
 import frc.robot.Constants.SwerveConstants;
 
+
 /** A Single Swerve Module */
 public class SwerveModule {
     public int moduleNumber;
@@ -84,7 +85,7 @@ public class SwerveModule {
         /* Drive Motor Config */
         driveMotor = new SparkFlex(moduleConstants.driveMotorID, MotorType.kBrushless);
         driveEncoder = driveMotor.getEncoder();
-        //driveController = driveMotor.getClosedLoopController();
+        driveController = driveMotor.getClosedLoopController();
         configDriveMotor();
 
         lastAngle = getState().angle;
@@ -127,7 +128,7 @@ public class SwerveModule {
 
 
 
-         private void setSpeed(SwerveModuleConstants desiredState, boolean isOpenLoop){
+         private void setSpeed(SwerveModuleState desiredState, boolean isOpenLoop){
          if (isOpenLoop) {
             //controls motor through openlooop control directly
             double percentOutput = desiredState.speedMetersPerSecond / Constants.SwerveConstants.maxSpeed;
@@ -138,7 +139,7 @@ public class SwerveModule {
             driveController.setReference(
                 desiredState.speedMetersPerSecond, 
                 ControlType.kVelocity,
-                0,
+                ClosedLoopSlot.kSlot0,
                 feedforward.calculate(desiredState.speedMetersPerSecond));
         
                
@@ -147,8 +148,8 @@ public class SwerveModule {
         public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
        // SwerveModuleState optimizedState = optimize(desiredState, getAngle());
         //if (Math.abs(optimizedState.speedMetersPerSecond) > 0.01 * SwerveConstants.maxSpeed){
-            desiredState = 
-            OnboardModuleState.optimize(desiredState, getState().angle);
+            //desiredState = 
+            //OnboardModuleState.optimize(desiredState, getState().angle);
             setAngle(desiredState);
             setSpeed(desiredState, isOpenLoop);
             
