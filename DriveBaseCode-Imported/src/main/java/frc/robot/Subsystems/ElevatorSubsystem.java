@@ -37,7 +37,13 @@ public class ElevatorSubsystem extends SubsystemBase {
       //TODO if less than -1, make it -1
       throw new ArithmeticException("value less than 1");
     }
-    return runOnce(()-> elevatorMotor.set(speed.getAsDouble() + Constants.ElevatorConstants.elevatorFeedForward));
+
+    if (Math.abs(speed.getAsDouble()) < 0.2) {
+      return runOnce(()-> elevatorMotor.set(0));
+    } // FIX 0.2 is a placeholder, put in constants later
+
+
+    return runOnce(()-> elevatorMotor.set(speed.getAsDouble()*0.25 + Constants.ElevatorConstants.elevatorFeedForward)); //0.25 is a placeholder
     
   }
 
