@@ -24,7 +24,7 @@ public final class Constants {
     public static final double elevatorFeedForward = 0.01; 
   }
   public final class ClimberConstants{
-    public static final int climbMotorID = 8; //placeholder
+    public static final int climbMotorID = 28; //placeholder
   }
   public final class WristConstants{
     public static final int wristMotorID = 14;
