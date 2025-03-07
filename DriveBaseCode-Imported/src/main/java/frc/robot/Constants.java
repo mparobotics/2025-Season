@@ -24,7 +24,7 @@ public final class Constants {
     public static final double elevatorFeedForward = 0.01; 
   }
   public final class ClimberConstants{
-    public static final int climbMotorID = 28; //placeholder
+    public static final int climbMotorID = 28;
   }
   public final class WristConstants{
     public static final int wristMotorID = 14;
@@ -133,7 +133,7 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 7;
       public static final int angleMotorID = 5;
       public static final int canCoderID = 6;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.2);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -167,7 +167,7 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 13;
       public static final int angleMotorID = 11; //spark max
       public static final int canCoderID = 12;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(359.813);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0.256);
         /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
