@@ -116,7 +116,7 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 4; 
       public static final int angleMotorID = 2; 
       public static final int canCoderID = 3;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(345.3);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
     /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -133,7 +133,7 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 7;
       public static final int angleMotorID = 5;
       public static final int canCoderID = 6;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(283.6);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -150,7 +150,7 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 10;
       public static final int angleMotorID = 8;
       public static final int canCoderID = 9;                     
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(29.0);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(0);
       /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
@@ -167,7 +167,7 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 13;
       public static final int angleMotorID = 11; //spark max
       public static final int canCoderID = 12;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(92.6);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(359.813);
         /* Angle Motor PID Values */
       public static final double angleKP = 0.01; //to tune
       public static final double angleKI = 0.0; //to tune
