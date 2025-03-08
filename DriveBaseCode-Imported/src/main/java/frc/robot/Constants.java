@@ -106,7 +106,7 @@ public static final double motorSpeedMultiplier = 1;
     /* Motor Inverts */
     public static final boolean canCoderInvert = false;
     public static final boolean driveInvert = false;
-    public static final boolean angleInvert = false;
+    public static final boolean angleInvert = true;
     /* Angle Encoder Invert */
     
 
@@ -179,8 +179,8 @@ public static final double motorSpeedMultiplier = 1;
           //creates a constant with all info from swerve module
     }
 
-    public static final boolean angleMotorInvert = false;
-    public static final boolean driveMotorInvert = false;
+    /*public static final boolean angleMotorInvert = false;
+    public static final boolean driveMotorInvert = false;*/
     
   
 
