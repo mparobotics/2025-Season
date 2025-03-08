@@ -48,8 +48,8 @@ public class SwerveSubsystem extends SubsystemBase {
     new SwerveModule[] {
       new SwerveModule(0, Constants.SwerveConstants.Mod0.constants),
       new SwerveModule(1, Constants.SwerveConstants.Mod1.constants),
-      new SwerveModule(3, Constants.SwerveConstants.Mod2.constants),
-      new SwerveModule(2, Constants.SwerveConstants.Mod3.constants)
+      new SwerveModule(2, Constants.SwerveConstants.Mod2.constants),
+      new SwerveModule(3, Constants.SwerveConstants.Mod3.constants)
     };
 
     //creates new swerve odometry (odometry is where the robot is on the field)
@@ -185,7 +185,7 @@ public class SwerveSubsystem extends SubsystemBase {
         swerveOdometry.update(getYaw(), getPositions());
     field.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("Pigeon Roll",  pigeon.getPitch().getValueAsDouble());
+    SmartDashboard.putNumber("Pigeon Yaw",  pigeon.getYaw().getValueAsDouble());
 
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(

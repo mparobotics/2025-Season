@@ -24,7 +24,7 @@ public class ClimberSubsystem extends SubsystemBase {
   {
     return runOnce(
       () -> {
-        climbMotor.set(0.25);
+        climbMotor.set(1);
       }
 
     ); }
@@ -42,7 +42,7 @@ public class ClimberSubsystem extends SubsystemBase {
   {
     return runOnce(
       () -> {
-        climbMotor.set(-0.25);
+        climbMotor.set(-1);
       }
 
     ); }

@@ -18,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ElevatorConstants;
@@ -44,6 +45,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
 
     return runOnce(()-> elevatorMotor.set(speed.getAsDouble()*0.25 + Constants.ElevatorConstants.elevatorFeedForward)); //0.25 is a placeholder
+    //return runOnce(()->elevatorMotor.set((MathUtil.applyDeadband(speed.getAsDouble(),0.1)*0.25)+Constants.ElevatorConstants.elevatorFeedForward));
     
   }
 

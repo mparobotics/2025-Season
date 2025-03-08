@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.ClimberSubsystem;
@@ -25,7 +26,7 @@ public class RobotContainer {
   private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(); 
   private final CommandXboxController helmsController = new CommandXboxController(1);
    private final WristSubsystem m_WristSubsystem = new WristSubsystem();
-    private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem();
+    private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem(); 
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -38,10 +39,12 @@ public class RobotContainer {
     configureBindings();}
   private void configureBindings() {
     m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.Run1(() -> helmsController.getRightY()));
+    driveController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.InverseMotors().repeatedly());
+    driveController.button(Button.kRightBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
+    driveController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_drive.zeroGyro(), m_drive));
+
     //helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
-    helmsController.button(Button.kLeftBumper.value).whileTrue(m_ClimberSubsystem.InverseMotors().repeatedly());
-    helmsController.button(Button.kRightBumper.value).whileTrue(m_ClimberSubsystem.RunMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseMotors().repeatedly()); 
     helmsController.povUp().whileTrue(m_WristSubsystem.RunMotors().repeatedly());
     //m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));

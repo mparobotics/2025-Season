@@ -44,8 +44,8 @@ public static final double motorSpeedMultiplier = 1;
     public static final boolean invertPigeon = false;
 
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(17.5);//to find
-    public static final double wheelBase = Units.inchesToMeters(20.5);//to find
+    public static final double trackWidth = Units.inchesToMeters(22);//to find
+    public static final double wheelBase = Units.inchesToMeters(22);//to find
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumference = wheelDiameter * Math.PI;
     public static final double driveBaseRadius = Math.hypot(trackWidth/2, wheelBase/2);
@@ -96,7 +96,7 @@ public static final double motorSpeedMultiplier = 1;
     public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
     /* Swerve Profiling Values */
-    public static final double maxSpeed = 9; // meters per second
+    public static final double maxSpeed = 5; // meters per second
     public static final double maxAngularVelocity = 11.5; //what are these units?
 
     /* Neutral Modes */
@@ -116,9 +116,9 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 4; 
       public static final int angleMotorID = 2; 
       public static final int canCoderID = 3;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(207.247);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(289.43);
     /* Angle Motor PID Values */
-      public static final double angleKP = 0.01; //to tune
+      public static final double angleKP = 0.02; //to tune
       public static final double angleKI = 0.0; //to tune
       public static final double angleKD = 0.0; //to tune
       public static final double angleKFF = 0.0; //to tune
@@ -133,9 +133,9 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 7;
       public static final int angleMotorID = 5;
       public static final int canCoderID = 6;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(284.678);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(285.83);
       /* Angle Motor PID Values */
-      public static final double angleKP = 0.01; //to tune
+      public static final double angleKP = 0.02; //to tune
       public static final double angleKI = 0.0; //to tune
       public static final double angleKD = 0.0; //to tune
       public static final double angleKFF = 0.0; //to tune
@@ -150,9 +150,9 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 10;
       public static final int angleMotorID = 8;
       public static final int canCoderID = 9;                     
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(32.08);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(31.20);
       /* Angle Motor PID Values */
-      public static final double angleKP = 0.01; //to tune
+      public static final double angleKP = 0.02; //to tune
       public static final double angleKI = 0.0; //to tune
       public static final double angleKD = 0.0; //to tune
       public static final double angleKFF = 0.0; //to tune
@@ -167,9 +167,9 @@ public static final double motorSpeedMultiplier = 1;
       public static final int driveMotorID = 13;
       public static final int angleMotorID = 11; //spark max
       public static final int canCoderID = 12;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(281.338);
+      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(179.65);
         /* Angle Motor PID Values */
-      public static final double angleKP = 0.01; //to tune
+      public static final double angleKP = 0.02; //to tune
       public static final double angleKI = 0.0; //to tune
       public static final double angleKD = 0.0; //to tune
       public static final double angleKFF = 0.0; //to tune

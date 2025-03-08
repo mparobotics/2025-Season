@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,9 +20,11 @@ import frc.robot.Constants.WristConstants;
 public class WristSubsystem extends SubsystemBase {
   /** Creates a new WristSubsystem. */
   private final SparkMax wristMotor = new SparkMax(WristConstants.wristMotorID,MotorType.kBrushless);
+  private final SparkMaxConfig wristConfig = new SparkMaxConfig();
   public RelativeEncoder encoder = wristMotor.getEncoder();
-  public static final SparkBaseConfig.IdleMode BrakeMode = IdleMode.kBrake;
-  public WristSubsystem() {}
+  public WristSubsystem() {
+    wristConfig.idleMode(IdleMode.kBrake); 
+  }
   public Command RunMotors()
   {
 return runOnce(
