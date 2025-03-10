@@ -107,9 +107,9 @@ public class SwerveModule {
     public boolean isEncoderDataValid(){
         return driveMotor.getLastError() == REVLibError.kOk && angleMotor.getLastError() == REVLibError.kOk;
     }
-    /* 
+    
     private SwerveModuleState optimize(SwerveModuleState desiredState, Rotation2d currentAngle){
-        double difference = desiredState.angle.minus(currentAngle).getDegrees();
+        double difference = desiredState.angle.minus(currentAngle).getDegrees() - currentAngle.getDegrees();
         double turnAmount = Math.IEEEremainder(difference,360);
 
         double speed = desiredState.speedMetersPerSecond;
@@ -121,10 +121,11 @@ public class SwerveModule {
         if (turnAmount < -90){  //was -90
             turnAmount += 180; //was 180
             speed *= -1;
-        } */
-        //return new SwerveModuleState (speed, currentAngle.plus(Rotation2d.fromDegrees(turnAmount)));
-//}
-        //might use more ...optimized... version if it works (needs testing)
+        }
+
+        double direction = currentAngle.getDegrees() + turnAmount;
+        return new SwerveModuleState (speed, Rotation2d.fromDegrees(direction)); 
+    }
 
 
 
@@ -141,17 +142,16 @@ public class SwerveModule {
                 ControlType.kVelocity,
                 ClosedLoopSlot.kSlot0,
                 feedforward.calculate(desiredState.speedMetersPerSecond));
-        
                
          }
         }
-        public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
+        public void setDesiredState(SwerveModuleState optimizeState, boolean isOpenLoop) {
        // SwerveModuleState optimizedState = optimize(desiredState, getAngle());
         //if (Math.abs(optimizedState.speedMetersPerSecond) > 0.01 * SwerveConstants.maxSpeed){
             //desiredState = 
             //OnboardModuleState.optimize(desiredState, getState().angle);
-            setAngle(desiredState);
-            setSpeed(desiredState, isOpenLoop);
+            setAngle(optimizeState);
+            setSpeed(optimizeState, isOpenLoop);
             
            // setAngle(optimizedState.angle);
            // setSpeed(optimizedState.speedMetersPerSecond, isOpenLoop);

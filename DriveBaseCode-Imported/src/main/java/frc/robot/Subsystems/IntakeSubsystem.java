@@ -28,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /** Creates a new IntakeSubsystem. */
 public RelativeEncoder encoder = intakeMotor.getEncoder();
-public Command Run1(DoubleSupplier speed){
+public Command RunIntake(DoubleSupplier speed){
 return runOnce(() -> intakeMotor.set(speed.getAsDouble() * Constants.motorSpeedMultiplier)); }
   public IntakeSubsystem() {
   }

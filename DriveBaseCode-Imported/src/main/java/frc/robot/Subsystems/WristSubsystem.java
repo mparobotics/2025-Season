@@ -25,7 +25,7 @@ public class WristSubsystem extends SubsystemBase {
   public WristSubsystem() {
     wristConfig.idleMode(IdleMode.kBrake); 
   }
-  public Command RunMotors()
+  public Command RunWrist()
   {
 return runOnce(
   () -> {
@@ -34,7 +34,7 @@ return runOnce(
 
 );}
 
-  public Command StopMotors()
+  public Command StopWrist()
   {
   return runOnce(
   () -> {
@@ -43,7 +43,7 @@ return runOnce(
 
 );}
 
-  public Command InverseMotors()
+  public Command InverseWrist()
   {
   return runOnce(
   () -> {
