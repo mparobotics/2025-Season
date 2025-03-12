@@ -6,6 +6,8 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,11 +18,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.SwerveModule;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveConstants.ModuleData;
 
@@ -58,8 +64,35 @@ public class SwerveSubsystem extends SubsystemBase {
     //puts out the field
     field = new Field2d();
     SmartDashboard.putData("Field", field);
+    configurePathplanner();
   }
   
+  private void configurePathplanner(){
+    AutoBuilder.configure(this::getPose, 
+    this::resetOdometry, 
+    this::getChassisSpeeds, 
+    (speeds, feedforwards) -> driveFromChassisSpeeds(speeds, false), 
+    AutoConstants.SWERVECONTROLLER, 
+    AutoConstants.ROBOT_CONFIG, 
+    FieldConstants::isRedAlliance, //flip to red side from blue
+    this);
+  }
+
+  public Command setStartingPose(Pose2d pose){
+    return runOnce(() -> resetOdometry(FieldConstants.flipForAlliance(pose)));
+  }
+
+  public Command autoDrive(String filename){
+    try{
+      PathPlannerPath path = PathPlannerPath.fromPathFile(filename);
+      return AutoBuilder.followPath(path);
+    }
+    catch(Exception e){ //exception e: see what the error was
+      DriverStation.reportError("PATHPLANNER KILL ALEX KIWI"+ e.getMessage(), e.getStackTrace());
+      return null;
+    }
+  }
+
   public void drive(double xInput, double yInput, double rotationInput, boolean isFieldOriented){
     ChassisSpeeds desiredSpeeds;
 
@@ -82,6 +115,10 @@ public class SwerveSubsystem extends SubsystemBase {
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(desiredStates[mod.moduleNumber], false);
     }
+  }
+
+  public ChassisSpeeds getChassisSpeeds(){
+    return SwerveConstants.swerveKinematics.toChassisSpeeds(getStates());
   }
 
   public Pose2d getPose() {

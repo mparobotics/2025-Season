@@ -6,11 +6,20 @@ package frc.robot;
 
 
 
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /** Add your docs here. */
 public final class Constants {
@@ -137,27 +146,50 @@ public static final double motorSpeedMultiplier = 1;
 
   }
 
-  public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 1.75;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-
-    public static final double kPXController = 1;
-    public static final double kPYController = 1;
-    public static final double kPThetaController = 1;
-
-    public static final double k_elevatorP = 0.5;
-    public static final double k_elevatorI = 0;
-    public static final double k_elevatorD = 0;
-    public static final double k_elevatorSetpoint = 0.5;
-
+  public static final class AutoConstants { //pathplanner
+    public static final ModuleConfig MODULE_CONFIG = new ModuleConfig(SwerveConstants.wheelDiameter/2,
+     SwerveConstants.maxSpeed, 
+     1.2, 
+     DCMotor.getNeoVortex(1).withReduction(SwerveConstants.driveGearRatio), 
+     SwerveConstants.driveContinuousCurrentLimit, 
+     1);
     
+    public static final RobotConfig ROBOT_CONFIG = new RobotConfig(52, 6.8, MODULE_CONFIG, 
+    SwerveConstants.FRONT_LEFT, SwerveConstants.FRONT_RIGHT, SwerveConstants.BACK_LEFT, SwerveConstants.BACK_RIGHT);
 
-    // Constraint for the motion profilied robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+    public static final PPHolonomicDriveController SWERVECONTROLLER = new PPHolonomicDriveController(new PIDConstants(5.0,0.00001,0.0), new PIDConstants(5.0, 0.0005, 0.001));
+  }  
+
+public class FieldConstants {
+      public static final double FIELD_LENGTH = 17.54824934;
+      public static final double FIELD_WIDTH = 8.052;
+
+      public static final Translation2d BLUE_REEF_CENTER = new Translation2d(4.48933684,4.02587697);
+
+      public static final Rotation2d RIGHT_CORAL_STATION_ANGLE = Rotation2d.fromDegrees(234.011392);
+      public static final Rotation2d LEFT_CORAL_STATION_ANGLE = Rotation2d.fromDegrees(-234.011392);
+
+      public static boolean isRedAlliance(){
+          return DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+      }
+      
+      public static Rotation2d flipForAlliance(Rotation2d rotation){
+          if(isRedAlliance()){
+              return Rotation2d.fromDegrees(rotation.getDegrees() + 180);
+          }else{
+              return rotation;
+          }
+      }
+      public static Translation2d flipForAlliance(Translation2d pos){
+          if(isRedAlliance()){
+              return new Translation2d(FIELD_LENGTH - pos.getX(), FIELD_WIDTH - pos.getY());
+          }else{
+              return pos;
+          }
+      }
+      public static Pose2d flipForAlliance(Pose2d pose){
+          return new Pose2d(flipForAlliance(pose.getTranslation()), flipForAlliance(pose.getRotation()));
+      }
   }
   
 }
