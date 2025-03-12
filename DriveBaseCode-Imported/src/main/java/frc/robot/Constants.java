@@ -44,11 +44,11 @@ public static final double motorSpeedMultiplier = 1;
     public static final boolean invertPigeon = false;
 
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(22);//to find
-    public static final double wheelBase = Units.inchesToMeters(22);//to find
+    public static final double halfTrackWidth = Units.inchesToMeters(22/2.0);//to find
+    public static final double halfWheelBase = Units.inchesToMeters(22/2.0);//to find
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumference = wheelDiameter * Math.PI;
-    public static final double driveBaseRadius = Math.hypot(trackWidth/2, wheelBase/2);
+    public static final double driveBaseRadius = Math.hypot(halfTrackWidth/2, halfWheelBase/2);
 
     public static final double openLoopRamp = 0.25;
     public static final double closedLoopRamp = 0.0;
@@ -60,10 +60,10 @@ public static final double motorSpeedMultiplier = 1;
 
     public static final SwerveDriveKinematics swerveKinematics =
     new SwerveDriveKinematics(
-        new Translation2d(wheelBase / 2.0,-trackWidth / 2.0), //translation 2d locates the swerve module in cords
-        new Translation2d(-wheelBase / 2.0,trackWidth / 2.0),
-        new Translation2d(-wheelBase / 2.0,-trackWidth / 2.0),
-        new Translation2d(wheelBase / 2.0,-trackWidth / 2.0));
+        new Translation2d(halfTrackWidth, halfWheelBase), //translation 2d locates the swerve module in cords
+        new Translation2d(halfTrackWidth,-halfWheelBase),
+        new Translation2d(-halfTrackWidth,-halfWheelBase),
+        new Translation2d(-halfTrackWidth, halfWheelBase));
     //https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-kinematics.html
     //SwerveDrive Kinematics converts between a ChassisSpeeds object and several SwerveModuleState objects, 
     //which contains velocities and angles for each swerve module of a swerve drive robot.
