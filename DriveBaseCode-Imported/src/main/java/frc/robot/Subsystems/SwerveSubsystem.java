@@ -16,6 +16,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +37,12 @@ public class SwerveSubsystem extends SubsystemBase {
   private SwerveModule[] mSwerveMods;
 
   private Field2d field;
+
+  private final StructArrayPublisher<SwerveModuleState> swerveDatePublisher = NetworkTableInstance.getDefault()
+  .getStructArrayTopic("Swerve States", SwerveModuleState.struct).publish();
+
+  private final StructArrayPublisher<SwerveModuleState> desiredSwerveDatePublisher = NetworkTableInstance.getDefault()
+  .getStructArrayTopic("Desired Swerve States", SwerveModuleState.struct).publish();
 
   /** Creates a new SwerveSubsystem. */
   public SwerveSubsystem() {
