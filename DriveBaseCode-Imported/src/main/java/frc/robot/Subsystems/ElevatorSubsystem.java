@@ -11,18 +11,12 @@ import java.util.function.DoubleSupplier;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.IntakeConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor = new SparkMax(ElevatorConstants.elevatorMotorID,MotorType.kBrushless);

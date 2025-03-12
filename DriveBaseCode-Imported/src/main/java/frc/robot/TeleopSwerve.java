@@ -9,8 +9,8 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.Subsystems.SwerveSubsystem;
 
 public class TeleopSwerve extends Command {
@@ -46,10 +46,10 @@ public class TeleopSwerve extends Command {
   @Override
   public void execute() {
         /* Get Values, applies Deadband, (doesnt do anything if stick is less than a value)*/
-    double translationVal =
+    double xVal =
         translationLimiter.calculate(
             MathUtil.applyDeadband(m_translationSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
-    double strafeVal =
+    double yVal =
         strafeLimiter.calculate(
             MathUtil.applyDeadband(m_strafeSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
     double rotationVal =
@@ -59,13 +59,11 @@ public class TeleopSwerve extends Command {
     /* Drive */
     m_SwerveSubsystem.drive(
         //the joystick values (-1 to 1) multiplied by the max speed of the drivetrain
-        new Translation2d(translationVal, strafeVal).times(Constants.SwerveConstants.maxSpeed),
+        xVal * SwerveConstants.maxSpeed, yVal * SwerveConstants.maxSpeed,
         //rotation value times max spin speed
         rotationVal * Constants.SwerveConstants.maxAngularVelocity,
         //whether or not in field centric mode
-        !m_robotCentricSupplier.getAsBoolean(),
-        //open loop control
-        true);
+        !m_robotCentricSupplier.getAsBoolean());
 
   }
 

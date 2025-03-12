@@ -5,16 +5,12 @@
 package frc.robot;
 
 
-import com.revrobotics.spark.config.EncoderConfig;
-import com.revrobotics.spark.config.EncoderConfigAccessor;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.lib.SwerveModuleConstants;
 
 /** Add your docs here. */
 public final class Constants {
@@ -81,7 +77,7 @@ public static final double motorSpeedMultiplier = 1;
     public static final double driveKP = 0.1; //to tune
     public static final double driveKI = 0.0; //to tune
     public static final double driveKD = 0.0; //to tune
-   public static final double driveKFF = 0.0; //to tune
+    public static final double driveKFF = 0.0; //to tune
 
     /* Drive Motor Characterization Values */
     //values to calculate the drive feedforward (KFF)
@@ -97,7 +93,7 @@ public static final double motorSpeedMultiplier = 1;
 
     /* Swerve Profiling Values */
     public static final double maxSpeed = 5; // meters per second
-    public static final double maxAngularVelocity = 11.5; //what are these units?
+    public static final double maxAngularVelocity = maxSpeed / driveBaseRadius; //radians per second how fast the robot spin
 
     /* Neutral Modes */
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;
@@ -107,77 +103,32 @@ public static final double motorSpeedMultiplier = 1;
     public static final boolean canCoderInvert = false;
     public static final boolean driveInvert = false;
     public static final boolean angleInvert = true;
+
+    //Location of modules
+    public static final Translation2d FRONT_LEFT = new Translation2d(halfTrackWidth, halfWheelBase);
+    public static final Translation2d BACK_LEFT = new Translation2d(-halfTrackWidth, halfWheelBase);
+    public static final Translation2d BACK_RIGHT = new Translation2d(-halfTrackWidth, -halfWheelBase);
+    public static final Translation2d FRONT_RIGHT = new Translation2d(halfTrackWidth, -halfWheelBase);
     /* Angle Encoder Invert */
     
 
         /* Module Specific Constants */
     /* Front Left Module - Module 0 */
-    public static final class Mod0 {
-      public static final int driveMotorID = 4; 
-      public static final int angleMotorID = 2; 
-      public static final int canCoderID = 3;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(319.31);
-    /* Angle Motor PID Values */
-      public static final double angleKP = 0.02; //to tune
-      public static final double angleKI = 0.0; //to tune
-      public static final double angleKD = 0.0; //to tune
-      public static final double angleKFF = 0.0; //to tune
+    public record ModuleData(
+      int driveMotorID, int angleMotorID, int encoderID, double angleOffset, Translation2d location
+    ){}
+
+    public static ModuleData[] moduleData = {
+      new ModuleData(4, 2, 3, -141.24, FRONT_LEFT), //Mod 0
+      new ModuleData(7, 5, 6, -69.69, FRONT_RIGHT), //Mod 1
+      new ModuleData(10, 8, 9, 31.11, BACK_RIGHT), //Mod 2
+      new ModuleData(13, 11, 12, 84.02, BACK_LEFT) //Mod 3
+    };
+      
+    public static final double angleKP = 0.01; //to tune
+    public static final double angleKI = 0.0; //to tune
+    public static final double angleKD = 0.0; //to tune
     
-      public static final SwerveModuleConstants constants =
-          new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
-          //creates a constant with all info from swerve module
-    }
-
-    /* Front Right Module - Module 1 */
-    public static final class Mod1 {
-      public static final int driveMotorID = 7;
-      public static final int angleMotorID = 5;
-      public static final int canCoderID = 6;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(91.76);
-      /* Angle Motor PID Values */
-      public static final double angleKP = 0.02; //to tune
-      public static final double angleKI = 0.0; //to tune
-      public static final double angleKD = 0.0; //to tune
-      public static final double angleKFF = 0.0; //to tune
-        
-      public static final SwerveModuleConstants constants =
-          new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
-          //creates a constant with all info from swerve module
-    }
-
-    /* Back Left Module - Module 2 */
-    public static final class Mod2 {
-      public static final int driveMotorID = 10;
-      public static final int angleMotorID = 8;
-      public static final int canCoderID = 9;                     
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(211.46);
-      /* Angle Motor PID Values */
-      public static final double angleKP = 0.02; //to tune
-      public static final double angleKI = 0.0; //to tune
-      public static final double angleKD = 0.0; //to tune
-      public static final double angleKFF = 0.0; //to tune
-  
-      public static final SwerveModuleConstants constants =
-        new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
-        //creates a constant with all info from swerve module
-    }
-
-    /* Back Right Module - Module 3 */
-    public static final class Mod3 {
-      public static final int driveMotorID = 13;
-      public static final int angleMotorID = 11; //spark max
-      public static final int canCoderID = 12;
-      public static final Rotation2d angleOffset = Rotation2d.fromDegrees(260.51);
-        /* Angle Motor PID Values */
-      public static final double angleKP = 0.02; //to tune
-      public static final double angleKI = 0.0; //to tune
-      public static final double angleKD = 0.0; //to tune
-      public static final double angleKFF = 0.0; //to tune
-    
-      public static final SwerveModuleConstants constants =
-          new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset, angleKP, angleKI, angleKD, angleKFF);
-          //creates a constant with all info from swerve module
-    }
 
     /*public static final boolean angleMotorInvert = false;
     public static final boolean driveMotorInvert = false;*/
