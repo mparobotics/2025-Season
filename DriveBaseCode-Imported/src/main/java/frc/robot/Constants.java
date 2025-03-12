@@ -17,6 +17,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -27,7 +29,17 @@ public final class Constants {
     public static final int elevatorMotorID = 16; //Placeholder, for test bot 
     public static final double slowMotorSpeedMultiplier = 0.5; 
     public static final double elevatorFeedForward = 0.01; 
+  public static final double maxVelocity = 0.5;
+  public static final double maxAcceleration = 1;
+  public static final TrapezoidProfile.Constraints CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
+
+  public static final double gearRatio = 12;
+  public static final double pitchDiameter = 0.0447;
+  public static final double circumference = pitchDiameter * Math.PI; 
+  public static final double positionConversionFactor = circumference/gearRatio;
+  public static final double velocityConversionFactor = circumference/gearRatio/60;
   }
+
   public final class ClimberConstants{
     public static final int climbMotorID = 28;
   }

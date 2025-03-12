@@ -4,88 +4,82 @@
 
 package frc.robot.Subsystems;
 
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import java.util.Set;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.lib.TunableControllers.TunableElevatorFeedforward;
+import frc.lib.TunableControllers.TunablePID;
 import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax elevatorMotor = new SparkMax(ElevatorConstants.elevatorMotorID,MotorType.kBrushless);
-  public RelativeEncoder encoder = elevatorMotor.getEncoder();
-  //PIDController pid = new PIDController(AutoConstants.k_elevatorP, AutoConstants.k_elevatorI, AutoConstants.k_elevatorD);
-  //https://github.com/mparobotics/2024-Season/blob/main/2024%20Full%20Robot%20Code/src/main/java/frc/robot/subsystems/ArmSubsystem.java good example of PID
+  private RelativeEncoder encoder = elevatorMotor.getEncoder();
 
-  public Command elevatorUp (DoubleSupplier speed){
-    if (speed.getAsDouble() > 1) {
-      //TODO if greater than 1, make it 1
-      throw new ArithmeticException("value greater than 1");
-    } else if (speed.getAsDouble() < -1) {
-      //TODO if less than -1, make it -1
-      throw new ArithmeticException("value less than 1");
-    }
-
-    return runOnce( 
-      ()-> elevatorMotor.set((MathUtil.applyDeadband(speed.getAsDouble(), 0.1) * 0.25)+ Constants.ElevatorConstants.elevatorFeedForward)); 
-      // FIX 0.1 is a placeholder, put in constants later
-  }
+  private TunablePID elevatorPID = new TunablePID("elevatorPID", 2, 0, 0);
+  private TunableElevatorFeedforward elevatorFeedforward = new TunableElevatorFeedforward("elevatorFeedforward", 0, 0.02, 0.8);
+  private TrapezoidProfile profile = new TrapezoidProfile(ElevatorConstants.CONSTRAINTS);
+  private TrapezoidProfile.State startingState;
+  private TrapezoidProfile.State goalState;
+  private double setpoint;
+  private Timer timer = new Timer();
 
 
   /** Creates a new ElevatorSubsystem. */
     public ElevatorSubsystem() {
-    //motor1.setInverted(false); -commented out bc unused
+      SparkMaxConfig config = new SparkMaxConfig();
+      setSetpoint(encoder.getPosition());
+      config.inverted(true);
+      config.idleMode(IdleMode.kBrake);
+      config.encoder.positionConversionFactor(ElevatorConstants.positionConversionFactor);
+      config.encoder.velocityConversionFactor(ElevatorConstants.velocityConversionFactor);
+
+      elevatorMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters); //wish it works
   }
 
-/* 
-  public Command RunMotors()
-  {
-return runOnce(
-  () -> {
-    elevatorMotor.set(0.25); */
-        /*Pose2d currentPose = new Pose2d (0.0, encoder.getPosition(), new Rotation2d(0.0)); //might not work
-    Pose2d targetPose = m_goalPoseSupplier.get();
-      
-      
-    double targetDirection = OnboardModuleState.closestAngle(currentDirection,targetPose.getRotation().getDegrees());
-
-    double ySpeed = yController.calculate(currentPose.getY(),targetPose.getY()); */
-//motor.set(pid.calculate(encoder.getDistance(), setpoint));
-    //elevatorMotor.set(pid.calculate(encoder.getPosition(), AutoConstants.k_elevatorSetpoint));
-  //}
-
-//);} 
-/* 
-public Command StopMotors()
-  {
-return runOnce(
-  () -> {
-    elevatorMotor.set(0);
+  private void movetowardsSetpoints(){
+    TrapezoidProfile.State desiredState = profile.calculate(timer.get(), startingState, goalState);
+    double output = elevatorFeedforward.calculate(desiredState.velocity) + elevatorPID.calculate(encoder.getPosition(), desiredState.position); //how fast motor go
+    elevatorMotor.set(output);
+    SmartDashboard.putNumber("elevatorSetPoints", setpoint);
+    SmartDashboard.putNumber("desiredVelocity", desiredState.velocity);
+    SmartDashboard.putNumber("desiredPosition", desiredState.position);
+    SmartDashboard.putNumber("actualVelocity", encoder.getVelocity());
+    SmartDashboard.putNumber("actualPosition", encoder.getPosition());
+    SmartDashboard.putNumber("motorOutput", output);
   }
 
-);}
-
-public Command InverseMotors()
-  {
-return runOnce(
-  () -> {
-    elevatorMotor.set(-0.25);
+  private void setSetpoint(double height){
+    startingState = new TrapezoidProfile.State(encoder.getPosition(), encoder.getVelocity());
+    goalState = new TrapezoidProfile.State(height, 0);
+    setpoint = height;
+    timer.restart();
   }
 
-);} */
+  public Command setSetpointCommand (double height){
+    return runOnce(() -> setSetpoint (height));
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("elevator encoder",encoder.getPosition());
-
-    //double ySpeed = yController.calculate(currentPose.getY(),targetPose.getY());
+    movetowardsSetpoints();
+    elevatorPID.refresh();
+    elevatorFeedforward.refresh();
   }
 }

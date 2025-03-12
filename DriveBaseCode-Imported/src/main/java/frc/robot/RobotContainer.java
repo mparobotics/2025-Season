@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,7 +23,7 @@ import frc.robot.Subsystems.WristSubsystem;
 public class RobotContainer {
   private final CommandXboxController driveController = new CommandXboxController(0); 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  //private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(); 
+  private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(); 
   private final CommandXboxController helmsController = new CommandXboxController(1);
    private final WristSubsystem m_WristSubsystem = new WristSubsystem();
     private final ClimberSubsystem m_ClimberSubsystem = new ClimberSubsystem(); 
@@ -37,11 +38,13 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();}
   private void configureBindings() {
-    //m_ElevatorSubsystem.setDefaultCommand(m_ElevatorSubsystem.elevatorUp(() -> helmsController.getRightY()));
     driveController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.InverseMotors().repeatedly());
     driveController.button(Button.kRightBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
     driveController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_drive.zeroGyro(), m_drive));
     //driveController.button(Button.kX.value).onTrue()
+
+    SmartDashboard.putData("set setpoint to 0", m_ElevatorSubsystem.setSetpointCommand(0));
+    SmartDashboard.putData("set setpoint to 0.5", m_ElevatorSubsystem.setSetpointCommand(0.5));
 
 
     //helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());

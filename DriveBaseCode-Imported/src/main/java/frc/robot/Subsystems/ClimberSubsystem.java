@@ -5,7 +5,11 @@
 package frc.robot.Subsystems;
 
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +22,14 @@ public class ClimberSubsystem extends SubsystemBase {
   private final SparkMax climbMotor = new SparkMax(ClimberConstants.climbMotorID,MotorType.kBrushless);
   public RelativeEncoder encoder = climbMotor.getEncoder();
 
-  public ClimberSubsystem() {}
+  public ClimberSubsystem() {
+    SparkMaxConfig config = new SparkMaxConfig();
+      config.inverted(false);
+      config.idleMode(IdleMode.kBrake);
+
+    climbMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters); //wish it works
+
+  }
 
   public Command RunMotors()
   {
