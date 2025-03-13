@@ -41,6 +41,7 @@ public class RobotContainer {
     driveController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.InverseMotors().repeatedly());
     driveController.button(Button.kRightBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
     driveController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_drive.zeroGyro(), m_drive));
+
     //driveController.button(Button.kX.value).onTrue()
 
     SmartDashboard.putData("set setpoint to 0", m_ElevatorSubsystem.setSetpointCommand(0));
@@ -51,6 +52,7 @@ public class RobotContainer {
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseWrist().repeatedly()); 
     helmsController.povUp().whileTrue(m_WristSubsystem.RunWrist().repeatedly());
+    
     //helmsController.
     //m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
     m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.RunIntake(() -> helmsController.getLeftY()));
