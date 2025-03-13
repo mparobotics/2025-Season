@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -93,15 +94,30 @@ public class SwerveSubsystem extends SubsystemBase {
       return null;
     }
   }
-  public void updateOdometryWithVision (){
-    boolean useMegaTag2 = true;
+
+
+  private void updateOdometryWithVision (String limelightName){
     boolean doRejectUpdate = false;
-    if(useMegaTag2 == false)
-    {
-      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight1");
-      
+      LimelightHelpers.SetRobotOrientation(limelightName, odometry.getEstimatedPosition().getRotation().getDegrees(),0,0,0,0,0);
+      LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+      if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble())> 720)
+      {
+        doRejectUpdate = true;
+      }
+      if(mt2.tagCount == 0)
+      {
+        doRejectUpdate = true;
+      }
+      if(!doRejectUpdate)
+      {
+        odometry.setVisionMeasurementStdDevs(VecBuilder.fill (.7,.7,99999));// need to measure
+        odometry.addVisionMeasurement(
+          mt2.pose,
+          mt2.timestampSeconds);
+      }
     }
-  }
+
+
   public void drive(double xInput, double yInput, double rotationInput, boolean isFieldOriented){
     ChassisSpeeds desiredSpeeds;
 
@@ -178,6 +194,8 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
         odometry.update(getYaw(), getPositions());
+        updateOdometryWithVision("limelight1");
+        updateOdometryWithVision("limelight2");
     field.setRobotPose(getPose());
 
     SmartDashboard.putNumber("Pigeon Yaw",  pigeon.getYaw().getValueAsDouble());
