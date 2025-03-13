@@ -93,7 +93,15 @@ public class SwerveSubsystem extends SubsystemBase {
       return null;
     }
   }
-
+  public void updateOdometryWithVision (){
+    boolean useMegaTag2 = true;
+    boolean doRejectUpdate = false;
+    if(useMegaTag2 == false)
+    {
+      LimelightHelpers.PoseEstimate mt1 = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight1");
+      
+    }
+  }
   public void drive(double xInput, double yInput, double rotationInput, boolean isFieldOriented){
     ChassisSpeeds desiredSpeeds;
 
