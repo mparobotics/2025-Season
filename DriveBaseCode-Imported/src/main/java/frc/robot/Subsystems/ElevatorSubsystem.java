@@ -12,10 +12,8 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import java.util.Set;
 import java.util.function.DoubleSupplier;
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
