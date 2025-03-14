@@ -202,8 +202,8 @@ public class SwerveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
         odometry.update(getYaw(), getPositions());
-        updateOdometryWithVision("limelight1");
-        updateOdometryWithVision("limelight2");
+        updateOdometryWithVision("limelight-a");
+        updateOdometryWithVision("limelight-b");
     field.setRobotPose(getPose());
 
     SmartDashboard.putNumber("Pigeon Yaw",  pigeon.getYaw().getValueAsDouble());

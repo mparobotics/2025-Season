@@ -44,13 +44,13 @@ public final class Constants {
     public static final int climbMotorID = 28;
   }
   public final class WristConstants{
-    public static final int wristMotorID = 14;
+    public static final int wristMotorID = 15;
     public static final double gearRatio = 25*(50.0/30);
   }
   public final class IntakeConstants{
 
 
-  public static final int intakeMotorID = 15;
+  public static final int intakeMotorID = 14;
   
 }
 
