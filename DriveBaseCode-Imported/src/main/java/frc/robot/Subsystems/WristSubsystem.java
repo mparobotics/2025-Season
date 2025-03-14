@@ -35,7 +35,7 @@ public class WristSubsystem extends SubsystemBase {
   SparkMaxConfig config = new SparkMaxConfig();
       config.inverted(false);
       config.idleMode(IdleMode.kBrake);
-      config.encoder.positionConversionFactor(360);
+      config.encoder.positionConversionFactor(WristConstants.gearRatio);
 
     wristMotor.configure(config, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
     encoder.setPosition(90);

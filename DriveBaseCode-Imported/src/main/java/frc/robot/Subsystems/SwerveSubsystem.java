@@ -100,6 +100,9 @@ public class SwerveSubsystem extends SubsystemBase {
     boolean doRejectUpdate = false;
       LimelightHelpers.SetRobotOrientation(limelightName, odometry.getEstimatedPosition().getRotation().getDegrees(),0,0,0,0,0);
       LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+      if (mt2 == null){
+        return;
+      }
       if(Math.abs(pigeon.getAngularVelocityZWorld().getValueAsDouble())> 720)
       {
         doRejectUpdate = true;
@@ -179,7 +182,12 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
   public void zeroGyro() {
-    pigeon.setYaw(0);
+    if (FieldConstants.isRedAlliance()){
+      pigeon.setYaw(180);
+    }
+    else {
+      pigeon.setYaw(0);
+    }
   }
 
   public Rotation2d getYaw() {

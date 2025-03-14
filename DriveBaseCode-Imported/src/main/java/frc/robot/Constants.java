@@ -45,6 +45,7 @@ public final class Constants {
   }
   public final class WristConstants{
     public static final int wristMotorID = 14;
+    public static final double gearRatio = 25*(50.0/30);
   }
   public final class IntakeConstants{
 

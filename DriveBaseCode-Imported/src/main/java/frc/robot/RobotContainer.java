@@ -47,6 +47,9 @@ public class RobotContainer {
     SmartDashboard.putData("set setpoint to 0", m_ElevatorSubsystem.setSetpointCommand(0));
     SmartDashboard.putData("set setpoint to 0.5", m_ElevatorSubsystem.setSetpointCommand(0.5));
 
+    SmartDashboard.putData("set wrist setpoint to 0", m_WristSubsystem.setSetpointCommand(0));
+    SmartDashboard.putData("set wrist setpoint to 90", m_WristSubsystem.setSetpointCommand(90));
+
 
     //helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
@@ -66,7 +69,8 @@ public class RobotContainer {
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
         () -> -driveController.getRawAxis(rotationAxis),
-        () -> robotCentric.getAsBoolean()
+        () -> robotCentric.getAsBoolean(),
+        () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
         
   ));
