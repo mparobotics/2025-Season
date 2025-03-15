@@ -27,12 +27,13 @@ public class WristSubsystem extends SubsystemBase {
   private final SparkMax wristMotor = new SparkMax(WristConstants.wristMotorID,MotorType.kBrushless);
   private RelativeEncoder encoder = wristMotor.getEncoder();
   public Command RunIntake(DoubleSupplier speed){
-    return runOnce(() -> {wristMotor.set(speed.getAsDouble());
+    return runOnce(() -> {wristMotor.set(speed.getAsDouble()+
+      wristFeedforward.calculate(Units.degreesToRadians(encoder.getPosition()),0));
     SmartDashboard.putNumber("wrist motor output", speed.getAsDouble());
     }); }
 
   private TunablePID wristPID = new TunablePID("wristPID", 0.015555, 0, 0);
-  private TunableArmFeedforward wristFeedforward = new TunableArmFeedforward("wristFeedforward", 0.1, 0.2, 0);
+  private TunableArmFeedforward wristFeedforward = new TunableArmFeedforward("wristFeedforward", 0, 0.2, 0);
   private double SetpointAngle = 90;
 
 

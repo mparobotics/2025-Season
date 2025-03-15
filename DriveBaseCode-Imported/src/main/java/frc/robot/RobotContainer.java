@@ -55,8 +55,10 @@ public class RobotContainer {
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseWrist().repeatedly()); 
     helmsController.povUp().whileTrue(m_WristSubsystem.RunWrist().repeatedly());
-    helmsController.a().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.5));
+    helmsController.a().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.1)); //in meters
     helmsController.b().onTrue(m_ElevatorSubsystem.setSetpointCommand(0));
+    helmsController.x().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.25));
+    helmsController.y().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.5));
     
     //helmsController.
     //m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
