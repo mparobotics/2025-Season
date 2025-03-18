@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,12 @@ public RelativeEncoder encoder = intakeMotor.getEncoder();
   public Command RunIntake(DoubleSupplier speed){
     return runOnce(() -> intakeMotor.set(speed.getAsDouble() * Constants.motorSpeedMultiplier)); 
   }
+
+  DigitalInput IntakeSwitch = new DigitalInput(0);
+
+  public boolean coralIsLoaded() {
+    return IntakeSwitch.get();
+  }
   
 public IntakeSubsystem() {
     SparkMaxConfig config = new SparkMaxConfig();
@@ -43,10 +50,12 @@ public IntakeSubsystem() {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Coral Is Loaded", coralIsLoaded());
     SmartDashboard.putNumber("Current", intakePD.getCurrent(3)); //channel number from the PDH for the sparkmax
     /*if(intakePD.getCurrent(0)>80){
       intakeMotor.set(0);
     }*/
+
   }
 
     // This method will be called once per scheduler run

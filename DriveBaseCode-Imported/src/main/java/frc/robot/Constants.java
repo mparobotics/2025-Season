@@ -49,6 +49,9 @@ public final class Constants {
   }
   public final class IntakeConstants{
 
+    //limit switch
+    public static final int IntakeSwitchPort = 0; //placeholder
+    
 
   public static final int intakeMotorID = 14;
   
