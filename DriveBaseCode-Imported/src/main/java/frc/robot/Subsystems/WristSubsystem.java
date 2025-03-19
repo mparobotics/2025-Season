@@ -32,8 +32,8 @@ public class WristSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("wrist motor output", speed.getAsDouble());
     }); }
 
-  private TunablePID wristPID = new TunablePID("wristPID", 0.015555, 0, 0);
-  private TunableArmFeedforward wristFeedforward = new TunableArmFeedforward("wristFeedforward", 0, 0.2, 0);
+  private TunablePID wristPID = new TunablePID("wristPID", 0.008, 0, 0);
+  private TunableArmFeedforward wristFeedforward = new TunableArmFeedforward("wristFeedforward", 0, 0.02, 0);
   private double SetpointAngle = 90;
 
 
@@ -52,7 +52,7 @@ public class WristSubsystem extends SubsystemBase {
   private void movetowardsSetpoints(){
     double output = wristFeedforward.calculate(Units.degreesToRadians(encoder.getPosition()),0) + 
     wristPID.calculate(encoder.getPosition(), SetpointAngle); //how fast motor go
-    //wristMotor.set(output); //need to fix positionradian
+    wristMotor.set(output); //need to fix positionradian
     SmartDashboard.putNumber("wristSetPoints", SetpointAngle);
     SmartDashboard.putNumber("wristactualVelocity", encoder.getVelocity());
     SmartDashboard.putNumber("wristactualPosition", encoder.getPosition());

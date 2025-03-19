@@ -64,7 +64,7 @@ public class RobotContainer {
     //m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));
     m_IntakeSubsystem.setDefaultCommand(m_IntakeSubsystem.RunIntake(() -> helmsController.getLeftY()));
     m_ClimberSubsystem.setDefaultCommand(((m_ClimberSubsystem.StopMotors())));
-    m_WristSubsystem.setDefaultCommand(m_WristSubsystem.RunIntake(() -> helmsController.getRightY()));
+    //m_WristSubsystem.setDefaultCommand(m_WristSubsystem.RunIntake(() -> helmsController.getRightY()));
 
 
     m_drive.setDefaultCommand(
