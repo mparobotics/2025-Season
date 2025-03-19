@@ -192,7 +192,6 @@ public class SwerveModule {
         sparkMaxConfig.encoder.positionConversionFactor(SwerveConstants.angleConversionFactor);
         //configuring pid, did not include feed forward
         sparkMaxConfig.closedLoop.p(m_angleKP).i(m_angleKI).d(m_angleKD);
-        //TODO ADD FEED FORWARD
        // angleController.setFF(m_angleKFF);
         sparkMaxConfig.voltageCompensation(SwerveConstants.voltageComp);
         angleMotor.configure(sparkMaxConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
@@ -227,7 +226,6 @@ public class SwerveModule {
 */
         //configuring pid, did not include feed forward
         sparkFlexConfig.closedLoop.p(m_angleKP).i(m_angleKI).d(m_angleKD);
-        //TODO ADD FEED FORWARD
         //driveController.setFF(SwerveConstants.driveKFF);
         sparkFlexConfig.voltageCompensation(SwerveConstants.voltageComp);
         //burns to spark max

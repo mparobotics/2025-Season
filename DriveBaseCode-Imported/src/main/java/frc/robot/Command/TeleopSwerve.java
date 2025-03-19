@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Command;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -59,13 +59,13 @@ public class TeleopSwerve extends Command {
         /* Get Values, applies Deadband, (doesnt do anything if stick is less than a value)*/
     double xVal =
         translationLimiter.calculate(
-            MathUtil.applyDeadband(m_translationSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
+            MathUtil.applyDeadband(m_translationSupplier.getAsDouble(), SwerveConstants.inputDeadband));
     double yVal =
         strafeLimiter.calculate(
-            MathUtil.applyDeadband(m_strafeSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
+            MathUtil.applyDeadband(m_strafeSupplier.getAsDouble(), SwerveConstants.inputDeadband));
     double rotationVal =
         rotationLimiter.calculate(
-            MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), Constants.SwerveConstants.inputDeadband));
+            MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), SwerveConstants.inputDeadband));
     int invert = 1;
       if (FieldConstants.isRedAlliance()){
         invert = -1;
@@ -108,7 +108,7 @@ public class TeleopSwerve extends Command {
         //the joystick values (-1 to 1) multiplied by the max speed of the drivetrain
         xVal * SwerveConstants.maxSpeed * invert, yVal * SwerveConstants.maxSpeed * invert,
         //rotation value times max spin speed
-        rotationVal * Constants.SwerveConstants.maxAngularVelocity,
+        rotationVal * SwerveConstants.maxAngularVelocity,
         //whether or not in field centric mode
         !m_robotCentricSupplier.getAsBoolean());
 

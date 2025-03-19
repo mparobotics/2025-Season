@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Command.EWsetpoint;
+import frc.robot.Command.TeleopSwerve;
+import frc.robot.Constants.ScoreAngle;
 import frc.robot.Subsystems.ClimberSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.IntakeSubsystem;
@@ -55,10 +58,17 @@ public class RobotContainer {
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseWrist().repeatedly()); 
     helmsController.povUp().whileTrue(m_WristSubsystem.RunWrist().repeatedly());
-    helmsController.a().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.1)); //in meters
-    helmsController.b().onTrue(m_ElevatorSubsystem.setSetpointCommand(0));
-    helmsController.x().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.25));
-    helmsController.y().onTrue(m_ElevatorSubsystem.setSetpointCommand(0.5));
+    helmsController.rightBumper().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.INTAKE)); //in meters
+    helmsController.b().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.L1));
+    helmsController.a().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.L2));
+    helmsController.x().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.L3));
+    helmsController.y().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.L4));
+
+    helmsController.rightBumper().onFalse(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.MOVE));
+    helmsController.b().onFalse(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.MOVE));
+    helmsController.a().onFalse(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.MOVE));
+    helmsController.x().onFalse(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.MOVE));
+    helmsController.y().onFalse(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.MOVE));
     
     //helmsController.
     //m_ElevatorSubsystem.setDefaultCommand(((m_ElevatorSubsystem.StopMotors())));

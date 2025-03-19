@@ -38,6 +38,8 @@ public final class Constants {
   public static final double circumference = pitchDiameter * Math.PI; 
   public static final double positionConversionFactor = circumference/gearRatio;
   public static final double velocityConversionFactor = circumference/gearRatio/60;
+
+  public static final double closeEnough = 0.01;
   }
 
   public final class ClimberConstants{
@@ -46,15 +48,28 @@ public final class Constants {
   public final class WristConstants{
     public static final int wristMotorID = 15;
     public static final double gearRatio = 25*(50.0/34);
+
+    public static final double closeEnough = 2;
   }
   public final class IntakeConstants{
-
     //limit switch
     public static final int IntakeSwitchPort = 0; //placeholder
-    
-
   public static final int intakeMotorID = 14;
   
+}
+
+public final class ScoreAngle{
+  public record ScoringPose(
+      double elevatorheight, double wristangle
+    ){}
+  public static final ScoringPose L1 = new ScoringPose (0.2, -30);
+  public static final ScoringPose L2 = new ScoringPose (0.2, -30);
+  public static final ScoringPose L3 = new ScoringPose (0.2, -30);
+  public static final ScoringPose L4= new ScoringPose (1, 80);
+
+  public static final ScoringPose INTAKE = new ScoringPose(0.2, 45);
+
+  public static final ScoringPose MOVE = new ScoringPose(0, 80);
 }
 
 public static final double motorSpeedMultiplier = 1;

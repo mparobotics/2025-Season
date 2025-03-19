@@ -34,7 +34,7 @@ public class WristSubsystem extends SubsystemBase {
 
   private TunablePID wristPID = new TunablePID("wristPID", 0.008, 0, 0);
   private TunableArmFeedforward wristFeedforward = new TunableArmFeedforward("wristFeedforward", 0, 0.02, 0);
-  private double SetpointAngle = 90;
+  private double SetpointAngle = 80; 
 
 
 
@@ -57,6 +57,10 @@ public class WristSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("wristactualVelocity", encoder.getVelocity());
     SmartDashboard.putNumber("wristactualPosition", encoder.getPosition());
     SmartDashboard.putNumber("wristmotorOutput", output);
+  }
+
+  public boolean isAtSetPoint(){
+    return Math.abs(encoder.getPosition()-SetpointAngle) < WristConstants.closeEnough;
   }
 
   private void setSetpoint(double angle){

@@ -69,6 +69,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     return runOnce(() -> setSetpoint (height));
   }
 
+  public boolean isAtSetPoint(){
+    return Math.abs(encoder.getPosition()-setpoint) < ElevatorConstants.closeEnough;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
