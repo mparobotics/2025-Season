@@ -62,12 +62,12 @@ public final class ScoreAngle{
   public record ScoringPose(
       double elevatorheight, double wristangle
     ){}
-  public static final ScoringPose L1 = new ScoringPose (0.18, 3.74);
-  public static final ScoringPose L2 = new ScoringPose (0.575, -27.5);
+  public static final ScoringPose L1 = new ScoringPose (0.20, 3.74);
+  public static final ScoringPose L2 = new ScoringPose (0.59, -27.5);
   public static final ScoringPose L3 = new ScoringPose (0.88, -24.7);
   public static final ScoringPose L4= new ScoringPose (0.88, 52.9);
 
-  public static final ScoringPose INTAKE = new ScoringPose(0.36, 27);
+  public static final ScoringPose INTAKE = new ScoringPose(0.34, 32);
 
   public static final ScoringPose MOVE = new ScoringPose(0, 80);
 }
