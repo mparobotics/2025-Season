@@ -29,7 +29,7 @@ public final class Constants {
     public static final int elevatorMotorID = 16; //Placeholder, for test bot 
     public static final double slowMotorSpeedMultiplier = 0.5; 
     public static final double elevatorFeedForward = 0.01; 
-  public static final double maxVelocity = 0.5;
+  public static final double maxVelocity = 1;
   public static final double maxAcceleration = 1;
   public static final TrapezoidProfile.Constraints CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
 
@@ -62,12 +62,12 @@ public final class ScoreAngle{
   public record ScoringPose(
       double elevatorheight, double wristangle
     ){}
-  public static final ScoringPose L1 = new ScoringPose (0.2, -30);
-  public static final ScoringPose L2 = new ScoringPose (0.2, -30);
-  public static final ScoringPose L3 = new ScoringPose (0.2, -30);
-  public static final ScoringPose L4= new ScoringPose (1, 80);
+  public static final ScoringPose L1 = new ScoringPose (0.18, 3.74);
+  public static final ScoringPose L2 = new ScoringPose (0.575, -27.5);
+  public static final ScoringPose L3 = new ScoringPose (0.88, -24.7);
+  public static final ScoringPose L4= new ScoringPose (0.88, 52.9);
 
-  public static final ScoringPose INTAKE = new ScoringPose(0.2, 45);
+  public static final ScoringPose INTAKE = new ScoringPose(0.36, 27);
 
   public static final ScoringPose MOVE = new ScoringPose(0, 80);
 }

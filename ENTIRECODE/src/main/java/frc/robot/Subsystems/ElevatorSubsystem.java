@@ -73,6 +73,10 @@ public class ElevatorSubsystem extends SubsystemBase {
     return Math.abs(encoder.getPosition()-setpoint) < ElevatorConstants.closeEnough;
   }
 
+  public boolean isElevatorHighEnough(){
+    return encoder.getPosition() > 0.1;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
