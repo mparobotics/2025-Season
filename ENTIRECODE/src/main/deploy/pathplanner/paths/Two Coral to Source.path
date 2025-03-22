@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.369530888310185,
-        "y": 5.371732855902779
+        "x": 4.963595196759258,
+        "y": 5.692824435763889
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.273021195023147,
-        "y": 5.872528573495369
+        "x": 3.8670855034722207,
+        "y": 6.19362015335648
       },
       "isLocked": false,
       "linkedName": "KIWI SHIT"
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.60282255781749
+    "rotation": -34.71992076119341
   },
   "useDefaultConstraints": true
 }
