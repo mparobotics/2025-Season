@@ -80,19 +80,30 @@ public class SwerveSubsystem extends SubsystemBase {
     this);
   }
 
-  public Command setStartingPose(Pose2d pose){
-    return runOnce(() -> resetOdometry(FieldConstants.flipForAlliance(pose)));
-  }
-
   public Command autoDrive(String filename){
     try{
       PathPlannerPath path = PathPlannerPath.fromPathFile(filename);
+      if (AutoConstants.isRightSideAuto()){
+        path = path.mirrorPath();
+      }
       return AutoBuilder.followPath(path);
     }
     catch(Exception e){ //exception e: see what the error was
       DriverStation.reportError("PATHPLANNER KILL ALEX KIWI"+ e.getMessage(), e.getStackTrace());
       return null;
     }
+  }
+
+  public Command startAutoAt(double x, double y, double direction){
+    return runOnce(()->{
+      double newY = y;
+      if (AutoConstants.isRightSideAuto()){
+        newY = FieldConstants.FIELD_WIDTH - y;
+      }
+      Pose2d startPose = FieldConstants.flipForAlliance(new Pose2d(x, newY, Rotation2d.fromDegrees(direction)));
+      pigeon.setYaw(startPose.getRotation().getDegrees());
+      odometry.resetPosition(startPose.getRotation(), getPositions(), startPose);
+    });
   }
 
 

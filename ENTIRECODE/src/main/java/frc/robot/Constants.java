@@ -22,6 +22,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public final class Constants {
@@ -64,10 +66,12 @@ public final class ScoreAngle{
     ){}
   public static final ScoringPose L1 = new ScoringPose (0.20, 3.74);
   public static final ScoringPose L2 = new ScoringPose (0.59, -27.5);
-  public static final ScoringPose L3 = new ScoringPose (0.88, -24.7);
-  public static final ScoringPose L4= new ScoringPose (0.88, 52.9);
+  public static final ScoringPose L3 = new ScoringPose (0.87, -24);
+  public static final ScoringPose L4 = new ScoringPose (0.88, 55);
 
-  public static final ScoringPose INTAKE = new ScoringPose(0.34, 32);
+  public static final ScoringPose KnockAlgae = new ScoringPose (0.45, 30);
+
+  public static final ScoringPose INTAKE = new ScoringPose(0.43, 37.6);
 
   public static final ScoringPose MOVE = new ScoringPose(0, 80);
 }
@@ -189,7 +193,33 @@ public static final double motorSpeedMultiplier = 1;
     SwerveConstants.FRONT_LEFT, SwerveConstants.FRONT_RIGHT, SwerveConstants.BACK_LEFT, SwerveConstants.BACK_RIGHT);
 
     public static final PPHolonomicDriveController SWERVECONTROLLER = new PPHolonomicDriveController(new PIDConstants(5.0,0.00001,0.0), new PIDConstants(5.0, 0.0005, 0.001));
-  }  
+
+    public enum AutoMode{
+      LEAVE_AUTO,
+      ONECORAL_AUTO,
+      TWOCORAL_AUTO,
+      KNOCKALGAEOFF
+    }
+    private static SendableChooser<Boolean> sideChooser = new SendableChooser<Boolean>();
+    private static SendableChooser<AutoMode> autoModeChooser = new SendableChooser<AutoMode>();
+    static{
+      sideChooser.addOption("RIGHT", true);
+      sideChooser.setDefaultOption("LEFT", false);
+
+      for(AutoMode mode : AutoMode.values()){
+        autoModeChooser.addOption(mode.toString(), mode);
+      }
+      autoModeChooser.setDefaultOption("LEAVE_AUTO", AutoMode.LEAVE_AUTO);
+      SmartDashboard.putData("Auto Starting Location", sideChooser);
+      SmartDashboard.putData("Auto Mode", autoModeChooser);
+    }
+    public static AutoMode getSelectedAuto(){
+      return autoModeChooser.getSelected();
+    }
+    public static boolean isRightSideAuto(){
+      return sideChooser.getSelected();
+    }
+  }
 
 public class FieldConstants {
       public static final double FIELD_LENGTH = 17.54824934;

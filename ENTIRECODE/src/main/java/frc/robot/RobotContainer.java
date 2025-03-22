@@ -4,18 +4,21 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Auto.KnockAlgaeOff;
+import frc.robot.Auto.LeaveAuto;
+import frc.robot.Auto.OneCoralAuto;
+import frc.robot.Auto.TwoCoralAuto;
 import frc.robot.Command.EWsetpoint;
 import frc.robot.Command.TeleopSwerve;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ScoreAngle;
 import frc.robot.Subsystems.ClimberSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
@@ -97,8 +100,22 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.sequence(m_drive.setStartingPose(new Pose2d(7.130, 7.276, Rotation2d.fromDegrees(-175.210))),
-    m_drive.autoDrive("Example Path"));
+    switch (AutoConstants.getSelectedAuto()) {
+      case ONECORAL_AUTO:
+        return new OneCoralAuto(m_drive, m_ElevatorSubsystem, m_WristSubsystem, m_IntakeSubsystem);
+
+      case TWOCORAL_AUTO:
+        return new TwoCoralAuto(m_drive, m_ElevatorSubsystem, m_WristSubsystem, m_IntakeSubsystem);
+
+      case KNOCKALGAEOFF:
+        return new KnockAlgaeOff(m_drive, m_ElevatorSubsystem, m_WristSubsystem, m_IntakeSubsystem);
+
+      case LEAVE_AUTO:
+        return new LeaveAuto(m_drive);
+    
+      default:
+      return new LeaveAuto(m_drive);
   }
 
+}
 }

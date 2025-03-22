@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.369530888310185,
+        "y": 5.371732855902779
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.273021195023147,
+        "y": 5.872528573495369
+      },
+      "isLocked": false,
+      "linkedName": "KIWI SHIT"
+    },
+    {
+      "anchor": {
+        "x": 1.4094014033564803,
+        "y": 7.136222511574074
+      },
+      "prevControl": {
+        "x": 2.3474616608796284,
+        "y": 6.783103298611111
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BD"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 125.94990699536926
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -119.60282255781749
+  },
+  "useDefaultConstraints": true
+}

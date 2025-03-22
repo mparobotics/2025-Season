@@ -11,6 +11,7 @@ public class LeaveAuto extends SequentialCommandGroup{
             new InstantCommand(() -> drive.drive(-1,0,0, false), drive),
             Commands.waitSeconds(2),
             new InstantCommand(() -> drive.drive(0,0,0, false), drive)
+
         );
     }
 
