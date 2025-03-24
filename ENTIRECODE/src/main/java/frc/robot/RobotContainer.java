@@ -56,7 +56,7 @@ public class RobotContainer {
     SmartDashboard.putData("set wrist setpoint to 0", m_WristSubsystem.setSetpointCommand(0));
     SmartDashboard.putData("set wrist setpoint to 90", m_WristSubsystem.setSetpointCommand(90));
 
-
+    //while true for auto align, .whileTrue (new autoAlign());
     //helmsController.axisGreaterThan(Axis.kRightY.value, 0.5).whileTrue(m_ElevatorSubsystem.RunMotors().repeatedly());
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseWrist().repeatedly()); 
@@ -85,7 +85,7 @@ public class RobotContainer {
         m_drive,
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
-        () -> -driveController.getRawAxis(rotationAxis),
+        () -> driveController.getRawAxis(rotationAxis), //put - infront of drivecontroller
         () -> robotCentric.getAsBoolean(),
         () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
@@ -96,7 +96,7 @@ public class RobotContainer {
 
 
   private double getSpeedMultiplier(){
-    return driveController.getHID().getRawButton(Button.kLeftStick.value)? 0.7: 1;
+    return driveController.getHID().getRawButton(Button.kLeftStick.value)? 0.7: 1; //can change speed
   }
 
   public Command getAutonomousCommand() {

@@ -1,4 +1,5 @@
 package frc.robot.Auto;
+//import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Command.EWsetpoint;
 import frc.robot.Constants.ScoreAngle;
@@ -12,6 +13,11 @@ public class KnockAlgaeOff extends SequentialCommandGroup{
         addCommands(
             drive.startAutoAt(7.13, 7.276, 180),
             drive.autoDrive("One Coral Path"),
+
+
+            //new ParallelCommandGroup(elevator.setSetpointCommand(14.5), wrist.setSetpointCommand(4.5)),
+
+
             new EWsetpoint(elevator, wrist, ScoreAngle.L1),
             intake.RunIntake(() -> 1),
             new EWsetpoint(elevator, wrist, ScoreAngle.KnockAlgae),
