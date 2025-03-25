@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,6 +17,7 @@ import frc.robot.Auto.KnockAlgaeOff;
 import frc.robot.Auto.LeaveAuto;
 import frc.robot.Auto.OneCoralAuto;
 import frc.robot.Auto.TwoCoralAuto;
+import frc.robot.Command.AutoAlign;
 import frc.robot.Command.EWsetpoint;
 import frc.robot.Command.TeleopSwerve;
 import frc.robot.Constants.AutoConstants;
@@ -47,6 +49,8 @@ public class RobotContainer {
     driveController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.InverseMotors().repeatedly());
     driveController.button(Button.kRightBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
     driveController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_drive.zeroGyro(), m_drive));
+    driveController.axisGreaterThan(Axis.kLeftTrigger.value, 0.1).whileTrue(new AutoAlign(m_drive, true));
+    driveController.axisGreaterThan(Axis.kRightTrigger.value, 0.1).whileTrue(new AutoAlign(m_drive, false));
 
     //driveController.button(Button.kX.value).onTrue()
 

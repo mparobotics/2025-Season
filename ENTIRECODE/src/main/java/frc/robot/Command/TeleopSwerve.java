@@ -8,9 +8,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -22,9 +20,6 @@ public class TeleopSwerve extends Command {
   private DoubleSupplier m_strafeSupplier;
   private DoubleSupplier m_rotationSupplier;
   private BooleanSupplier m_robotCentricSupplier;
-  private BooleanSupplier isAutoAlignSupplier;
-
-  private PIDController autoAlignController = new PIDController(0, 0, 0); //change later
 
   private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0); //can only change by 3 m/s in the span of 1 s
   private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
@@ -43,9 +38,6 @@ public class TeleopSwerve extends Command {
     this.m_strafeSupplier = strafeSupplier;
     this.m_rotationSupplier = rotationSupplier;
     this.m_robotCentricSupplier = robotCentricSupplier;
-    this.isAutoAlignSupplier = isAutoAlignSupplier;
-
-    autoAlignController.enableContinuousInput(-180, 180);
   }
 
 
@@ -70,38 +62,6 @@ public class TeleopSwerve extends Command {
       if (FieldConstants.isRedAlliance()){
         invert = -1;
       }
-  if (isAutoAlignSupplier.getAsBoolean()){
-    double AngletoReef = 
-    m_SwerveSubsystem.getPose().getTranslation().minus(FieldConstants.flipForAlliance(FieldConstants.BLUE_REEF_CENTER)).getAngle().getDegrees();
-    
-    double goalAngle;
-    if (AngletoReef < -150){
-      goalAngle = 0;
-    }
-    else if (AngletoReef < -90){
-      goalAngle = 60;
-    }
-    else if (AngletoReef < -30){
-      goalAngle = 120;
-    }
-    else if (AngletoReef < 30){
-      goalAngle = 180;
-    }
-    else if (AngletoReef < 90){
-      goalAngle = 240;
-    }
-    else if (AngletoReef < 150){
-      goalAngle = 300;
-    }
-    else{
-      goalAngle = 0;
-    }
-
-    SmartDashboard.putNumber("autoalign goalAngle", goalAngle);
-
-    rotationVal = autoAlignController.calculate(m_SwerveSubsystem.getPose().getRotation().getDegrees(), goalAngle);
-  }
-
 
     /* Drive */
     m_SwerveSubsystem.drive(
