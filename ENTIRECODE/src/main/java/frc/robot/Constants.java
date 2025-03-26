@@ -136,7 +136,7 @@ public static final double motorSpeedMultiplier = 1;
     public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
     /* Swerve Profiling Values */
-    public static final double maxSpeed = 5; // meters per second
+    public static final double maxSpeed = 1; // meters per second
     public static final double maxAngularVelocity = maxSpeed / driveBaseRadius; //radians per second how fast the robot spin
 
     /* Neutral Modes */
@@ -163,10 +163,10 @@ public static final double motorSpeedMultiplier = 1;
     ){}
 
     public static ModuleData[] moduleData = {
-      new ModuleData(4, 2, 3, -151.44, FRONT_LEFT), //Mod 0
-      new ModuleData(7, 5, 6, 109.25, FRONT_RIGHT), //Mod 1
-      new ModuleData(10, 8, 9, -150.91, BACK_RIGHT), //Mod 2
-      new ModuleData(13, 11, 12, -18.81, BACK_LEFT) //Mod 3
+      new ModuleData(4, 2, 3, 98.79, FRONT_LEFT), //Mod 0
+      new ModuleData(7, 5, 6, -68.03, FRONT_RIGHT), //Mod 1
+      new ModuleData(10, 8, 9, 32.87, BACK_RIGHT), //Mod 2
+      new ModuleData(13, 11, 12, 162.77, BACK_LEFT) //Mod 3
     };
       
     public static final double angleKP = 0.01; //to tune
@@ -197,6 +197,7 @@ public static final double motorSpeedMultiplier = 1;
     public enum AutoMode{
       LEAVE_AUTO,
       ONECORAL_AUTO,
+      ONECORAL_AUTO_L2,
       TWOCORAL_AUTO,
       KNOCKALGAEOFF
     }

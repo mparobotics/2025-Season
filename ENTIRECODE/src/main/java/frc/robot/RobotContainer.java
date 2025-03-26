@@ -89,7 +89,7 @@ public class RobotContainer {
         m_drive,
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
-        () -> driveController.getRawAxis(rotationAxis), //put - infront of drivecontroller
+        () -> -driveController.getRawAxis(rotationAxis), //put - infront of drivecontroller of take it away to tune the turning
         () -> robotCentric.getAsBoolean(),
         () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
@@ -107,6 +107,9 @@ public class RobotContainer {
     switch (AutoConstants.getSelectedAuto()) {
       case ONECORAL_AUTO:
         return new OneCoralAuto(m_drive, m_ElevatorSubsystem, m_WristSubsystem, m_IntakeSubsystem);
+
+      case ONECORAL_AUTO_L2:
+      return new OneCoralAuto(m_drive, m_ElevatorSubsystem, m_WristSubsystem, m_IntakeSubsystem);
 
       case TWOCORAL_AUTO:
         return new TwoCoralAuto(m_drive, m_ElevatorSubsystem, m_WristSubsystem, m_IntakeSubsystem);
