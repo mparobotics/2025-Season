@@ -9,7 +9,7 @@ import frc.robot.Subsystems.SwerveSubsystem;
 public class LeaveAuto extends SequentialCommandGroup{
     public LeaveAuto (SwerveSubsystem drive) {
         addCommands(
-            new InstantCommand(() -> drive.drive(0.5,0,0, false), drive),
+            new InstantCommand(() -> drive.drive( 0.5,0,0, false), drive),
             Commands.waitSeconds(2),
             new InstantCommand(() -> drive.drive(0,0,0, false), drive)
         );

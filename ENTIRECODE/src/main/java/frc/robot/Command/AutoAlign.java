@@ -12,9 +12,9 @@ import frc.robot.Subsystems.SwerveSubsystem;
 public class AutoAlign extends Command {
     private SwerveSubsystem m_SwerveSubsystem;
 
-    private PIDController xController = new PIDController(5.0, 0, 0);
-    private PIDController yController = new PIDController(5.0, 0, 0);
-    private PIDController rotationController = new PIDController(0.1, 0, 0);
+    private PIDController xController = new PIDController(0.3, 0, 0);
+    private PIDController yController = new PIDController(0.3, 0, 0);
+    private PIDController rotationController = new PIDController(0.005, 0, 0);
     private boolean isLeft;
 
     private ChassisSpeeds getAutoAlignSpeed (Pose2d CurrentPosition, Translation2d ReefCenter, double DistanceFromReef, double BranchDistancefromMiddle){
@@ -36,7 +36,7 @@ public class AutoAlign extends Command {
 
     public void execute(){
         ChassisSpeeds ssppeeeedd = getAutoAlignSpeed(m_SwerveSubsystem.getPose(), FieldConstants.flipForAlliance(FieldConstants.BLUE_REEF_CENTER), 
-        1.7, 0.2);
+        1.55, 0.2);
         m_SwerveSubsystem.driveFromChassisSpeeds(ChassisSpeeds.fromFieldRelativeSpeeds(ssppeeeedd, m_SwerveSubsystem.getPose().getRotation()), true);
     }
 
