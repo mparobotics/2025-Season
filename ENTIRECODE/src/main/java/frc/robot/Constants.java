@@ -69,7 +69,7 @@ public final class ScoreAngle{
   public static final ScoringPose L3 = new ScoringPose (0.87, -24);
   public static final ScoringPose L4 = new ScoringPose (0.88, 55);
 
-  public static final ScoringPose KnockAlgae = new ScoringPose (0.45, 30);
+  public static final ScoringPose KnockAlgae = new ScoringPose (0.34, 30);
 
   public static final ScoringPose INTAKE = new ScoringPose(0.43, 37.6);
 
