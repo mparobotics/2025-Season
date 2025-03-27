@@ -71,12 +71,12 @@ public final class ScoreAngle{
 
   public static final ScoringPose KnockAlgae = new ScoringPose (0.34, 30);
 
-  public static final ScoringPose INTAKE = new ScoringPose(0.43, 37.6);
+  public static final ScoringPose INTAKE = new ScoringPose(0.33, 39);
 
   public static final ScoringPose MOVE = new ScoringPose(0, 80);
 }
 
-public static final double motorSpeedMultiplier = 1;
+public static final double motorSpeedMultiplier = 0.5;
 
   public static final class SwerveConstants{
     public static final double inputDeadband = .1;
@@ -137,7 +137,7 @@ public static final double motorSpeedMultiplier = 1;
 
     /* Swerve Profiling Values */
     public static final double maxSpeed = 5; // meters per second
-    public static final double maxAngularVelocity = maxSpeed / driveBaseRadius; //radians per second how fast the robot spin
+    public static final double maxAngularVelocity = maxSpeed/driveBaseRadius; //radians per second how fast the robot spin
 
     /* Neutral Modes */
     public static final IdleMode angleNeutralMode = IdleMode.kBrake;

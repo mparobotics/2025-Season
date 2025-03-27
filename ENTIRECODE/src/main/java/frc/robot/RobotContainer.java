@@ -46,8 +46,8 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();}
   private void configureBindings() {
-    driveController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.InverseMotors().repeatedly());
-    driveController.button(Button.kRightBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
+    //driveController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.InverseMotors().repeatedly());
+    //driveController.button(Button.kRightBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
     driveController.button(Button.kY.value).onTrue(new InstantCommand(() -> m_drive.zeroGyro(), m_drive));
     driveController.axisGreaterThan(Axis.kLeftTrigger.value, 0.1).whileTrue(new AutoAlign(m_drive, true));
     driveController.axisGreaterThan(Axis.kRightTrigger.value, 0.1).whileTrue(new AutoAlign(m_drive, false));
@@ -65,6 +65,7 @@ public class RobotContainer {
     //helmsController.axisLessThan(Axis.kRightY.value, -0.5).whileTrue(m_ElevatorSubsystem.InverseMotors().repeatedly());
     helmsController.povDown().whileTrue(m_WristSubsystem.InverseWrist().repeatedly()); 
     helmsController.povUp().whileTrue(m_WristSubsystem.RunWrist().repeatedly());
+    helmsController.button(Button.kLeftBumper.value).whileTrue (m_ClimberSubsystem.RunMotors().repeatedly());
     helmsController.rightBumper().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.INTAKE)); //in meters
     helmsController.b().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.L1));
     helmsController.a().onTrue(new EWsetpoint(m_ElevatorSubsystem, m_WristSubsystem, ScoreAngle.L2));
@@ -89,7 +90,7 @@ public class RobotContainer {
         m_drive,
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
-        () -> -driveController.getRawAxis(rotationAxis), //put - infront of drivecontroller of take it away to tune the turning
+        () -> -driveController.getRawAxis(rotationAxis) * 0.55, //put - infront of drivecontroller of take it away to tune the turning
         () -> robotCentric.getAsBoolean(),
         () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
