@@ -203,6 +203,7 @@ public static final double motorSpeedMultiplier = 0.5;
     }
     private static SendableChooser<Boolean> sideChooser = new SendableChooser<Boolean>();
     private static SendableChooser<AutoMode> autoModeChooser = new SendableChooser<AutoMode>();
+    private static SendableChooser<AutoMode> leaveAutoChooser = new SendableChooser<AutoMode>();
     static{
       sideChooser.addOption("RIGHT", true);
       sideChooser.setDefaultOption("LEFT", false);
@@ -210,7 +211,8 @@ public static final double motorSpeedMultiplier = 0.5;
       for(AutoMode mode : AutoMode.values()){
         autoModeChooser.addOption(mode.toString(), mode);
       }
-      autoModeChooser.setDefaultOption("LEAVE_AUTO", AutoMode.LEAVE_AUTO);
+      //autoModeChooser.setDefaultOption("LEAVE_AUTO", AutoMode.LEAVE_AUTO);
+      SmartDashboard.putData("LEAVE_AUTO_CHOOSER", leaveAutoChooser);
       SmartDashboard.putData("Auto Starting Location", sideChooser);
       SmartDashboard.putData("Auto Mode", autoModeChooser);
     }
