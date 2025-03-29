@@ -12,8 +12,8 @@ import frc.robot.Subsystems.SwerveSubsystem;
 public class AutoAlign extends Command {
     private SwerveSubsystem m_SwerveSubsystem;
 
-    private PIDController xController = new PIDController(0.8, 0, 0);
-    private PIDController yController = new PIDController(0.8, 0, 0);
+    private PIDController xController = new PIDController(1.2, 0, 0);
+    private PIDController yController = new PIDController(1.2, 0, 0);
     private PIDController rotationController = new PIDController(0.005, 0, 0);
     private boolean isLeft;
 
