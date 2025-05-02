@@ -136,7 +136,7 @@ public static final double motorSpeedMultiplier = 0.5;
     public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
     /* Swerve Profiling Values */
-    public static final double maxSpeed = 5; // meters per second
+    public static final double maxSpeed = 3; // meters per second
     public static final double maxAngularVelocity = maxSpeed/driveBaseRadius; //radians per second how fast the robot spin
 
     /* Neutral Modes */
