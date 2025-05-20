@@ -64,9 +64,9 @@ public final class ScoreAngle{
   public record ScoringPose(
       double elevatorheight, double wristangle
     ){}
-  public static final ScoringPose L1 = new ScoringPose (0.20, 3.74);
-  public static final ScoringPose L2 = new ScoringPose (0.59, -27.5);
-  public static final ScoringPose L3 = new ScoringPose (0.87, -24);
+  public static final ScoringPose L1 = new ScoringPose (0.25, 3.74);
+  public static final ScoringPose L2 = new ScoringPose (0.64, -27.5);
+  public static final ScoringPose L3 = new ScoringPose (0.92, -24);
   public static final ScoringPose L4 = new ScoringPose (0.88, 55);
 
   public static final ScoringPose KnockAlgae = new ScoringPose (0.34, 30);
@@ -136,7 +136,7 @@ public static final double motorSpeedMultiplier = 0.5;
     public static final double angleConversionFactor = 360.0 / angleGearRatio;
 
     /* Swerve Profiling Values */
-    public static final double maxSpeed = 0.5; // meters per second
+    public static final double maxSpeed = 5; // meters per second
     public static final double maxAngularVelocity = maxSpeed/driveBaseRadius; //radians per second how fast the robot spin
 
     /* Neutral Modes */
@@ -145,7 +145,7 @@ public static final double motorSpeedMultiplier = 0.5;
 
     /* Motor Inverts */
     public static final boolean canCoderInvert = false;
-    public static final boolean driveInvert = false;
+    public static final boolean driveInvert = true;
     public static final boolean angleInvert = true;
 
     //Location of modules
@@ -163,10 +163,10 @@ public static final double motorSpeedMultiplier = 0.5;
     ){}
 
     public static ModuleData[] moduleData = {
-      new ModuleData(4, 2, 3, 98.79, FRONT_LEFT), //Mod 0
-      new ModuleData(7, 5, 6, -68.03, FRONT_RIGHT), //Mod 1
-      new ModuleData(10, 8, 9, 32.87, BACK_RIGHT), //Mod 2
-      new ModuleData(13, 11, 12, 162.77, BACK_LEFT) //Mod 3
+      new ModuleData(4, 2, 3, 280.9, FRONT_LEFT), //Mod 0
+      new ModuleData(7, 5, 6, -268.9, FRONT_RIGHT), //Mod 1
+      new ModuleData(10, 8, 9, 212.8, BACK_RIGHT), //Mod 2
+      new ModuleData(13, 11, 12, 276.33, BACK_LEFT) //Mod 3
     };
       
     public static final double angleKP = 0.01; //to tune
