@@ -163,10 +163,10 @@ public static final double motorSpeedMultiplier = 0.5;
     ){}
 
     public static ModuleData[] moduleData = {
-      new ModuleData(4, 2, 3, 280.9, FRONT_LEFT), //Mod 0
-      new ModuleData(7, 5, 6, -268.9, FRONT_RIGHT), //Mod 1
+      new ModuleData(4, 2, 3, 280.5, FRONT_LEFT), //Mod 0
+      new ModuleData(7, 5, 6, -93.2, FRONT_RIGHT), //Mod 1
       new ModuleData(10, 8, 9, 212.8, BACK_RIGHT), //Mod 2
-      new ModuleData(13, 11, 12, 276.33, BACK_LEFT) //Mod 3
+      new ModuleData(13, 11, 12, 338.9, BACK_LEFT) //Mod 3
     };
       
     public static final double angleKP = 0.01; //to tune
