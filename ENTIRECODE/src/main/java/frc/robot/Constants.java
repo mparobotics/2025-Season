@@ -145,7 +145,7 @@ public static final double motorSpeedMultiplier = 0.5;
 
     /* Motor Inverts */
     public static final boolean canCoderInvert = false;
-    public static final boolean driveInvert = true;
+    public static final boolean driveInvert = false;
     public static final boolean angleInvert = true;
 
     //Location of modules
