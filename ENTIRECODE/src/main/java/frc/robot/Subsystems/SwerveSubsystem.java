@@ -6,8 +6,6 @@ package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -19,18 +17,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.LimelightHelpers;
 import frc.robot.Constants;
-import frc.robot.SwerveModule;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveConstants.ModuleData;
+import frc.robot.SwerveModule;
 
 public class SwerveSubsystem extends SubsystemBase {
   private final Pigeon2 pigeon;
@@ -66,45 +61,8 @@ public class SwerveSubsystem extends SubsystemBase {
     //puts out the field
     field = new Field2d();
     SmartDashboard.putData("Field", field);
-    configurePathplanner();
   }
   
-  private void configurePathplanner(){
-    AutoBuilder.configure(this::getPose, 
-    this::resetOdometry, 
-    this::getChassisSpeeds, 
-    (speeds, feedforwards) -> driveFromChassisSpeeds(speeds, false), 
-    AutoConstants.SWERVECONTROLLER, 
-    AutoConstants.ROBOT_CONFIG, 
-    FieldConstants::isRedAlliance, //flip to red side from blue
-    this);
-  }
-
-  public Command autoDrive(String filename){
-    try{
-      PathPlannerPath path = PathPlannerPath.fromPathFile(filename);
-      if (AutoConstants.isRightSideAuto()){
-        path = path.mirrorPath();
-      }
-      return AutoBuilder.followPath(path);
-    }
-    catch(Exception e){ //exception e: see what the error was
-      DriverStation.reportError("PATHPLANNER KILL ALEX KIWI"+ e.getMessage(), e.getStackTrace());
-      return null;
-    }
-  }
-
-  public Command startAutoAt(double x, double y, double direction){
-    return runOnce(()->{
-      double newY = y;
-      if (AutoConstants.isRightSideAuto()){
-        newY = FieldConstants.FIELD_WIDTH - y;
-      }
-      Pose2d startPose = FieldConstants.flipForAlliance(new Pose2d(x, newY, Rotation2d.fromDegrees(direction)));
-      pigeon.setYaw(startPose.getRotation().getDegrees());
-      odometry.resetPosition(startPose.getRotation(), getPositions(), startPose);
-    });
-  }
 
 
   private void updateOdometryWithVision (String limelightName){

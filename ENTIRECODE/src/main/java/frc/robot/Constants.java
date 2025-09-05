@@ -6,87 +6,19 @@ package frc.robot;
 
 
 
-import com.pathplanner.lib.config.ModuleConfig;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public final class Constants {
-  public final class ElevatorConstants{
-    public static final int elevatorMotorID = 16; //CAN ID for elevator motor controller
-    public static final double slowMotorSpeedMultiplier = 0.5; // Multiplier to slow elevator speed when needed
-    public static final double elevatorFeedForward = 0.01; // Feedforward value for elevator motor control
-  
-  // Constraints for trapezoidal motion profiling (max velocity and acceleration)
-  public static final double maxVelocity = 1;
-  public static final double maxAcceleration = 1;
-  public static final TrapezoidProfile.Constraints CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
 
-  // Gear and mechanical propertiees for converting motor rotations to elevator movement distance
-  public static final double gearRatio = 12;
-  public static final double pitchDiameter = 0.0447; // Diameter of gear pitch circle in meters
-  public static final double circumference = pitchDiameter * Math.PI; // Circumference of gear pitch circle
-  public static final double positionConversionFactor = circumference/gearRatio; // Converts motor rottions to elevator linear movement(meters)
-  public static final double velocityConversionFactor = circumference/gearRatio/60; // Converts motor RPM to linear speed (m/s)
-
-  public static final double closeEnough = 0.01; // Allowed tolerance for elevator position control (meters)
-  }
-
-
-  // Climber Constants
-  public final class ClimberConstants{
-    public static final int climbMotorID = 28; //CAN ID for climb motor controller
-  }
-
-
-  // Wrist Constants
-  public final class WristConstants{
-    public static final int wristMotorID = 15; // CAN ID for wrist motor controller
-    // Gear ratio calculation combining different gear stages (e.g., 25 8 (50/34))
-    public static final double gearRatio = 25*(50.0/34);
-
-    public static final double closeEnough = 2; // Angle tolerance in degrees for wrist positioning
-  }
-
-
-  // Intake Constants
-  public final class IntakeConstants{
-    //limit switch
-    public static final int IntakeSwitchPort = 0; //Digital input port for intake limit switch (placeholder)
-  public static final int intakeMotorID = 14; // CAN ID for intake motor controller
-  
-}
-
-public final class ScoreAngle{
-  public record ScoringPose(
-      double elevatorheight, double wristangle
-    ){}
-  public static final ScoringPose L1 = new ScoringPose (0.20, 3.74);
-  public static final ScoringPose L2 = new ScoringPose (0.59, -27.5);
-  public static final ScoringPose L3 = new ScoringPose (0.87, -24);
-  public static final ScoringPose L4 = new ScoringPose (0.88, 55);
-
-  public static final ScoringPose KnockAlgae = new ScoringPose (0.34, 30);
-
-  public static final ScoringPose INTAKE = new ScoringPose(0.33, 39);
-
-  public static final ScoringPose MOVE = new ScoringPose(0, 80);
-}
 
 public static final double motorSpeedMultiplier = 0.5; // Used to scale down motor output if needed
 
@@ -187,56 +119,8 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
     public static final double angleKI = 0.0; //to tune
     public static final double angleKD = 0.0; //to tune
     
-
-    /*public static final boolean angleMotorInvert = false;
-    public static final boolean driveMotorInvert = false;*/
-    
-  
-
   }
 
-  public static final class AutoConstants { //pathplanner
-    public static final ModuleConfig MODULE_CONFIG = new ModuleConfig(SwerveConstants.wheelDiameter/2,
-     SwerveConstants.maxSpeed, 
-     1.2, 
-     DCMotor.getNeoVortex(1).withReduction(SwerveConstants.driveGearRatio), 
-     SwerveConstants.driveContinuousCurrentLimit, 
-     1);
-    
-    public static final RobotConfig ROBOT_CONFIG = new RobotConfig(52, 6.8, MODULE_CONFIG, 
-    SwerveConstants.FRONT_LEFT, SwerveConstants.FRONT_RIGHT, SwerveConstants.BACK_LEFT, SwerveConstants.BACK_RIGHT);
-
-    public static final PPHolonomicDriveController SWERVECONTROLLER = new PPHolonomicDriveController(new PIDConstants(5.0,0.00001,0.0), new PIDConstants(5.0, 0.0005, 0.001));
-
-    public enum AutoMode{
-      LEAVE_AUTO,
-      ONECORAL_AUTO,
-      ONECORAL_AUTO_L2,
-      TWOCORAL_AUTO,
-      KNOCKALGAEOFF
-    }
-    private static SendableChooser<Boolean> sideChooser = new SendableChooser<Boolean>();
-    private static SendableChooser<AutoMode> autoModeChooser = new SendableChooser<AutoMode>();
-    private static SendableChooser<AutoMode> leaveAutoChooser = new SendableChooser<AutoMode>();
-    static{
-      sideChooser.addOption("RIGHT", true);
-      sideChooser.setDefaultOption("LEFT", false);
-
-      for(AutoMode mode : AutoMode.values()){
-        autoModeChooser.addOption(mode.toString(), mode);
-      }
-      //autoModeChooser.setDefaultOption("LEAVE_AUTO", AutoMode.LEAVE_AUTO);
-      SmartDashboard.putData("LEAVE_AUTO_CHOOSER", leaveAutoChooser);
-      SmartDashboard.putData("Auto Starting Location", sideChooser);
-      SmartDashboard.putData("Auto Mode", autoModeChooser);
-    }
-    public static AutoMode getSelectedAuto(){
-      return autoModeChooser.getSelected();
-    }
-    public static boolean isRightSideAuto(){
-      return sideChooser.getSelected();
-    }
-  }
 
 public class FieldConstants {
       public static final double FIELD_LENGTH = 17.54824934;
