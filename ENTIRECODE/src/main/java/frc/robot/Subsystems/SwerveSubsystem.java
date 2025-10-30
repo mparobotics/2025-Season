@@ -89,7 +89,7 @@ public class SwerveSubsystem extends SubsystemBase {
       return AutoBuilder.followPath(path);
     }
     catch(Exception e){ //exception e: see what the error was
-      DriverStation.reportError("PATHPLANNER KILL ALEX KIWI"+ e.getMessage(), e.getStackTrace());
+      DriverStation.reportError("PATHPLANNER HI ALEX KIWI"+ e.getMessage(), e.getStackTrace());
       return null;
     }
   }
@@ -226,7 +226,7 @@ public class SwerveSubsystem extends SubsystemBase {
           "Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
-  }
+    }
   swerveDataPublisher.set(getStates());
 }
 

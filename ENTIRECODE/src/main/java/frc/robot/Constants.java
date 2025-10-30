@@ -177,10 +177,10 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
     ){}
 
     public static ModuleData[] moduleData = {
-      new ModuleData(4, 2, 3, 99.75, FRONT_LEFT), //Mod 0
-      new ModuleData(7, 5, 6, 269.21, FRONT_RIGHT), //Mod 1
-      new ModuleData(10, 8, 9, 30.84, BACK_RIGHT), //Mod 2
-      new ModuleData(13, 11, 12, 176.83, BACK_LEFT) //Mod 3
+      new ModuleData(4, 2, 3, 271.95, FRONT_LEFT), //Mod 0
+      new ModuleData(7, 5, 6, 88.24, FRONT_RIGHT), //Mod 1
+      new ModuleData(10, 8, 9, 212.61, BACK_RIGHT), //Mod 2
+      new ModuleData(13, 11, 12, 15.20, BACK_LEFT) //Mod 3
     };
       
     public static final double angleKP = 0.01; //to tune

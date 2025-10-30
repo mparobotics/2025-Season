@@ -58,20 +58,21 @@ public class TeleopSwerve extends Command {
     double rotationVal =
         rotationLimiter.calculate(
             MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), SwerveConstants.inputDeadband));
-    int invert = 1;
+    int invert = 1; //Comment 61-64 out if needed to change from field orientation to robot orientation
       if (FieldConstants.isRedAlliance()){
-        invert = -1;
+      invert = -1;
       }
 
     /* Drive */
     m_SwerveSubsystem.drive(
         //the joystick values (-1 to 1) multiplied by the max speed of the drivetrain
         xVal * SwerveConstants.maxSpeed * invert, yVal * SwerveConstants.maxSpeed * invert,
+        //xVal * SwerveConstants.maxSpeed, yVal * SwerveConstants.maxSpeed, (for robot orientation)
         //rotation value times max spin speed
         rotationVal * SwerveConstants.maxAngularVelocity,
         //whether or not in field centric mode
         !m_robotCentricSupplier.getAsBoolean());
-
+        //false); robot orientation
   }
 
   // Called once the command ends or is interrupted.
