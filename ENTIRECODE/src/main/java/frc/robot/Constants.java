@@ -33,12 +33,12 @@ public final class Constants {
     public static final double elevatorFeedForward = 0.01; // Feedforward value for elevator motor control
   
   // Constraints for trapezoidal motion profiling (max velocity and acceleration)
-  public static final double maxVelocity = 1;
-  public static final double maxAcceleration = 1;
-  public static final TrapezoidProfile.Constraints CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
+  public static final double maxVelocity = 1; // Maximum elevator velocity when profiling (m/s)
+  public static final double maxAcceleration = 1; // Maximum elevator acceleration when profiling (m/s^2)
+  public static final TrapezoidProfile.Constraints CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration); // Shared trapezoidal profile limits
 
   // Gear and mechanical propertiees for converting motor rotations to elevator movement distance
-  public static final double gearRatio = 12;
+  public static final double gearRatio = 12; // Overall reduction from motor to carriage motion
   public static final double pitchDiameter = 0.0447; // Diameter of gear pitch circle in meters
   public static final double circumference = pitchDiameter * Math.PI; // Circumference of gear pitch circle
   public static final double positionConversionFactor = circumference/gearRatio; // Converts motor rottions to elevator linear movement(meters)
@@ -75,17 +75,18 @@ public final class Constants {
 public final class ScoreAngle{
   public record ScoringPose(
       double elevatorheight, double wristangle
-    ){}
-  public static final ScoringPose L1 = new ScoringPose (0.20, 3.74);
-  public static final ScoringPose L2 = new ScoringPose (0.59, -27.5);
-  public static final ScoringPose L3 = new ScoringPose (0.87, -24);
-  public static final ScoringPose L4 = new ScoringPose (0.88, 55);
+    ){} 
+  // Pair of elevator height (meters) and wrist angle (degrees) for presets
+  public static final ScoringPose L1 = new ScoringPose (0.20, 3.74); // Level 1 reef scoring preset
+  public static final ScoringPose L2 = new ScoringPose (0.59, -27.5); // Level 2 reef scoring preset
+  public static final ScoringPose L3 = new ScoringPose (0.87, -24); // Level 3 reef scoring preset
+  public static final ScoringPose L4 = new ScoringPose (0.88, 55); // Level 4 reef scoring preset
 
-  public static final ScoringPose KnockAlgae = new ScoringPose (0.34, 30);
+  public static final ScoringPose KnockAlgae = new ScoringPose (0.34, 30); // Pose used to knock algae off the reef
 
-  public static final ScoringPose INTAKE = new ScoringPose(0.33, 39);
+  public static final ScoringPose INTAKE = new ScoringPose(0.33, 39); // Coral intake pose
 
-  public static final ScoringPose MOVE = new ScoringPose(0, 80);
+  public static final ScoringPose MOVE = new ScoringPose(0, 80); // Scoring pose
 }
 
 public static final double motorSpeedMultiplier = 0.5; // Used to scale down motor output if needed
@@ -98,14 +99,14 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
     public static final boolean invertPigeon = false; // Whether to invert gyro readings
 
     /* Drivetrain Constants */
-    public static final double halfTrackWidth = Units.inchesToMeters(22/2.0);//to find
-    public static final double halfWheelBase = Units.inchesToMeters(22/2.0);//to find
-    public static final double wheelDiameter = Units.inchesToMeters(4.0);
-    public static final double wheelCircumference = wheelDiameter * Math.PI;
-    public static final double driveBaseRadius = Math.hypot(halfTrackWidth/2, halfWheelBase/2);
+    public static final double halfTrackWidth = Units.inchesToMeters(22/2.0); // Half the lateral distance between wheel modules
+    public static final double halfWheelBase = Units.inchesToMeters(22/2.0); // Half the longitudinal distance between wheel modules
+    public static final double wheelDiameter = Units.inchesToMeters(4.0); // Diameter of each swerve wheel (meters)
+    public static final double wheelCircumference = wheelDiameter * Math.PI; // Distance traveled per wheel rotation
+    public static final double driveBaseRadius = Math.hypot(halfTrackWidth/2, halfWheelBase/2); // Effective robot radius for turning calculations
 
-    public static final double openLoopRamp = 0.25;
-    public static final double closedLoopRamp = 0.0;
+    public static final double openLoopRamp = 0.25; // Seconds for drive motors to ramp in open-loop mode
+    public static final double closedLoopRamp = 0.0; // Seconds for drive motors to ramp in closed-loop mode
 
     public static final double driveGearRatio = (8.14 / 1.0); // 6.75:1 L2 Mk4 Modules
     //L1 is 8.14:1, L2 is 6.75:1, L3 is 6.12:1, L4 is 5.14:1
@@ -123,8 +124,8 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
     //which contains velocities and angles for each swerve module of a swerve drive robot.
         
     /* Swerve Voltage Compensation */
-    public static final double voltageComp = 12.0;
-       
+    public static final double voltageComp = 12.0; 
+
     //Swerve Current Limiting for neos
     public static final int angleContinuousCurrentLimit = 20; //limits current draw of turning motor
     public static final int driveContinuousCurrentLimit = 40; //limits current draw of drive motor
@@ -145,38 +146,40 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
 
     /* Drive Motor Conversion Factors */
     public static final double driveConversionPositionFactor =
-    (wheelDiameter * Math.PI) / driveGearRatio;
-    public static final double driveConversionVelocityFactor = driveConversionPositionFactor / 60.0;
-    public static final double angleConversionFactor = 360.0 / angleGearRatio;
+    (wheelDiameter * Math.PI) / driveGearRatio; // Converts drive motor rotations to meters traveled
+    public static final double driveConversionVelocityFactor = driveConversionPositionFactor / 60.0; // Converts drive velocity RPM to m/s
+    public static final double angleConversionFactor = 360.0 / angleGearRatio; // Converts angle motor rotations to module heading degrees
 
     /* Swerve Profiling Values */
     public static final double maxSpeed = 3; // meters per second
     public static final double maxAngularVelocity = maxSpeed/driveBaseRadius; //radians per second how fast the robot spin
 
     /* Neutral Modes */
-    public static final IdleMode angleNeutralMode = IdleMode.kBrake;
-    public static final IdleMode driveNeutralMode = IdleMode.kBrake;
+    public static final IdleMode angleNeutralMode = IdleMode.kBrake; // Lock steering motors when idle
+    public static final IdleMode driveNeutralMode = IdleMode.kBrake; // Resist rolling when drive motors idle
 
     /* Motor Inverts */
-    public static final boolean canCoderInvert = false;
-    public static final boolean driveInvert = false;
-    public static final boolean angleInvert = true;
+    public static final boolean canCoderInvert = false; // Absolute encoder orientation
+    public static final boolean driveInvert = false; // Drive motor orientation
+    public static final boolean angleInvert = true; // Steering motor orientation
 
     //Location of modules
-    public static final Translation2d FRONT_LEFT = new Translation2d(halfTrackWidth, halfWheelBase);
-    public static final Translation2d BACK_LEFT = new Translation2d(-halfTrackWidth, halfWheelBase);
-    public static final Translation2d BACK_RIGHT = new Translation2d(-halfTrackWidth, -halfWheelBase);
-    public static final Translation2d FRONT_RIGHT = new Translation2d(halfTrackWidth, -halfWheelBase);
+    public static final Translation2d FRONT_LEFT = new Translation2d(halfTrackWidth, halfWheelBase); 
+    public static final Translation2d BACK_LEFT = new Translation2d(-halfTrackWidth, halfWheelBase); 
+    public static final Translation2d BACK_RIGHT = new Translation2d(-halfTrackWidth, -halfWheelBase); 
+    public static final Translation2d FRONT_RIGHT = new Translation2d(halfTrackWidth, -halfWheelBase); 
     /* Angle Encoder Invert */
     
 
         /* Module Specific Constants */
     /* Front Left Module - Module 0 */
+    // Record bundling hardware IDs, calibration, and physical location for a single module
     public record ModuleData(
       int driveMotorID, int angleMotorID, int encoderID, double angleOffset, Translation2d location
     ){}
 
-    public static ModuleData[] moduleData = {
+    // Indexed configuration for each physical swerve module
+    public static ModuleData[] moduleData = { 
       new ModuleData(4, 2, 3, 271.95, FRONT_LEFT), //Mod 0
       new ModuleData(7, 5, 6, 88.24, FRONT_RIGHT), //Mod 1
       new ModuleData(10, 8, 9, 212.61, BACK_RIGHT), //Mod 2
@@ -201,72 +204,82 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
      1.2, 
      DCMotor.getNeoVortex(1).withReduction(SwerveConstants.driveGearRatio), 
      SwerveConstants.driveContinuousCurrentLimit, 
-     1);
+     1); 
     
     public static final RobotConfig ROBOT_CONFIG = new RobotConfig(52, 6.8, MODULE_CONFIG, 
     SwerveConstants.FRONT_LEFT, SwerveConstants.FRONT_RIGHT, SwerveConstants.BACK_LEFT, SwerveConstants.BACK_RIGHT);
-
-    public static final PPHolonomicDriveController SWERVECONTROLLER = new PPHolonomicDriveController(new PIDConstants(5.0,0.00001,0.0), new PIDConstants(5.0, 0.0005, 0.001));
-
+    // Robot-wide parameters for PathPlanner
+    
+    public static final PPHolonomicDriveController SWERVECONTROLLER = new PPHolonomicDriveController(new PIDConstants(5.0,0.00001,0.0), new PIDConstants(5.0, 0.0005, 0.001)); 
+    // Holonomic controller used for autonomous path tracking
+    
     public enum AutoMode{
-      LEAVE_AUTO,
-      ONECORAL_AUTO,
-      ONECORAL_AUTO_L2,
-      TWOCORAL_AUTO,
-      KNOCKALGAEOFF
+      LEAVE_AUTO, // Simple leave-community routine
+      ONECORAL_AUTO, // Scores a single coral on default level
+      ONECORAL_AUTO_L2, // Scores one coral on level 2
+      TWOCORAL_AUTO, // Runs a two-coral auto sequence
+      KNOCKALGAEOFF // Focuses on removing algae during auto
     }
-    private static SendableChooser<Boolean> sideChooser = new SendableChooser<Boolean>();
-    private static SendableChooser<AutoMode> autoModeChooser = new SendableChooser<AutoMode>();
-    private static SendableChooser<AutoMode> leaveAutoChooser = new SendableChooser<AutoMode>();
+    private static SendableChooser<Boolean> sideChooser = new SendableChooser<Boolean>(); // Dashboard chooser to select right/left starting side
+    private static SendableChooser<AutoMode> autoModeChooser = new SendableChooser<AutoMode>(); // Dashboard chooser for main auto routine
+    private static SendableChooser<AutoMode> leaveAutoChooser = new SendableChooser<AutoMode>(); // Dashboard chooser for leave-only routines
     static{
-      sideChooser.addOption("RIGHT", true);
-      sideChooser.setDefaultOption("LEFT", false);
+      sideChooser.addOption("RIGHT", true); // Provide option for right-side autos
+      sideChooser.setDefaultOption("LEFT", false); // Default to left-side autos
 
-      for(AutoMode mode : AutoMode.values()){
-        autoModeChooser.addOption(mode.toString(), mode);
+      for(AutoMode mode : AutoMode.values()){ 
+        autoModeChooser.addOption(mode.toString(), mode); // Publish each auto routine choice
       }
       //autoModeChooser.setDefaultOption("LEAVE_AUTO", AutoMode.LEAVE_AUTO);
-      SmartDashboard.putData("LEAVE_AUTO_CHOOSER", leaveAutoChooser);
-      SmartDashboard.putData("Auto Starting Location", sideChooser);
-      SmartDashboard.putData("Auto Mode", autoModeChooser);
+      SmartDashboard.putData("LEAVE_AUTO_CHOOSER", leaveAutoChooser); // Display leave auto chooser on dashboard
+      SmartDashboard.putData("Auto Starting Location", sideChooser); // Display side chooser on dashboard
+      SmartDashboard.putData("Auto Mode", autoModeChooser); // Display primary auto chooser on dashboard
     }
     public static AutoMode getSelectedAuto(){
-      return autoModeChooser.getSelected();
+      return autoModeChooser.getSelected(); // Retrieve currently selected auto routine
     }
     public static boolean isRightSideAuto(){
-      return sideChooser.getSelected();
+      return sideChooser.getSelected(); // Determine whether autos should mirror for right side
     }
   }
 
+// Field layout constants and alliance mirroring helpers
 public class FieldConstants {
-      public static final double FIELD_LENGTH = 17.54824934;
-      public static final double FIELD_WIDTH = 8.052;
+      public static final double FIELD_LENGTH = 17.54824934; // Total official field length (meters)
+      public static final double FIELD_WIDTH = 8.052; // Total official field width (meters)
 
-      public static final Translation2d BLUE_REEF_CENTER = new Translation2d(4.48933684,4.02587697);
+      public static final Translation2d BLUE_REEF_CENTER = new Translation2d(4.48933684,4.02587697); 
+      // Center point of the blue alliance reef
 
-      public static final Rotation2d RIGHT_CORAL_STATION_ANGLE = Rotation2d.fromDegrees(234.011392);
-      public static final Rotation2d LEFT_CORAL_STATION_ANGLE = Rotation2d.fromDegrees(-234.011392);
+      public static final Rotation2d RIGHT_CORAL_STATION_ANGLE = Rotation2d.fromDegrees(234.011392); 
+      // Heading required to face right coral station
+      public static final Rotation2d LEFT_CORAL_STATION_ANGLE = Rotation2d.fromDegrees(-234.011392); 
+      // Heading required to face left coral station
 
       public static boolean isRedAlliance(){
-          return DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red;
+          return DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red; 
+          // True when FMS reports we are on red
       }
       
       public static Rotation2d flipForAlliance(Rotation2d rotation){
           if(isRedAlliance()){
-              return Rotation2d.fromDegrees(rotation.getDegrees() + 180);
+              return Rotation2d.fromDegrees(rotation.getDegrees() + 180); 
+              // Rotate headings 180° for red alliance perspective
           }else{
               return rotation;
           }
       }
       public static Translation2d flipForAlliance(Translation2d pos){
           if(isRedAlliance()){
-              return new Translation2d(FIELD_LENGTH - pos.getX(), FIELD_WIDTH - pos.getY());
+              return new Translation2d(FIELD_LENGTH - pos.getX(), FIELD_WIDTH - pos.getY()); 
+              // Mirror X/Y positions across the field centerline
           }else{
               return pos;
           }
       }
       public static Pose2d flipForAlliance(Pose2d pose){
-          return new Pose2d(flipForAlliance(pose.getTranslation()), flipForAlliance(pose.getRotation()));
+          return new Pose2d(flipForAlliance(pose.getTranslation()), flipForAlliance(pose.getRotation())); 
+          // Mirror full pose for the opposing alliance
       }
   }
   
