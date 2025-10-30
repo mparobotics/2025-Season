@@ -108,10 +108,12 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
     public static final double openLoopRamp = 0.25; // Seconds for drive motors to ramp in open-loop mode
     public static final double closedLoopRamp = 0.0; // Seconds for drive motors to ramp in closed-loop mode
 
-    public static final double driveGearRatio = (8.14 / 1.0); // 6.75:1 L2 Mk4 Modules
-    //L1 is 8.14:1, L2 is 6.75:1, L3 is 6.12:1, L4 is 5.14:1
-    public static final double angleGearRatio = (21.4 / 1.0); // 12.8:1 MK4 SDS Modules
-    //SDS Mk4 is 12.8:1,  Mk4i is 21.4:1
+    public static final double driveGearRatio = (8.14 / 1.0); 
+    /* overall reduction between the drive motor shaft and the wheel. 
+    8.14:1 means the motor spins 8.14 revolutions for every single wheel revolution.*/ 
+    public static final double angleGearRatio = (21.4 / 1.0); 
+    /*reduction in the steering assembly. 
+    21.4:1 means the steering motor must turn 21.4 times to rotate the wheel module exactly once around its axis */
 
     public static final SwerveDriveKinematics swerveKinematics =
     new SwerveDriveKinematics(
