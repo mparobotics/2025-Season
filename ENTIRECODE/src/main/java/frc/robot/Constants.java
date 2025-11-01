@@ -86,7 +86,7 @@ public final class ScoreAngle{
 
   public static final ScoringPose INTAKE = new ScoringPose(0.33, 39); // Coral intake pose
 
-  public static final ScoringPose MOVE = new ScoringPose(0, 80); // Scoring pose
+  public static final ScoringPose MOVE = new ScoringPose(0, 80); // moving pose
 }
 
 public static final double motorSpeedMultiplier = 0.5; // Used to scale down motor output if needed
@@ -122,8 +122,8 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
         new Translation2d(-halfTrackWidth,-halfWheelBase),
         new Translation2d(-halfTrackWidth, halfWheelBase));
     //https://docs.wpilib.org/en/stable/docs/software/kinematics-and-odometry/swerve-drive-kinematics.html
-    //SwerveDrive Kinematics converts between a ChassisSpeeds object and several SwerveModuleState objects, 
-    //which contains velocities and angles for each swerve module of a swerve drive robot.
+    /*SwerveDrive Kinematics converts between a ChassisSpeeds object and several SwerveModuleState objects, 
+    which contains velocities and angles for each swerve module of a swerve drive robot.*/
         
     /* Swerve Voltage Compensation */
     public static final double voltageComp = 12.0; 
