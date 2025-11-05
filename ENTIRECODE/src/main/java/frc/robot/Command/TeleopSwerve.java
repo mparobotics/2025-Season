@@ -24,7 +24,7 @@ public class TeleopSwerve extends Command {
   private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0); //can only change by 3 m/s in the span of 1 s
   private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
   private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
-  /** Creates a new TeleopSwerve. */
+  /* Creates a new TeleopSwerve */
   public TeleopSwerve(SwerveSubsystem SwerveSubsystem,
       DoubleSupplier translationSupplier,
       DoubleSupplier strafeSupplier,

@@ -101,7 +101,7 @@ public class RobotContainer {
 
 
   private double getSpeedMultiplier(){
-    return driveController.getHID().getRawButton(Button.kLeftStick.value)? 0.7: 1; //can change speed
+    return driveController.getHID().getRawButton(Button.kLeftStick.value)? 1 : 1; //can change speed
   }
 
   public Command getAutonomousCommand() {
