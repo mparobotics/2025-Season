@@ -60,7 +60,7 @@ public class TeleopSwerve extends Command {
             MathUtil.applyDeadband(m_rotationSupplier.getAsDouble(), SwerveConstants.inputDeadband));
     int invert = 1; //Comment 61-64 out if needed to change from field orientation to robot orientation
       if (FieldConstants.isRedAlliance()){
-      invert = -1;
+        invert = -1;
       }
 
     /* Drive */
