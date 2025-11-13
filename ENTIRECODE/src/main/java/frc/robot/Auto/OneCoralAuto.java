@@ -14,6 +14,7 @@ public class OneCoralAuto extends SequentialCommandGroup{
         addCommands(
             drive.startAutoAt(7.13, 7.276, 180),
             drive.autoDrive("One Coral Path")
+
             //new EWsetpoint(elevator, wrist, ScoreAngle.L1),
             //intake.RunIntake(() -> 1),
             //new EWsetpoint(elevator, wrist, ScoreAngle.KnockAlgae),
@@ -21,3 +22,9 @@ public class OneCoralAuto extends SequentialCommandGroup{
         );
     }
 }
+
+
+       //new InstantCommand(() -> drive.drive( 0.5,0,0, false), drive),
+        //Commands.waitSeconds(2),
+        //new InstantCommand(() -> drive.drive(0,0,0, false), drive)
+  
