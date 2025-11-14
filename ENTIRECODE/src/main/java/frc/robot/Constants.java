@@ -233,15 +233,19 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
         autoModeChooser.addOption(mode.toString(), mode); // Publish each auto routine choice
       }
       //autoModeChooser.setDefaultOption("LEAVE_AUTO", AutoMode.LEAVE_AUTO);
+      autoModeChooser.setDefaultOption(AutoMode.LEAVE_AUTO.toString(), AutoMode.LEAVE_AUTO); // Ensure a non-null default
       SmartDashboard.putData("LEAVE_AUTO_CHOOSER", leaveAutoChooser); // Display leave auto chooser on dashboard
       SmartDashboard.putData("Auto Starting Location", sideChooser); // Display side chooser on dashboard
       SmartDashboard.putData("Auto Mode", autoModeChooser); // Display primary auto chooser on dashboard
     }
+    //return autoModeChooser.getSelected(); // Retrieve currently selected auto routine
     public static AutoMode getSelectedAuto(){
-      return autoModeChooser.getSelected(); // Retrieve currently selected auto routine
+      AutoMode selection = autoModeChooser.getSelected();
+      //return sideChooser.getSelected(); // Determine whether autos should mirror for right side
+      return selection != null ? selection : AutoMode.LEAVE_AUTO; // Fallback if Shuffleboard hasn't provided a selection yet
     }
     public static boolean isRightSideAuto(){
-      return sideChooser.getSelected(); // Determine whether autos should mirror for right side
+      return Boolean.TRUE.equals(sideChooser.getSelected()); // Null-safe check for side mirroring
     }
   }
 

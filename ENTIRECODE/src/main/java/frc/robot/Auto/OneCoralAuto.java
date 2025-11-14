@@ -2,8 +2,8 @@ package frc.robot.Auto;
 
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Command.EWsetpoint;
-import frc.robot.Constants.ScoreAngle;
+//import frc.robot.Command.EWsetpoint;
+//import frc.robot.Constants.ScoreAngle;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.IntakeSubsystem;
 import frc.robot.Subsystems.SwerveSubsystem;
@@ -22,9 +22,3 @@ public class OneCoralAuto extends SequentialCommandGroup{
         );
     }
 }
-
-
-       //new InstantCommand(() -> drive.drive( 0.5,0,0, false), drive),
-        //Commands.waitSeconds(2),
-        //new InstantCommand(() -> drive.drive(0,0,0, false), drive)
-  
