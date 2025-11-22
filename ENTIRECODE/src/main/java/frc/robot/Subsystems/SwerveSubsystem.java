@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.LimelightHelpers;
 import frc.robot.Constants;
@@ -33,16 +34,22 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveConstants.ModuleData;
 
 public class SwerveSubsystem extends SubsystemBase {
+  // Gyro used for heading estimation and auto mirroring
   private final Pigeon2 pigeon;
 
+  // Pose estimator that fuses gyro plus module positions
   private SwerveDrivePoseEstimator odometry;
+  // Four individual swerve modules
   private SwerveModule[] mSwerveMods;
 
+  // Virtual field for dashboard visualization
   private Field2d field;
 
+  // Live telemetry stream of actual module states
   private final StructArrayPublisher<SwerveModuleState> swerveDataPublisher = NetworkTableInstance.getDefault()
   .getStructArrayTopic("Swerve States", SwerveModuleState.struct).publish();
 
+  // Live telemetry stream of desired (commanded) module states
   private final StructArrayPublisher<SwerveModuleState> desiredSwerveDataPublisher = NetworkTableInstance.getDefault()
   .getStructArrayTopic("Desired Swerve States", SwerveModuleState.struct).publish();
 
@@ -68,7 +75,8 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putData("Field", field);
     configurePathplanner();
   }
-  
+
+  // Hook SwerveSubsystem into PathPlanner's AutoBuilder helpers
   private void configurePathplanner(){
     AutoBuilder.configure(this::getPose, 
     this::resetOdometry, 
@@ -80,6 +88,7 @@ public class SwerveSubsystem extends SubsystemBase {
     this);
   }
 
+  // Build a command that drives a named PathPlanner path
   public Command autoDrive(String filename){
     try{
       PathPlannerPath path = PathPlannerPath.fromPathFile(filename);
@@ -89,11 +98,12 @@ public class SwerveSubsystem extends SubsystemBase {
       return AutoBuilder.followPath(path);
     }
     catch(Exception e){ //exception e: see what the error was
-      DriverStation.reportError("PATHPLANNER KILL ALEX KIWI"+ e.getMessage(), e.getStackTrace());
-      return null;
+      DriverStation.reportError("PATHPLANNER HI ALEX KIWI"+ e.getMessage(), e.getStackTrace());
+      return Commands.none();
     }
   }
 
+  // Seed odometry and gyro for an autonomous routine
   public Command startAutoAt(double x, double y, double direction){
     return runOnce(()->{
       double newY = y;
@@ -107,6 +117,7 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 
 
+  // Fuse limelight vision measurements into the pose estimator
   private void updateOdometryWithVision (String limelightName){
     boolean doRejectUpdate = false;
       LimelightHelpers.SetRobotOrientation(limelightName, odometry.getEstimatedPosition().getRotation().getDegrees(),0,0,0,0,0);
@@ -132,6 +143,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
+  // Convert driver inputs into chassis speeds and command the drivetrain
   public void drive(double xInput, double yInput, double rotationInput, boolean isFieldOriented){
     ChassisSpeeds desiredSpeeds;
 
@@ -144,30 +156,36 @@ public class SwerveSubsystem extends SubsystemBase {
     driveFromChassisSpeeds(desiredSpeeds, true);
   }
  
+  // Convert chassis speeds to module states and issue motor commands
   public void driveFromChassisSpeeds(ChassisSpeeds driveSpeeds, boolean isOpenLoop){
     SwerveModuleState[] desiredStates = SwerveConstants.swerveKinematics.toSwerveModuleStates(driveSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.maxSpeed);
 
     desiredSwerveDataPublisher.set(desiredStates);
 
+    // Iterate modules and feed each its desired state
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(desiredStates[mod.moduleNumber], false);
     }
   }
 
+  // Report robot-relative chassis speeds derived from module states
   public ChassisSpeeds getChassisSpeeds(){
     return SwerveConstants.swerveKinematics.toChassisSpeeds(getStates());
   }
 
+  // Current best field pose estimate
   public Pose2d getPose() {
     return odometry.getEstimatedPosition();
   }
 
+  // Force odometry to a known pose (used when starting autos)
   public void resetOdometry(Pose2d pose) {
     odometry.resetPosition(getYaw(), getPositions(), pose);
   }
 
 
+  // Snapshot of all module states for telemetry
   public SwerveModuleState[] getStates() {
     SwerveModuleState[] states = new SwerveModuleState[4];
     for (SwerveModule mod : mSwerveMods) {
@@ -176,6 +194,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return states;
   }
 
+  // Snapshot of module positions for odometry
   public SwerveModulePosition[] getPositions(){
     SwerveModulePosition[] positions = new SwerveModulePosition[4];
     for (SwerveModule mod : mSwerveMods){
@@ -184,6 +203,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return positions;
 }
   
+  // Wheel rotations expressed in revolutions for each module
   public double[] getEncoderRotations() {
     double[] distances = new double[4];
     for (SwerveModule mod : mSwerveMods){
@@ -192,6 +212,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return distances;
   }
 
+  // Zero gyro heading relative to current alliance color
   public void zeroGyro() {
     if (FieldConstants.isRedAlliance()){
       pigeon.setYaw(180);
@@ -201,6 +222,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
   }
 
+  // Current robot heading as Rotation2d honoring inversion preference
   public Rotation2d getYaw() {
     //fancy if else loop again
     return (Constants.SwerveConstants.invertPigeon)
@@ -212,6 +234,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+        // Update pose estimator and fuse vision every scheduler loop
         odometry.update(getYaw(), getPositions());
         updateOdometryWithVision("limelight-a");
         updateOdometryWithVision("limelight-b");
@@ -226,7 +249,8 @@ public class SwerveSubsystem extends SubsystemBase {
           "Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
-  }
+    }
+  // Publish the current states for visualization/logging
   swerveDataPublisher.set(getStates());
 }
 

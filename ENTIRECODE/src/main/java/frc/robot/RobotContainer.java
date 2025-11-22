@@ -91,9 +91,9 @@ public class RobotContainer {
     m_drive.setDefaultCommand(
     new TeleopSwerve(
         m_drive,
-        () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis),
-        () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis),
-        () -> -driveController.getRawAxis(rotationAxis) * 0.55, //put - infront of drivecontroller of take it away to tune the turning
+        () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis) * 0.5, // * for speed change drive
+        () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis) * 0.5, // * for speed change drive
+        () -> -driveController.getRawAxis(rotationAxis) * 0.5, //put - infront of drivecontroller or take it away to tune the turning // * for speed change turn
         () -> robotCentric.getAsBoolean(),
         () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
@@ -104,7 +104,7 @@ public class RobotContainer {
 
 
   private double getSpeedMultiplier(){
-    return driveController.getHID().getRawButton(Button.kLeftStick.value)? 0.7: 1; //can change speed
+    return driveController.getHID().getRawButton(Button.kLeftStick.value)? 1 : 1; //can change speed
   }
 
   public Command getAutonomousCommand() {
