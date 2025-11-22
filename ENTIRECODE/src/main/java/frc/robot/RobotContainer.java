@@ -90,7 +90,7 @@ public class RobotContainer {
         m_drive,
         () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis) * 0.5, // * for speed change drive
         () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis) * 0.5, // * for speed change drive
-        () -> -driveController.getRawAxis(rotationAxis) * 0.75, //put - infront of drivecontroller or take it away to tune the turning // * for speed change turn
+        () -> -driveController.getRawAxis(rotationAxis) * 0.5, //put - infront of drivecontroller or take it away to tune the turning // * for speed change turn
         () -> robotCentric.getAsBoolean(),
         () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
