@@ -182,10 +182,10 @@ public static final double motorSpeedMultiplier = 0.5; // Used to scale down mot
 
     // Indexed configuration for each physical swerve module
     public static ModuleData[] moduleData = { 
-      new ModuleData(4, 2, 3, 99.93, FRONT_LEFT), //Mod 0
-      new ModuleData(7, 5, 6, 267.36, FRONT_RIGHT), //Mod 1
-      new ModuleData(10, 8, 9, 31.81, BACK_RIGHT), //Mod 2
-      new ModuleData(13, 11, 12, 344.36, BACK_LEFT) //Mod 3
+      new ModuleData(4, 2, 3, 97.11, FRONT_LEFT), //Mod 0
+      new ModuleData(7, 5, 6, 268.51, FRONT_RIGHT), //Mod 1
+      new ModuleData(10, 8, 9, 31.72, BACK_RIGHT), //Mod 2
+      new ModuleData(13, 11, 12, 345.06, BACK_LEFT) //Mod 3
     };
       
     public static final double angleKP = 0.01; //to tune
