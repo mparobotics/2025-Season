@@ -38,9 +38,9 @@ public class RobotContainer {
     m_drive.setDefaultCommand(
     new TeleopSwerve(
         m_drive,
-        () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis) * 0.5, // * for speed change drive
-        () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis) * 0.5, // * for speed change drive
-        () -> -driveController.getRawAxis(rotationAxis) * 0.5, //put - infront of drivecontroller of take it away to tune the turning // * for speed change turn
+        () -> -getSpeedMultiplier() * driveController.getRawAxis(translationAxis) * 0.5, // * to change drive speed
+        () -> -getSpeedMultiplier() * driveController.getRawAxis(strafeAxis) * 0.5, // * to change drive speed
+        () -> -driveController.getRawAxis(rotationAxis) * 0.5, // * to change turn speed //put - infront of drivecontroller of take it away to tune the turning
         () -> robotCentric.getAsBoolean(),
         () -> driveController.getRightTriggerAxis() > 0.1
         //() -> driveController.getHID().getRawButton(button.kX.value)
